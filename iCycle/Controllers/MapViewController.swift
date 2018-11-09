@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  MapViewController.swift
 //  iCycle
 //
 //  Created by Valentyna Akulova on 2018-11-08.
@@ -8,17 +8,20 @@
 
 import UIKit
 import GoogleMaps
+import Chameleon
+import SideMenu
 
-class ViewController: UIViewController {
-
-    @IBOutlet weak var optionsButton: UIButton!
+class MapViewController: UIViewController {
     
-    override func loadView() {
-        
-    }
+    //override func loadView() {
+    //}
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        initChameleonColors()
+        
+        /*
         // Create a GMSCameraPosition that tells the map to display the
         // coordinate -33.86,151.20 at zoom level 6.
         let camera = GMSCameraPosition.camera(withLatitude: -33.86, longitude: 151.20, zoom: 6.0)
@@ -35,8 +38,12 @@ class ViewController: UIViewController {
         marker.snippet = "Australia"
         marker.map = mapView
         //mapView.addSubview(optionsButton)
+ */
+    }
+    
+    // MARK: Chameleon related
+    func initChameleonColors() {
+        view.backgroundColor = FlatGrayDark()
     }
 
-
 }
-

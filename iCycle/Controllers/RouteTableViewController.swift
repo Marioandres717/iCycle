@@ -1,5 +1,5 @@
 //
-//  RoutesTableViewController.swift
+//  RouteTableViewController.swift
 //  iCycle
 //
 //  Created by Austin McPhail on 2018-11-09.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class RoutesTableViewController: UITableViewController {
+class RouteTableViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()

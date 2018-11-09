@@ -1,3 +1,6 @@
 [submodule "Chameleon"]
 	path = Chameleon
 	url = https://github.com/viccalexander/Chameleon.git
+[submodule "SideMenu"]
+	path = SideMenu
+	url = https://github.com/jonkykong/SideMenu.git

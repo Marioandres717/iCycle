@@ -1,5 +1,5 @@
 //
-//  RoutesCreateViewController.swift
+//  RouteCreateViewController.swift
 //  iCycle
 //
 //  Created by Austin McPhail on 2018-11-09.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class RoutesCreateViewController: UIViewController {
+class RouteCreateViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
