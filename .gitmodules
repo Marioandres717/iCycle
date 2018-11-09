@@ -1,0 +1,3 @@
+[submodule "Chameleon"]
+	path = Chameleon
+	url = https://github.com/viccalexander/Chameleon.git
