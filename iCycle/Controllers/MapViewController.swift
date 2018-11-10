@@ -13,6 +13,10 @@ import SideMenu
 
 class MapViewController: UIViewController {
     
+    //MARK: Attributes
+    @IBOutlet weak var navigationBar: UINavigationBar!
+    @IBOutlet weak var mapView: GMSMapView!
+    
     //override func loadView() {
     //}
     
@@ -21,15 +25,12 @@ class MapViewController: UIViewController {
         
         initChameleonColors()
         
-        /*
         // Create a GMSCameraPosition that tells the map to display the
         // coordinate -33.86,151.20 at zoom level 6.
         let camera = GMSCameraPosition.camera(withLatitude: -33.86, longitude: 151.20, zoom: 6.0)
-        let mapView = GMSMapView.map(withFrame: CGRect.zero, camera: camera)
-        view = mapView
-        
-        mapView.settings.compassButton = true
-        mapView.settings.myLocationButton = true
+        mapView = GMSMapView.map(withFrame: CGRect.zero, camera: camera)
+        //mapView.settings.compassButton = true
+        //mapView.settings.myLocationButton = true
         
         // Creates a marker in the center of the map.
         let marker = GMSMarker()
@@ -38,12 +39,12 @@ class MapViewController: UIViewController {
         marker.snippet = "Australia"
         marker.map = mapView
         //mapView.addSubview(optionsButton)
- */
     }
     
     // MARK: Chameleon related
     func initChameleonColors() {
-        view.backgroundColor = FlatGrayDark()
+        //view.backgroundColor = GradientColor(UIGradientStyle.topToBottom, frame: view.frame, colors: [FlatBlack(), FlatOrange()])
+        //navigationBar.backgroundColor = FlatBlack()
     }
 
 }
