@@ -7,13 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		2188323421955C1500F7E9C5 /* Chameleon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2188322D21955B4100F7E9C5 /* Chameleon.framework */; };
-		2188323521955C1500F7E9C5 /* Chameleon.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 2188322D21955B4100F7E9C5 /* Chameleon.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		2188323A21955D4600F7E9C5 /* ChameleonShorthand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2188323921955D4600F7E9C5 /* ChameleonShorthand.swift */; };
 		2188323C21955E8C00F7E9C5 /* RouteTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2188323B21955E8C00F7E9C5 /* RouteTableViewController.swift */; };
 		2188323E21955FEA00F7E9C5 /* RouteCreateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2188323D21955FEA00F7E9C5 /* RouteCreateViewController.swift */; };
-		2188328F219583E800F7E9C5 /* SideMenu.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2188328C219583B600F7E9C5 /* SideMenu.framework */; };
-		21883290219583E800F7E9C5 /* SideMenu.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 2188328C219583B600F7E9C5 /* SideMenu.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		2188329421958EFC00F7E9C5 /* SideMenuItemTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2188329321958EFC00F7E9C5 /* SideMenuItemTableViewCell.swift */; };
 		F68BC86421950F930073125F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F68BC86321950F930073125F /* AppDelegate.swift */; };
 		F68BC86621950F930073125F /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F68BC86521950F930073125F /* MapViewController.swift */; };
@@ -39,6 +35,12 @@
 		F68BC89921951D3F0073125F /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F68BC89821951D3F0073125F /* QuartzCore.framework */; };
 		F68BC89B21951D470073125F /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F68BC89A21951D470073125F /* SystemConfiguration.framework */; };
 		F68BC89D21951D4F0073125F /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F68BC89C21951D4E0073125F /* UIKit.framework */; };
+		F69A581521977C7400070E26 /* Chameleon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2188322D21955B4100F7E9C5 /* Chameleon.framework */; };
+		F69A581621977C7400070E26 /* Chameleon.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 2188322D21955B4100F7E9C5 /* Chameleon.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		F69A581E21977C8800070E26 /* SideMenu.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2188328C219583B600F7E9C5 /* SideMenu.framework */; };
+		F69A581F21977C8800070E26 /* SideMenu.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 2188328C219583B600F7E9C5 /* SideMenu.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		F69A5823219783D600070E26 /* GooglePlaces.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F69A5822219783D600070E26 /* GooglePlaces.framework */; };
+		F69A5825219783F900070E26 /* GooglePlacePicker.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F69A5824219783F900070E26 /* GooglePlacePicker.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -70,13 +72,6 @@
 			remoteGlobalIDString = 246492F91F0094DB001E4F26;
 			remoteInfo = "ChameleonDemo-Swift";
 		};
-		2188323621955C1500F7E9C5 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 2188322521955B4100F7E9C5 /* Chameleon.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 240093F71BB4517400932727;
-			remoteInfo = Chameleon;
-		};
 		2188328B219583B600F7E9C5 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 21883286219583B600F7E9C5 /* SideMenu.xcodeproj */;
@@ -91,7 +86,14 @@
 			remoteGlobalIDString = 7B48A0D31DCB2487002990A1;
 			remoteInfo = Example;
 		};
-		21883291219583E800F7E9C5 /* PBXContainerItemProxy */ = {
+		F69A581721977C7400070E26 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2188322521955B4100F7E9C5 /* Chameleon.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 240093F71BB4517400932727;
+			remoteInfo = Chameleon;
+		};
+		F69A582021977C8800070E26 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 21883286219583B600F7E9C5 /* SideMenu.xcodeproj */;
 			proxyType = 1;
@@ -101,14 +103,14 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		2188323821955C1500F7E9C5 /* Embed Frameworks */ = {
+		F69A581921977C7400070E26 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				21883290219583E800F7E9C5 /* SideMenu.framework in Embed Frameworks */,
-				2188323521955C1500F7E9C5 /* Chameleon.framework in Embed Frameworks */,
+				F69A581F21977C8800070E26 /* SideMenu.framework in Embed Frameworks */,
+				F69A581621977C7400070E26 /* Chameleon.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -148,6 +150,10 @@
 		F68BC89821951D3F0073125F /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		F68BC89A21951D470073125F /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		F68BC89C21951D4E0073125F /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		F69A5822219783D600070E26 /* GooglePlaces.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GooglePlaces.framework; sourceTree = "<group>"; };
+		F69A5824219783F900070E26 /* GooglePlacePicker.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GooglePlacePicker.framework; sourceTree = "<group>"; };
+		F69A58262197844D00070E26 /* GooglePlaces.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = GooglePlaces.bundle; sourceTree = "<group>"; };
+		F69A58272197847100070E26 /* GooglePlacePicker.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = GooglePlacePicker.bundle; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -160,8 +166,9 @@
 				F68BC89921951D3F0073125F /* QuartzCore.framework in Frameworks */,
 				F68BC89721951D370073125F /* OpenGLES.framework in Frameworks */,
 				F68BC89521951D2F0073125F /* libz.tbd in Frameworks */,
-				2188328F219583E800F7E9C5 /* SideMenu.framework in Frameworks */,
-				2188323421955C1500F7E9C5 /* Chameleon.framework in Frameworks */,
+				F69A581E21977C8800070E26 /* SideMenu.framework in Frameworks */,
+				F69A581521977C7400070E26 /* Chameleon.framework in Frameworks */,
+				F69A5825219783F900070E26 /* GooglePlacePicker.framework in Frameworks */,
 				F68BC89321951D270073125F /* libc++.tbd in Frameworks */,
 				F68BC89121951D140073125F /* ImageIO.framework in Frameworks */,
 				F68BC88F21951D090073125F /* GLKit.framework in Frameworks */,
@@ -174,6 +181,7 @@
 				F68BC87E21951BF30073125F /* GoogleMapsBase.framework in Frameworks */,
 				F68BC87C21951BF30073125F /* GoogleMaps.framework in Frameworks */,
 				F68BC87D21951BF30073125F /* GoogleMapsCore.framework in Frameworks */,
+				F69A5823219783D600070E26 /* GooglePlaces.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -245,9 +253,6 @@
 				F68BC875219514AE0073125F /* splashGear.png */,
 				F68BC86221950F930073125F /* iCycle */,
 				F68BC86121950F930073125F /* Products */,
-				F68BC87921951BED0073125F /* GoogleMaps.framework */,
-				F68BC87B21951BF30073125F /* GoogleMapsBase.framework */,
-				F68BC87A21951BF10073125F /* GoogleMapsCore.framework */,
 				F68BC88121951CD50073125F /* Frameworks */,
 			);
 			sourceTree = "<group>";
@@ -272,6 +277,8 @@
 				2188321D2195579900F7E9C5 /* Theme */,
 				F68BC86A21950FA30073125F /* Assets.xcassets */,
 				F68BC86F21950FA30073125F /* Info.plist */,
+				F69A58272197847100070E26 /* GooglePlacePicker.bundle */,
+				F69A58262197844D00070E26 /* GooglePlaces.bundle */,
 				F68BC87F21951C3D0073125F /* GoogleMaps.bundle */,
 			);
 			path = iCycle;
@@ -280,6 +287,11 @@
 		F68BC88121951CD50073125F /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				F69A5824219783F900070E26 /* GooglePlacePicker.framework */,
+				F69A5822219783D600070E26 /* GooglePlaces.framework */,
+				F68BC87921951BED0073125F /* GoogleMaps.framework */,
+				F68BC87B21951BF30073125F /* GoogleMapsBase.framework */,
+				F68BC87A21951BF10073125F /* GoogleMapsCore.framework */,
 				F68BC89C21951D4E0073125F /* UIKit.framework */,
 				F68BC89A21951D470073125F /* SystemConfiguration.framework */,
 				F68BC89821951D3F0073125F /* QuartzCore.framework */,
@@ -308,13 +320,13 @@
 				F68BC85C21950F930073125F /* Sources */,
 				F68BC85D21950F930073125F /* Frameworks */,
 				F68BC85E21950F930073125F /* Resources */,
-				2188323821955C1500F7E9C5 /* Embed Frameworks */,
+				F69A581921977C7400070E26 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				2188323721955C1500F7E9C5 /* PBXTargetDependency */,
-				21883292219583E800F7E9C5 /* PBXTargetDependency */,
+				F69A581821977C7400070E26 /* PBXTargetDependency */,
+				F69A582121977C8800070E26 /* PBXTargetDependency */,
 			);
 			name = iCycle;
 			productName = iCycle;
@@ -441,15 +453,15 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		2188323721955C1500F7E9C5 /* PBXTargetDependency */ = {
+		F69A581821977C7400070E26 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = Chameleon;
-			targetProxy = 2188323621955C1500F7E9C5 /* PBXContainerItemProxy */;
+			targetProxy = F69A581721977C7400070E26 /* PBXContainerItemProxy */;
 		};
-		21883292219583E800F7E9C5 /* PBXTargetDependency */ = {
+		F69A582121977C8800070E26 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = SideMenu;
-			targetProxy = 21883291219583E800F7E9C5 /* PBXContainerItemProxy */;
+			targetProxy = F69A582021977C8800070E26 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 

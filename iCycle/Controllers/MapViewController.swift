@@ -8,44 +8,41 @@
 
 import UIKit
 import GoogleMaps
+import GooglePlaces
 import Chameleon
 import SideMenu
 
-class MapViewController: UIViewController {
+class MapViewController: UIViewController, GMSMapViewDelegate {
     
     //MARK: Attributes
     @IBOutlet weak var navigationBar: UINavigationBar!
     @IBOutlet weak var mapView: GMSMapView!
     
-    //override func loadView() {
-    //}
+    private var locationManager = CLLocationManager()
+    var currentLocation: CLLocation?
+    var zoomLevel: Float = 6.0
+    
+    var currentPlace: GMSPlace?
+    let defaultLocation = CLLocation(latitude: 50.4480, longitude: -104.6122)
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         initChameleonColors()
-        loadMap()
         
+        locationManager.delegate = self
+        locationManager.requestWhenInUseAuthorization()
         
- 
-    }
-    
-    // MARK: GoogleMaps
-    private func loadMap (){
-        // Create a GMSCameraPosition that tells the map to display the
-        // coordinate -33.86,151.20 at zoom level 6.
-        let camera = GMSCameraPosition.camera(withLatitude: -33.86, longitude: 151.20, zoom: 6.0)
+        //set camera to default location
+        let camera = GMSCameraPosition.camera(withLatitude: defaultLocation.coordinate.latitude, longitude: defaultLocation.coordinate.longitude, zoom: zoomLevel)
         mapView = GMSMapView.map(withFrame: CGRect.zero, camera: camera)
-        //mapView.settings.compassButton = true
-        //mapView.settings.myLocationButton = true
+        //mapView.delegate = self
+        //self.view = mapView
         
-        // Creates a marker in the center of the map.
-        let marker = GMSMarker()
-        marker.position = CLLocationCoordinate2D(latitude: -33.86, longitude: 151.20)
-        marker.title = "Sydney"
-        marker.snippet = "Australia"
-        marker.map = mapView
-        //mapView.addSubview(optionsButton)
+    }
+ 
+    func mapView(_ mapView: GMSMapView, didTapAt coordinate: CLLocationCoordinate2D) {
+        print("hey \(coordinate.latitude), \(coordinate.longitude)")
     }
     
     // MARK: Chameleon related
@@ -54,4 +51,31 @@ class MapViewController: UIViewController {
         //navigationBar.backgroundColor = FlatBlack()
     }
 
+}
+
+// MARK: - CLLocationManagerDelegate
+
+extension MapViewController: CLLocationManagerDelegate {
+    
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus){
+        
+        guard status == .authorizedWhenInUse else {
+            return
+        }
+    
+        locationManager.startUpdatingLocation()
+        
+        //mapView.isMyLocationEnabled = true
+        //mapView.settings.myLocationButton = true
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        guard let location = locations.first else {
+            return
+        }
+        
+        mapView.camera = GMSCameraPosition(target: location.coordinate, zoom: 15, bearing: 0, viewingAngle: 0)
+        
+        locationManager.stopUpdatingLocation()
+    }
 }
