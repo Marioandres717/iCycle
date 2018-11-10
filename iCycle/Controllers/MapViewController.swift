@@ -14,7 +14,6 @@ import SideMenu
 class MapViewController: UIViewController {
     
     //MARK: Attributes
-    @IBOutlet weak var navigationBar: UINavigationBar!
     @IBOutlet weak var mapView: GMSMapView!
     
     //override func loadView() {

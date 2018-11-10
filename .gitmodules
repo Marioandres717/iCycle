@@ -4,3 +4,6 @@
 [submodule "SideMenu"]
 	path = SideMenu
 	url = https://github.com/jonkykong/SideMenu.git
+[submodule "SWRevealViewController"]
+	path = SWRevealViewController
+	url = https://github.com/John-Lluch/SWRevealViewController.git
