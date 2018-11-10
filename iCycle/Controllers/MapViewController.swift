@@ -15,7 +15,6 @@ import SideMenu
 class MapViewController: UIViewController, GMSMapViewDelegate {
     
     //MARK: Attributes
-    @IBOutlet weak var navigationBar: UINavigationBar!
     @IBOutlet weak var mapView: GMSMapView!
     
     private var locationManager = CLLocationManager()

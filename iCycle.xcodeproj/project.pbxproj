@@ -11,6 +11,13 @@
 		2188323C21955E8C00F7E9C5 /* RouteTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2188323B21955E8C00F7E9C5 /* RouteTableViewController.swift */; };
 		2188323E21955FEA00F7E9C5 /* RouteCreateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2188323D21955FEA00F7E9C5 /* RouteCreateViewController.swift */; };
 		2188329421958EFC00F7E9C5 /* SideMenuItemTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2188329321958EFC00F7E9C5 /* SideMenuItemTableViewCell.swift */; };
+		21F416C221977D6700232FAD /* RouteDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21F416C121977D6700232FAD /* RouteDetailViewController.swift */; };
+		21F416C821977DA000232FAD /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21F416C721977DA000232FAD /* ProfileViewController.swift */; };
+		21F416CC21977E1E00232FAD /* BilletTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21F416CB21977E1E00232FAD /* BilletTableViewController.swift */; };
+		21F416CE21977E4200232FAD /* BilletDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21F416CD21977E4200232FAD /* BilletDetailViewController.swift */; };
+		21F416D021977E5E00232FAD /* BilletCreateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21F416CF21977E5E00232FAD /* BilletCreateViewController.swift */; };
+		21F416D221977F9700232FAD /* ProfilePhotoCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21F416D121977F9700232FAD /* ProfilePhotoCollectionViewController.swift */; };
+		21F416D621979AD500232FAD /* SWRevealViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 21F416D421979AD500232FAD /* SWRevealViewController.m */; };
 		F68BC86421950F930073125F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F68BC86321950F930073125F /* AppDelegate.swift */; };
 		F68BC86621950F930073125F /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F68BC86521950F930073125F /* MapViewController.swift */; };
 		F68BC86921950F940073125F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F68BC86721950F940073125F /* Main.storyboard */; };
@@ -124,6 +131,15 @@
 		2188323D21955FEA00F7E9C5 /* RouteCreateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = RouteCreateViewController.swift; path = iCycle/Controllers/RouteCreateViewController.swift; sourceTree = SOURCE_ROOT; };
 		21883286219583B600F7E9C5 /* SideMenu.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SideMenu.xcodeproj; path = SideMenu/SideMenu.xcodeproj; sourceTree = "<group>"; };
 		2188329321958EFC00F7E9C5 /* SideMenuItemTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SideMenuItemTableViewCell.swift; path = iCycle/Views/SideMenuItemTableViewCell.swift; sourceTree = SOURCE_ROOT; };
+		21F416C121977D6700232FAD /* RouteDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = RouteDetailViewController.swift; path = iCycle/Controllers/RouteDetailViewController.swift; sourceTree = SOURCE_ROOT; };
+		21F416C721977DA000232FAD /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ProfileViewController.swift; path = iCycle/Controllers/ProfileViewController.swift; sourceTree = SOURCE_ROOT; };
+		21F416CB21977E1E00232FAD /* BilletTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = BilletTableViewController.swift; path = iCycle/Controllers/BilletTableViewController.swift; sourceTree = SOURCE_ROOT; };
+		21F416CD21977E4200232FAD /* BilletDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = BilletDetailViewController.swift; path = iCycle/Controllers/BilletDetailViewController.swift; sourceTree = SOURCE_ROOT; };
+		21F416CF21977E5E00232FAD /* BilletCreateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = BilletCreateViewController.swift; path = iCycle/Controllers/BilletCreateViewController.swift; sourceTree = SOURCE_ROOT; };
+		21F416D121977F9700232FAD /* ProfilePhotoCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ProfilePhotoCollectionViewController.swift; path = iCycle/Controllers/ProfilePhotoCollectionViewController.swift; sourceTree = SOURCE_ROOT; };
+		21F416D321979AD400232FAD /* iCycle-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "iCycle-Bridging-Header.h"; sourceTree = "<group>"; };
+		21F416D421979AD500232FAD /* SWRevealViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SWRevealViewController.m; path = SWRevealViewController/SWRevealViewController/SWRevealViewController.m; sourceTree = SOURCE_ROOT; };
+		21F416D521979AD500232FAD /* SWRevealViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SWRevealViewController.h; path = SWRevealViewController/SWRevealViewController/SWRevealViewController.h; sourceTree = SOURCE_ROOT; };
 		F68BC86021950F930073125F /* iCycle.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iCycle.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F68BC86321950F930073125F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F68BC86521950F930073125F /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MapViewController.swift; path = iCycle/Controllers/MapViewController.swift; sourceTree = SOURCE_ROOT; };
@@ -217,9 +233,18 @@
 		21883220219557CE00F7E9C5 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				21F416D521979AD500232FAD /* SWRevealViewController.h */,
+				21F416D421979AD500232FAD /* SWRevealViewController.m */,
 				F68BC86521950F930073125F /* MapViewController.swift */,
 				2188323B21955E8C00F7E9C5 /* RouteTableViewController.swift */,
 				2188323D21955FEA00F7E9C5 /* RouteCreateViewController.swift */,
+				21F416C121977D6700232FAD /* RouteDetailViewController.swift */,
+				21F416C721977DA000232FAD /* ProfileViewController.swift */,
+				21F416CB21977E1E00232FAD /* BilletTableViewController.swift */,
+				21F416CD21977E4200232FAD /* BilletDetailViewController.swift */,
+				21F416CF21977E5E00232FAD /* BilletCreateViewController.swift */,
+				21F416D121977F9700232FAD /* ProfilePhotoCollectionViewController.swift */,
+				21F416D321979AD400232FAD /* iCycle-Bridging-Header.h */,
 			);
 			name = Controllers;
 			path = iCycle/Controllers;
@@ -345,6 +370,7 @@
 				TargetAttributes = {
 					F68BC85F21950F930073125F = {
 						CreatedOnToolsVersion = 10.0;
+						LastSwiftMigration = 1000;
 					};
 				};
 			};
@@ -441,11 +467,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				21F416D621979AD500232FAD /* SWRevealViewController.m in Sources */,
 				2188329421958EFC00F7E9C5 /* SideMenuItemTableViewCell.swift in Sources */,
+				21F416CC21977E1E00232FAD /* BilletTableViewController.swift in Sources */,
 				2188323A21955D4600F7E9C5 /* ChameleonShorthand.swift in Sources */,
+				21F416D221977F9700232FAD /* ProfilePhotoCollectionViewController.swift in Sources */,
 				F68BC86621950F930073125F /* MapViewController.swift in Sources */,
+				21F416C221977D6700232FAD /* RouteDetailViewController.swift in Sources */,
 				F68BC86421950F930073125F /* AppDelegate.swift in Sources */,
+				21F416CE21977E4200232FAD /* BilletDetailViewController.swift in Sources */,
+				21F416D021977E5E00232FAD /* BilletCreateViewController.swift in Sources */,
 				2188323C21955E8C00F7E9C5 /* RouteTableViewController.swift in Sources */,
+				21F416C821977DA000232FAD /* ProfileViewController.swift in Sources */,
 				2188323E21955FEA00F7E9C5 /* RouteCreateViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -608,6 +641,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 6X5B26J782;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -621,6 +655,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = ca.uregina.455.akulova.iCycle;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "iCycle/Controllers/iCycle-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -631,6 +667,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 6X5B26J782;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -644,6 +681,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = ca.uregina.455.akulova.iCycle;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "iCycle/Controllers/iCycle-Bridging-Header.h";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
