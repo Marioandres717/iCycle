@@ -1,26 +1,21 @@
 //
-//  RouteTableViewController.swift
+//  NavMenuTableViewController.swift
 //  iCycle
 //
-//  Created by Austin McPhail on 2018-11-09.
+//  Created by Austin McPhail on 2018-11-10.
 //  Copyright © 2018 Valentyna Akulova. All rights reserved.
 //
 
 import UIKit
 import Chameleon
 
-class RouteTableViewController: UITableViewController {
-    
-    //MARK: Attributes
-    @IBOutlet weak var menuButton: UIBarButtonItem!
-    
+class NavMenuTableViewController: UITableViewController {
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        sideMenu()
-        customizeNavBar()
-        
-        initChameleonColors()
+        tableView.tableFooterView = UIView()
+        tableView.backgroundColor = FlatBlack()
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -32,12 +27,12 @@ class RouteTableViewController: UITableViewController {
 
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
-        return 0
+        return 1
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return 0
+        return 5
     }
 
     /*
@@ -87,7 +82,6 @@ class RouteTableViewController: UITableViewController {
 
     /*
     // MARK: - Navigation
-     
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -95,27 +89,5 @@ class RouteTableViewController: UITableViewController {
         // Pass the selected object to the new view controller.
     }
     */
-    
-    func sideMenu() {
-        if revealViewController() != nil {
-            menuButton.target = revealViewController()
-            menuButton.action = #selector(SWRevealViewController.revealToggle(_:))
-            revealViewController()?.rearViewRevealWidth = 275
-            
-            view.addGestureRecognizer((self.revealViewController()?.panGestureRecognizer())!)
-        }
-    }
-    
-    func customizeNavBar() {
-        navigationController?.navigationBar.tintColor = FlatOrange()
-        navigationController?.navigationBar.barTintColor = FlatBlack()
-        
-        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: FlatWhite()]
-    }
-    
-    // MARK: Chameleon related
-    func initChameleonColors() {
-        view.backgroundColor = GradientColor(UIGradientStyle.topToBottom, frame: view.frame, colors: [FlatBlack(), FlatOrange()])
-    }
 
 }

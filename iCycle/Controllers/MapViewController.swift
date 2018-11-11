@@ -28,10 +28,10 @@ class MapViewController: UIViewController, GMSMapViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        initChameleonColors()
-        
         sideMenu()
         customizeNavBar()
+        
+        initChameleonColors()
         
         //locationManager.delegate = self
         //locationManager.requestWhenInUseAuthorization()
@@ -50,8 +50,7 @@ class MapViewController: UIViewController, GMSMapViewDelegate {
     
     // MARK: Chameleon related
     func initChameleonColors() {
-        //view.backgroundColor = GradientColor(UIGradientStyle.topToBottom, frame: view.frame, colors: [FlatBlack(), FlatOrange()])
-        //navigationBar.backgroundColor = FlatBlack()
+        view.backgroundColor = GradientColor(UIGradientStyle.topToBottom, frame: view.frame, colors: [FlatGrayDark(), FlatOrange()])
     }
     
     // MARK: Navigation
