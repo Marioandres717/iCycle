@@ -9,10 +9,15 @@
 import UIKit
 
 class RouteTableViewController: UITableViewController {
-
+    
+    //MARK: Attributes
+    @IBOutlet weak var menuButton: UIBarButtonItem!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        sideMenu()
+        customizeNavBar()
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -79,6 +84,7 @@ class RouteTableViewController: UITableViewController {
 
     /*
     // MARK: - Navigation
+     
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -86,5 +92,22 @@ class RouteTableViewController: UITableViewController {
         // Pass the selected object to the new view controller.
     }
     */
+    
+    func sideMenu() {
+        if revealViewController() != nil {
+            menuButton.target = revealViewController()
+            menuButton.action = #selector(SWRevealViewController.revealToggle(_:))
+            revealViewController()?.rearViewRevealWidth = 275
+            
+            view.addGestureRecognizer((self.revealViewController()?.panGestureRecognizer())!)
+        }
+    }
+    
+    func customizeNavBar() {
+        navigationController?.navigationBar.tintColor = FlatOrange()
+        navigationController?.navigationBar.barTintColor = FlatBlack()
+        
+        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: FlatWhite()]
+    }
 
 }
