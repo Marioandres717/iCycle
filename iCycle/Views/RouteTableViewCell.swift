@@ -21,6 +21,9 @@ class RouteTableViewCell: UITableViewCell {
     
     @IBOutlet weak var routeSaved: UIImageView!
     
+    @IBOutlet weak var votingStack: UIStackView!
+    @IBOutlet weak var infoStack: UIStackView!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

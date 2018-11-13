@@ -212,7 +212,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="aC1-EP-0ug" customClass="RouteTableViewCell" customModule="iCycle" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="RouteTableViewCell" id="aC1-EP-0ug" customClass="RouteTableViewCell" customModule="iCycle" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="28" width="414" height="100"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="aC1-EP-0ug" id="GvI-p2-t9E">
@@ -342,12 +342,15 @@
                                 </tableViewCellContentView>
                                 <connections>
                                     <outlet property="downvoteButton" destination="nNd-En-yjx" id="JGe-Cb-zX4"/>
+                                    <outlet property="infoStack" destination="wCk-Vz-mSo" id="LOI-tV-ijL"/>
                                     <outlet property="routeEnd" destination="xrc-86-ZVY" id="WmT-FJ-McL"/>
                                     <outlet property="routeSaved" destination="bvY-pT-UWR" id="xeq-mj-Wym"/>
                                     <outlet property="routeStart" destination="pRl-uK-pAC" id="CUc-QH-voD"/>
                                     <outlet property="routeTitle" destination="8wz-bx-JEB" id="cKM-oY-RtY"/>
                                     <outlet property="score" destination="2fY-bg-Xe3" id="UoY-cC-Vsa"/>
                                     <outlet property="upvoteButton" destination="Ng5-g4-IST" id="UKv-Of-Jb8"/>
+                                    <outlet property="votingStack" destination="o6a-Nr-Z5X" id="SYj-DB-gcn"/>
+                                    <segue destination="MkD-D0-GsY" kind="show" identifier="ShowRouteDetail" id="xRi-85-swV"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -358,6 +361,11 @@
                     </tableView>
                     <navigationItem key="navigationItem" title="Routes" id="xWN-xs-7oz">
                         <barButtonItem key="leftBarButtonItem" title="Item" image="MenuIcon" id="MDd-dX-zw9"/>
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="2XA-3x-VcI">
+                            <connections>
+                                <segue destination="MkD-D0-GsY" kind="show" id="cWM-f3-hFB"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="menuButton" destination="MDd-dX-zw9" id="FhB-hj-wfZ"/>
@@ -366,6 +374,33 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ba4-Ju-0vg" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-1323.1884057971015" y="603.26086956521749"/>
+        </scene>
+        <!--Route Detail View Controller-->
+        <scene sceneID="N8a-VP-MeL">
+            <objects>
+                <viewController id="MkD-D0-GsY" customClass="RouteDetailViewController" customModule="iCycle" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="vco-jh-Srs">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Or8-2U-Wlw">
+                                <rect key="frame" x="0.0" y="352" width="414" height="384"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </scrollView>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ckx-83-sZa" customClass="GMSMapView">
+                                <rect key="frame" x="0.0" y="64" width="414" height="289"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="1mq-W5-y92"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="kqz-As-MaL"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="adN-Ia-Qmq" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="140.57971014492756" y="602.44565217391312"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="kgS-sr-kEt">
@@ -901,6 +936,24 @@
             </objects>
             <point key="canvasLocation" x="-2000.0000000000002" y="3378.2608695652175"/>
         </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="XC4-gQ-YPF">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="UIp-S7-SdP" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="fsF-1T-Zwk">
+                        <rect key="frame" x="0.0" y="20" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="MkD-D0-GsY" kind="relationship" relationship="rootViewController" id="vQe-bs-BbG"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="bqf-sh-y2k" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-562" y="-109"/>
+        </scene>
     </scenes>
     <resources>
         <image name="MenuIcon" width="60" height="60"/>
@@ -908,6 +961,7 @@
     <inferredMetricsTieBreakers>
         <segue reference="gdJ-yJ-l7v"/>
         <segue reference="b2f-Ih-psh"/>
+        <segue reference="cWM-f3-hFB"/>
         <segue reference="Sdu-Wm-cQL"/>
         <segue reference="kKr-qu-2oQ"/>
     </inferredMetricsTieBreakers>
