@@ -16,6 +16,7 @@ class MapViewController: UIViewController, GMSMapViewDelegate {
     
     //MARK: Attributes
     @IBOutlet weak var mapView: GMSMapView!
+    @IBOutlet weak var menuButton: UIBarButtonItem!
     
     private var locationManager = CLLocationManager()
     var currentLocation: CLLocation?
@@ -27,10 +28,13 @@ class MapViewController: UIViewController, GMSMapViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        sideMenu()
+        customizeNavBar()
+        
         initChameleonColors()
         
-        locationManager.delegate = self
-        locationManager.requestWhenInUseAuthorization()
+        //locationManager.delegate = self
+        //locationManager.requestWhenInUseAuthorization()
         
         //set camera to default location
         let camera = GMSCameraPosition.camera(withLatitude: defaultLocation.coordinate.latitude, longitude: defaultLocation.coordinate.longitude, zoom: zoomLevel)
@@ -46,14 +50,31 @@ class MapViewController: UIViewController, GMSMapViewDelegate {
     
     // MARK: Chameleon related
     func initChameleonColors() {
-        //view.backgroundColor = GradientColor(UIGradientStyle.topToBottom, frame: view.frame, colors: [FlatBlack(), FlatOrange()])
-        //navigationBar.backgroundColor = FlatBlack()
+        view.backgroundColor = GradientColor(UIGradientStyle.topToBottom, frame: view.frame, colors: [FlatGrayDark(), FlatOrange()])
+    }
+    
+    // MARK: Navigation
+    func sideMenu() {
+        if revealViewController() != nil {
+            menuButton.target = revealViewController()
+            menuButton.action = #selector(SWRevealViewController.revealToggle(_:))
+            revealViewController()?.rearViewRevealWidth = 275
+            
+            view.addGestureRecognizer((self.revealViewController()?.panGestureRecognizer())!)
+        }
+    }
+    
+    func customizeNavBar() {
+        navigationController?.navigationBar.tintColor = FlatOrange()
+        navigationController?.navigationBar.barTintColor = FlatBlack()
+        
+        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: FlatWhite()]
     }
 
 }
 
 // MARK: - CLLocationManagerDelegate
-
+/*
 extension MapViewController: CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus){
@@ -78,3 +99,4 @@ extension MapViewController: CLLocationManagerDelegate {
         locationManager.stopUpdatingLocation()
     }
 }
+ */

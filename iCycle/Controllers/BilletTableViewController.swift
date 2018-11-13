@@ -7,12 +7,21 @@
 //
 
 import UIKit
+import Chameleon
 
 class BilletTableViewController: UITableViewController {
-
+    
+    //MARK: Attributes
+    @IBOutlet weak var menuButton: UIBarButtonItem!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        sideMenu()
+        customizeNavBar()
+        
+        initChameleonColors()
+        
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -87,4 +96,25 @@ class BilletTableViewController: UITableViewController {
     }
     */
 
+    func sideMenu() {
+        if revealViewController() != nil {
+            menuButton.target = revealViewController()
+            menuButton.action = #selector(SWRevealViewController.revealToggle(_:))
+            revealViewController()?.rearViewRevealWidth = 275
+            
+            view.addGestureRecognizer((self.revealViewController()?.panGestureRecognizer())!)
+        }
+    }
+    
+    func customizeNavBar() {
+        navigationController?.navigationBar.tintColor = FlatOrange()
+        navigationController?.navigationBar.barTintColor = FlatBlack()
+        
+        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: FlatWhite()]
+    }
+    
+    // MARK: Chameleon related
+    func initChameleonColors() {
+        view.backgroundColor = GradientColor(UIGradientStyle.topToBottom, frame: view.frame, colors: [FlatBlack(), FlatOrange()])
+    }
 }
