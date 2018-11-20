@@ -12,6 +12,9 @@ class LoginViewController: UIViewController {
 
     @IBOutlet weak var loginBtn: UIButton!
     @IBOutlet weak var signupBtn: UIButton!
+    @IBOutlet weak var emailTextField: UITextField!
+    @IBOutlet weak var passwordTextField: UITextField!
+    @IBOutlet weak var stackView: UIStackView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,7 +26,40 @@ class LoginViewController: UIViewController {
         navigationController?.navigationBar.isHidden = true
     }
 
-    func setupView() {
+    func setupView() -> Void {
+        setupTextFields()
+        setupBtns()
+    }
+    
+    // MARK: ACTIONS
+    
+    @IBAction func handleLogin(_ sender: UIButton) {
+        print("Login")
+    }
+    
+    
+    @IBAction func handleSignUp(_ sender: UIButton) {
+        print("Sign Up")
+    }
+    
+    
+    
+    
+    // MARK: UI STYLES
+    
+    func setupTextFields() -> Void {
+        emailTextField.backgroundColor = UIColor(red: 216/255, green: 216/255, blue: 216/255, alpha: 0.2)
+        var emailPlaceholder = NSMutableAttributedString()
+        emailPlaceholder = NSMutableAttributedString(attributedString: NSAttributedString(string: "Email", attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 18), .foregroundColor: UIColor(white: 1, alpha: 0.7)]))
+        emailTextField.attributedPlaceholder = emailPlaceholder
+
+        passwordTextField.backgroundColor = UIColor(red: 216/255, green: 216/255, blue: 216/255, alpha: 0.2)
+        var passPlaceholder = NSMutableAttributedString()
+        passPlaceholder = NSMutableAttributedString(attributedString: NSAttributedString(string: "Password", attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 18), .foregroundColor: UIColor(white: 1, alpha: 0.7)]))
+        passwordTextField.attributedPlaceholder = passPlaceholder
+    }
+    
+    func setupBtns() -> Void {
         loginBtn.layer.cornerRadius = 5
         loginBtn.layer.borderWidth = 1
         loginBtn.layer.borderColor = UIColor(red: 80/255, green: 227/255, blue: 194/255, alpha: 1).cgColor
@@ -32,6 +68,8 @@ class LoginViewController: UIViewController {
         signupBtn.layer.borderWidth = 1
         signupBtn.layer.borderColor = UIColor(red: 255/255, green: 151/255, blue: 164/255, alpha: 1).cgColor
     }
+    
+
     /*
     // MARK: - Navigation
 
