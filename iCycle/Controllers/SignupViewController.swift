@@ -31,7 +31,7 @@ class SignupViewController: UIViewController {
     }
     
     @IBAction func handleCancel(_ sender: UIButton) {
-        print("cancel")
+        dismiss(animated: true, completion: nil)
     }
     
     
