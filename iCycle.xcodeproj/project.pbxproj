@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		1100520021A3C183009FF749 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 110051FF21A3C183009FF749 /* LoginViewController.swift */; };
 		110A41A621A4D4B5009C4519 /* SignupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 110A41A521A4D4B5009C4519 /* SignupViewController.swift */; };
+		1181C77321A5055E0096C9EC /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1181C77221A5055E0096C9EC /* User.swift */; };
 		2188323A21955D4600F7E9C5 /* ChameleonShorthand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2188323921955D4600F7E9C5 /* ChameleonShorthand.swift */; };
 		2188323C21955E8C00F7E9C5 /* RouteTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2188323B21955E8C00F7E9C5 /* RouteTableViewController.swift */; };
 		2188323E21955FEA00F7E9C5 /* RouteCreateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2188323D21955FEA00F7E9C5 /* RouteCreateViewController.swift */; };
@@ -130,6 +131,7 @@
 /* Begin PBXFileReference section */
 		110051FF21A3C183009FF749 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		110A41A521A4D4B5009C4519 /* SignupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupViewController.swift; sourceTree = "<group>"; };
+		1181C77221A5055E0096C9EC /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = User.swift; path = iCycle/Controllers/User.swift; sourceTree = SOURCE_ROOT; };
 		2188322521955B4100F7E9C5 /* Chameleon.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Chameleon.xcodeproj; path = Chameleon/Chameleon.xcodeproj; sourceTree = "<group>"; };
 		2188323921955D4600F7E9C5 /* ChameleonShorthand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ChameleonShorthand.swift; path = iCycle/Theme/ChameleonShorthand.swift; sourceTree = SOURCE_ROOT; };
 		2188323B21955E8C00F7E9C5 /* RouteTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = RouteTableViewController.swift; path = iCycle/Controllers/RouteTableViewController.swift; sourceTree = SOURCE_ROOT; };
@@ -222,6 +224,7 @@
 		2188321E219557B600F7E9C5 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				1181C77221A5055E0096C9EC /* User.swift */,
 			);
 			name = Models;
 			path = iCycle/Models;
@@ -483,6 +486,7 @@
 				2188323A21955D4600F7E9C5 /* ChameleonShorthand.swift in Sources */,
 				21F416D221977F9700232FAD /* ProfilePhotoCollectionViewController.swift in Sources */,
 				F68BC86621950F930073125F /* MapViewController.swift in Sources */,
+				1181C77321A5055E0096C9EC /* User.swift in Sources */,
 				21F416DA2197C6F100232FAD /* NavMenuTableViewController.swift in Sources */,
 				21F416C221977D6700232FAD /* RouteDetailViewController.swift in Sources */,
 				F68BC86421950F930073125F /* AppDelegate.swift in Sources */,

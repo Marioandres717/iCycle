@@ -16,6 +16,8 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var stackView: UIStackView!
     
+    let apiPath = "http://localhost:3000/v1/users/authenticate"
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
@@ -34,12 +36,35 @@ class LoginViewController: UIViewController {
     // MARK: ACTIONS
     
     @IBAction func handleLogin(_ sender: UIButton) {
-        print("Login")
-    }
+        
+        guard let username = usernameTextField.text else {return}
+        guard let password = passwordTextField.text else {return}
+        
+        let parameters = ["username": username, "password": password]
+        
+        guard let url = URL(string: apiPath) else {return}
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        guard let httpBody = try? JSONSerialization.data(withJSONObject: parameters, options: []) else {return}
+        request.httpBody = httpBody
     
-    
-    @IBAction func handleSignUp(_ sender: UIButton) {
-        print("Sign Up")
+        let session = URLSession.shared
+        session.dataTask(with: request) { (data, response, error) in
+            if let response = response {
+                print(response)
+            }
+            
+            if let data = data {
+                print(data)
+                do {
+                    let json = try JSONSerialization.jsonObject(with: data, options: [])
+                    print(json)
+                } catch {
+                    print(error)
+                }
+            }
+        }.resume()
     }
     
     

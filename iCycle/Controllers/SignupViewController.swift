@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Foundation
 
 class SignupViewController: UIViewController {
     
@@ -17,7 +18,8 @@ class SignupViewController: UIViewController {
     @IBOutlet weak var saveBtn: UIButton!
     @IBOutlet weak var cancelBtn: UIButton!
     
-    
+    let apiPath = "http://localhost:3000/v1/users"
+        
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
@@ -27,7 +29,36 @@ class SignupViewController: UIViewController {
     // MARK: ACTIONS
     
     @IBAction func handleSave(_ sender: UIButton) {
-        print("saved")
+        guard let email = emailTextField.text else { return }
+        guard let username = usernameTextField.text else { return }
+        guard let password = passTextField.text else { return }
+        
+        let parameters = ["email": email, "username": username, "password": password]
+        
+        guard let url = URL(string: apiPath) else { return }
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        guard let httpBody = try? JSONSerialization.data(withJSONObject: parameters, options: []) else {return}
+        request.httpBody = httpBody
+        
+        let session = URLSession.shared
+        session.dataTask(with: request) { (data, response, error) in
+            if let response = response {
+                print(response)
+            }
+            
+            if let data = data {
+                do {
+                    let json = try JSONSerialization.jsonObject(with: data, options: [])
+                    print(json)
+                } catch {
+                    print(error)
+                }
+            }
+            
+        }.resume()
+         dismiss(animated: true, completion: nil)
     }
     
     @IBAction func handleCancel(_ sender: UIButton) {
@@ -76,16 +107,4 @@ class SignupViewController: UIViewController {
         cancelBtn.layer.borderWidth = 1
         cancelBtn.layer.borderColor = UIColor(red: 255/255, green: 151/255, blue: 164/255, alpha: 1).cgColor
     }
-    
-    
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }
