@@ -18,12 +18,10 @@ class MapViewController: UIViewController, GMSMapViewDelegate {
     @IBOutlet weak var mapView: GMSMapView!
     @IBOutlet weak var menuButton: UIBarButtonItem!
     
-    private var locationManager = CLLocationManager()
-    //var currentLocation: CLLocation?
-    var zoomLevel: Float = 6.0
+    var locationManager = CLLocationManager()
+    var currentLocation: CLLocation?
+    var zoomLevel: Float = 12.0
     
-    //var currentPlace: GMSPlace?
-    let defaultLocation = CLLocation(latitude: 50.4480, longitude: -104.6122)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,14 +30,18 @@ class MapViewController: UIViewController, GMSMapViewDelegate {
         customizeNavBar()
         initChameleonColors()
         
-        locationManager.delegate = self
+        //mapView.camera = GMSCameraPosition.camera(withLatitude: 50, longitude:-100, zoom: zoomLevel)
+        //mapView = GMSMapView.map(withFrame: self.view.bounds, camera: camera)
+
         locationManager.requestWhenInUseAuthorization()
+        locationManager.delegate = self
         
     }
  
-    func mapView(_ mapView: GMSMapView, didTapAt coordinate: CLLocationCoordinate2D) {
-        print("hey \(coordinate.latitude), \(coordinate.longitude)")
-    }
+   /* func mapView(_ mapView: GMSMapView, didTapPOIWithPlaceID placeID: String,
+                 name: String, location: CLLocationCoordinate2D) {
+        print("You tapped \(name): \(placeID), \(location.latitude)/\(location.longitude)")
+    }*/
     
     // MARK: Chameleon related
     func initChameleonColors() {
@@ -70,27 +72,34 @@ class MapViewController: UIViewController, GMSMapViewDelegate {
 
 extension MapViewController: CLLocationManagerDelegate {
     
+    // called when user grants or revokes location permission
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus){
         
+        if status == .denied{
+            mapView.camera = GMSCameraPosition.camera(withLatitude: 50, longitude:-100, zoom: 3) //North America
+        }
         guard status == .authorizedWhenInUse else {
             return
         }
         
+        // once permission is granted, start updating the location
         locationManager.startUpdatingLocation()
         
-        mapView.isMyLocationEnabled = true
-        mapView.settings.myLocationButton = true
+        mapView.isMyLocationEnabled = true //ligth blue dot on the map will appear
+        mapView.settings.myLocationButton = true //button, when tapped, shows user's current location
     }
     
+    // called when location manager receives new location data
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        
         guard let location = locations.first else {
             return
         }
         
-        let camera = GMSCameraPosition(target: location.coordinate, zoom: 13, bearing: 0, viewingAngle: 0)
-        mapView = GMSMapView.map(withFrame: self.view.bounds, camera: camera)
+        // update map to center around the user's location
+        mapView.camera = GMSCameraPosition(target: location.coordinate, zoom: zoomLevel, bearing: 0, viewingAngle: 0)
 
-
+        // no longer need updates, stop updating
         locationManager.stopUpdatingLocation()
     }
 }
