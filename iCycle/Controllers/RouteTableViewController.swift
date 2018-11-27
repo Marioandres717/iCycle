@@ -110,16 +110,37 @@ class RouteTableViewController: UITableViewController {
     }
     */
 
-    /*
+    
     // MARK: - Navigation
      
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+        super.prepare(for: segue, sender: sender)
+        
+        switch(segue.identifier ?? "") {
+            
+        case "ShowRouteDetail":
+            guard let routeDetailViewController = segue.destination as? RouteDetailViewController else {
+                fatalError("Unexpected destination: \(segue.destination)")
+            }
+            
+            guard let selectedRouteCell = sender as? RouteTableViewCell else {
+                fatalError("Unexpected sender: \(sender)")
+            }
+            
+            guard let indexPath = tableView.indexPath(for: selectedRouteCell) else {
+                fatalError("The selected cell is not being displayed by the table")
+            }
+            
+            let selectedRoute = routes[indexPath.row]
+            routeDetailViewController.route = selectedRoute
+            
+        default:
+            fatalError("Unexpected Segue Identifier; \(segue.identifier)")
+        }
     }
-    */
+    
     
     func sideMenu() {
         if revealViewController() != nil {
