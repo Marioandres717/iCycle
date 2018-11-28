@@ -21,10 +21,10 @@ class SignUpViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupView()
+    //    setupView()
     }
     
-    
+    /*
     // MARK: ACTIONS
     
     @IBAction func handleSave(_ sender: UIButton) {
@@ -106,4 +106,5 @@ class SignUpViewController: UIViewController {
         cancelBtn.layer.borderWidth = 1
         cancelBtn.layer.borderColor = UIColor(red: 255/255, green: 151/255, blue: 164/255, alpha: 1).cgColor
     }
+ */
 }

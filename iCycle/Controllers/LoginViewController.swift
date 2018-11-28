@@ -20,9 +20,9 @@ class LoginViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupView()
+    //    setupView()
     }
-    
+    /*
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.navigationBar.isHidden = true
@@ -108,4 +108,5 @@ class LoginViewController: UIViewController {
      // Pass the selected object to the new view controller.
      }
      */
+ */
 }
