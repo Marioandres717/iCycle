@@ -53,23 +53,7 @@ class RouteTableViewController: UITableViewController {
         
         let route = routes[indexPath.row]
         
-        cell.routeTitle.text = route.title
-        cell.score.text = String(route.score)
-        if route.score == 0 {
-            cell.score.textColor = FlatWhite()
-        } else if route.score < 0 {
-            cell.score.textColor = FlatRed()
-        } else if route.score > 0 {
-            cell.score.textColor = FlatGreen()
-        }
-        
-        cell.upvoteButton.backgroundColor = FlatOrangeDark()
-        cell.downvoteButton.backgroundColor = FlatOrangeDark()
-        
-        cell.upvoteButton.tintColor = FlatBlackDark()
-        cell.downvoteButton.tintColor = FlatBlackDark()
-        
-        cell.score.backgroundColor = FlatOrangeDark()
+        cell.route = route
         
         return cell
     }

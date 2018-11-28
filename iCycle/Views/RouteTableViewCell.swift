@@ -7,25 +7,48 @@
 //
 
 import UIKit
+import Chameleon
 
 class RouteTableViewCell: UITableViewCell {
     //MARK: Attributes
-    @IBOutlet weak var routeTitle: UILabel!
     
-    @IBOutlet weak var upvoteButton: UIButton!
-    @IBOutlet weak var downvoteButton: UIButton!
+    @IBOutlet weak var title: UILabel!
+    @IBOutlet weak var difficulty: UILabel!
+    @IBOutlet weak var distance: UILabel!
     @IBOutlet weak var score: UILabel!
+    @IBOutlet weak var author: UILabel!
     
-    @IBOutlet weak var routeStart: UILabel!
-    @IBOutlet weak var routeEnd: UILabel!
-    
-    @IBOutlet weak var routeSaved: UIImageView!
-    
-    @IBOutlet weak var votingStack: UIStackView!
-    @IBOutlet weak var infoStack: UIStackView!
+    var route: Route?
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        
+        title.text = route?.title
+        
+        switch(route?.difficulty) {
+        case 1:
+            difficulty.text = "Low"
+            difficulty.textColor = FlatGreen()
+        case 2:
+            difficulty.text = "Medium"
+            difficulty.textColor = FlatYellow()
+        case 3:
+            difficulty.text = "High"
+            difficulty.textColor = FlatRed()
+        default:
+            difficulty.text = "Low"
+            difficulty.textColor = FlatGreen()
+            break
+        }
+        
+        distance.text = "_ Km"
+        
+        if let scoreValue = route?.score {
+            score.text = String(scoreValue)
+        }
+        
+        author.text = "USERNAME"
+        
         // Initialization code
     }
 
