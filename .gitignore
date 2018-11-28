@@ -5,6 +5,11 @@
 ## Build generated
 build/
 DerivedData/
+Chameleon/
+SideMenu/
+SWRevealViewController/
+
+.DS_Store
 
 ## Various settings
 *.pbxuser
