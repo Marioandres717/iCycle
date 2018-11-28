@@ -9,16 +9,6 @@
 import Foundation
 import UIKit
 
-struct Node {
-    var long: Double
-    var lat: Double
-    
-    init(long: Double, lat: Double) {
-        self.long = long
-        self.lat = lat
-    }
-}
-
 class Route {
     //MARK: Properties
     var title: String

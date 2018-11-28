@@ -45,7 +45,7 @@ class MapViewController: UIViewController, GMSMapViewDelegate {
     
     // MARK: Chameleon related
     func initChameleonColors() {
-        view.backgroundColor = GradientColor(UIGradientStyle.topToBottom, frame: view.frame, colors: [FlatGrayDark(), FlatOrange()])
+        view.backgroundColor = FlatBlack()
     }
     
     // MARK: Navigation

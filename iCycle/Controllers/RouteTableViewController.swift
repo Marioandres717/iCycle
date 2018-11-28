@@ -53,7 +53,29 @@ class RouteTableViewController: UITableViewController {
         
         let route = routes[indexPath.row]
         
-        cell.route = route
+        cell.title.text = route.title
+        
+        switch(route.difficulty) {
+        case 1:
+            cell.difficulty.text = "Low"
+            cell.difficulty.textColor = FlatGreen()
+        case 2:
+            cell.difficulty.text = "Medium"
+            cell.difficulty.textColor = FlatYellow()
+        case 3:
+            cell.difficulty.text = "High"
+            cell.difficulty.textColor = FlatRed()
+        default:
+            cell.difficulty.text = "Low"
+            cell.difficulty.textColor = FlatGreen()
+            break
+        }
+        
+        cell.distance.text = "_ Km"
+        
+        cell.score.text = String(route.score)
+        
+        cell.author.text = "USERNAME"
         
         return cell
     }
@@ -119,7 +141,8 @@ class RouteTableViewController: UITableViewController {
             
             let selectedRoute = routes[indexPath.row]
             routeDetailViewController.route = selectedRoute
-            
+        case "CreateRoute":
+            break
         default:
             fatalError("Unexpected Segue Identifier; \(segue.identifier)")
         }
@@ -145,7 +168,7 @@ class RouteTableViewController: UITableViewController {
     
     // MARK: Chameleon related
     func initChameleonColors() {
-        view.backgroundColor = GradientColor(UIGradientStyle.topToBottom, frame: view.frame, colors: [FlatBlack(), FlatOrange()])
+        view.backgroundColor = FlatBlack()
     }
     
     // MARK: Sample Data

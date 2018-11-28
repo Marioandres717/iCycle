@@ -58,6 +58,8 @@ class RouteDetailViewController: UIViewController {
             
             navBar.title = route.title
             
+            notes.text = route.note
+            
         }
         // Do any additional setup after loading the view.
     }
@@ -74,23 +76,23 @@ class RouteDetailViewController: UIViewController {
     */
     
     func initChameleonColors() {
-        view.backgroundColor = GradientColor(UIGradientStyle.topToBottom, frame: view.frame, colors: [FlatBlack(), FlatOrange()])
+        view.backgroundColor = FlatBlack()
         
-        upvoteButton.backgroundColor = GradientColor(UIGradientStyle.topToBottom, frame: upvoteView.frame, colors: [FlatGreen(), FlatGray()])
+        upvoteButton.backgroundColor = GradientColor(UIGradientStyle.topToBottom, frame: upvoteView.frame, colors: [FlatBlackDark(), FlatGreen()])
         
-        downvoteButton.backgroundColor = GradientColor(UIGradientStyle.topToBottom, frame: downvoteView.frame, colors: [FlatSkyBlue(), FlatGray()])
+        downvoteButton.backgroundColor = GradientColor(UIGradientStyle.topToBottom, frame: downvoteView.frame, colors: [FlatBlackDark(), FlatSkyBlue()])
     }
 
     @IBAction func upvotePressed(_ sender: Any) {
         if (hasDownvoted == true) {
             hasDownvoted = false;
-            downvoteButton.backgroundColor = GradientColor(UIGradientStyle.topToBottom, frame: downvoteView.frame, colors: [FlatGray(), FlatSkyBlue()])
+            downvoteButton.backgroundColor = GradientColor(UIGradientStyle.topToBottom, frame: downvoteView.frame, colors: [FlatBlackDark(), FlatSkyBlue()])
             
             hasUpvoted = true;
             upvoteButton.backgroundColor = FlatGreen();
         } else if (hasUpvoted == true) {
             hasUpvoted = false;
-            upvoteButton.backgroundColor = GradientColor(UIGradientStyle.topToBottom, frame: upvoteView.frame, colors: [FlatGray(), FlatGreen()])
+            upvoteButton.backgroundColor = GradientColor(UIGradientStyle.topToBottom, frame: upvoteView.frame, colors: [FlatBlackDark(), FlatGreen()])
             
         } else if (hasUpvoted == false) {
             hasUpvoted = true;
@@ -101,13 +103,13 @@ class RouteDetailViewController: UIViewController {
     @IBAction func downvotePressed(_ sender: Any) {
         if (hasUpvoted == true) {
             hasUpvoted = false;
-            upvoteButton.backgroundColor = GradientColor(UIGradientStyle.topToBottom, frame: upvoteView.frame, colors: [FlatGray(), FlatGreen()])
+            upvoteButton.backgroundColor = GradientColor(UIGradientStyle.topToBottom, frame: upvoteView.frame, colors: [FlatBlackDark(), FlatGreen()])
             
             hasDownvoted = true;
             downvoteButton.backgroundColor = FlatSkyBlue();
         } else if (hasDownvoted == true) {
             hasDownvoted = false;
-            downvoteButton.backgroundColor = GradientColor(UIGradientStyle.topToBottom, frame: downvoteView.frame, colors: [FlatGray(), FlatSkyBlue()])
+            downvoteButton.backgroundColor = GradientColor(UIGradientStyle.topToBottom, frame: downvoteView.frame, colors: [FlatBlackDark(), FlatSkyBlue()])
             
         } else if (hasDownvoted == false) {
             hasDownvoted = true;

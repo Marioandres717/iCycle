@@ -53,7 +53,7 @@ class ProfileViewController: UIViewController {
     
     // MARK: Chameleon related
     func initChameleonColors() {
-        view.backgroundColor = GradientColor(UIGradientStyle.topToBottom, frame: view.frame, colors: [FlatBlack(), FlatOrange()])
+        view.backgroundColor = FlatBlack()
     }
 
 }

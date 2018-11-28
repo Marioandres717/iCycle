@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		21610C9621AE410200275419 /* SelectWaypointViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21610C9521AE410200275419 /* SelectWaypointViewController.swift */; };
+		21610C9C21AE4B6C00275419 /* Node.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21610C9B21AE4B6C00275419 /* Node.swift */; };
 		2182BD62219A5BCB0024119C /* RouteTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2182BD61219A5BCB0024119C /* RouteTableViewCell.swift */; };
 		2182BD68219A71080024119C /* Route.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2182BD67219A71080024119C /* Route.swift */; };
 		2188323A21955D4600F7E9C5 /* ChameleonShorthand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2188323921955D4600F7E9C5 /* ChameleonShorthand.swift */; };
@@ -130,6 +132,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		21610C9521AE410200275419 /* SelectWaypointViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectWaypointViewController.swift; sourceTree = "<group>"; };
+		21610C9B21AE4B6C00275419 /* Node.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Node.swift; sourceTree = "<group>"; };
 		2182BD61219A5BCB0024119C /* RouteTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = RouteTableViewCell.swift; path = iCycle/Views/RouteTableViewCell.swift; sourceTree = SOURCE_ROOT; };
 		2182BD67219A71080024119C /* Route.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Route.swift; path = iCycle/Models/Route.swift; sourceTree = SOURCE_ROOT; };
 		2188322521955B4100F7E9C5 /* Chameleon.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Chameleon.xcodeproj; path = Chameleon/Chameleon.xcodeproj; sourceTree = "<group>"; };
@@ -227,6 +231,7 @@
 			isa = PBXGroup;
 			children = (
 				2182BD67219A71080024119C /* Route.swift */,
+				21610C9B21AE4B6C00275419 /* Node.swift */,
 			);
 			name = Models;
 			path = iCycle/Models;
@@ -260,6 +265,7 @@
 				21F416D92197C6F100232FAD /* NavMenuTableViewController.swift */,
 				B9912FEB21ACEE85001AEAD5 /* LoginViewController.swift */,
 				B9912FF121ACEEA8001AEAD5 /* SignUpViewController.swift */,
+				21610C9521AE410200275419 /* SelectWaypointViewController.swift */,
 			);
 			name = Controllers;
 			path = iCycle/Controllers;
@@ -484,6 +490,7 @@
 			files = (
 				21F416D621979AD500232FAD /* SWRevealViewController.m in Sources */,
 				2188329421958EFC00F7E9C5 /* SideMenuItemTableViewCell.swift in Sources */,
+				21610C9621AE410200275419 /* SelectWaypointViewController.swift in Sources */,
 				21F416CC21977E1E00232FAD /* BilletTableViewController.swift in Sources */,
 				2188323A21955D4600F7E9C5 /* ChameleonShorthand.swift in Sources */,
 				21F416D221977F9700232FAD /* ProfilePhotoCollectionViewController.swift in Sources */,
@@ -492,6 +499,7 @@
 				F68BC86621950F930073125F /* MapViewController.swift in Sources */,
 				21F416DA2197C6F100232FAD /* NavMenuTableViewController.swift in Sources */,
 				21F416C221977D6700232FAD /* RouteDetailViewController.swift in Sources */,
+				21610C9C21AE4B6C00275419 /* Node.swift in Sources */,
 				F68BC86421950F930073125F /* AppDelegate.swift in Sources */,
 				21F416CE21977E4200232FAD /* BilletDetailViewController.swift in Sources */,
 				2182BD62219A5BCB0024119C /* RouteTableViewCell.swift in Sources */,
