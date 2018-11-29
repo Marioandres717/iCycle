@@ -19,6 +19,8 @@ class RouteCreateViewController: UIViewController {
     
     @IBOutlet weak var saveButton: UIBarButtonItem!
     
+    let apiPath = "marioandres.xyz/v1/routes"
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -26,7 +28,13 @@ class RouteCreateViewController: UIViewController {
     
     // MARK: - Navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        print("Here")
         super.prepare(for: segue, sender: sender)
+        
+        guard let button = sender as? UIBarButtonItem, button === saveButton else {
+            print("ERROR")
+            return
+        }
         
         switch(segue.identifier ?? "") {
             
@@ -44,8 +52,7 @@ class RouteCreateViewController: UIViewController {
             
             // SEND ROUTE TO BACKEND-------
             
-            /*
-             let parameters = ["title": route.title, "note": route.note, "path": route.path, "difficulty": route.difficulty, "privateRoute": route.privateRoute, "user": route.user.id]
+            let parameters = ["title": route.title, "note": route.note, "path": route.path, "difficulty": route.difficulty, "privateRoute": route.privateRoute, "user": "1"] as [String : Any]
             
             guard let url = URL(string: apiPath) else {return}
             var request = URLRequest(url: url)
@@ -70,11 +77,13 @@ class RouteCreateViewController: UIViewController {
                     }
                 }
                 }.resume()
-             */
+            
             
             //-----------------------------
+        case "addWaypoint":
+            break
         default:
-            fatalError("Unexpected Segue Identifier; \(segue.identifier)")
+            fatalError("Unexpected Segue Identifier; \(String(describing: segue.identifier))")
         }
     }
  

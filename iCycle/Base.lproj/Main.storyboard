@@ -12,7 +12,6 @@
         <!--Login View Controller-->
         <scene sceneID="mC3-Se-pCN">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="7c2-Rr-Etz" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewController id="K2j-ww-Hde" customClass="LoginViewController" customModule="iCycle" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="HfS-Wf-n3F">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
@@ -113,6 +112,7 @@
                         <outlet property="usernameTextField" destination="tua-2O-mud" id="kIO-I4-q8Z"/>
                     </connections>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="7c2-Rr-Etz" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-3313.04347826087" y="-1886.413043478261"/>
         </scene>
@@ -717,7 +717,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Add Waypoint"/>
                                 <connections>
-                                    <segue destination="hc8-Mu-h8a" kind="presentation" id="lb8-LT-nAw"/>
+                                    <segue destination="hc8-Mu-h8a" kind="presentation" identifier="addWaypoint" id="lb8-LT-nAw"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vPH-DS-Uho">
@@ -831,7 +831,7 @@
                 <exit id="c4p-Ue-fPB" userLabel="Exit" sceneMemberID="exit"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="RDJ-sx-cKM" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1528.985507246377" y="601.63043478260875"/>
+            <point key="canvasLocation" x="1500" y="602"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="kgS-sr-kEt">
@@ -1563,7 +1563,7 @@
     <inferredMetricsTieBreakers>
         <segue reference="gdJ-yJ-l7v"/>
         <segue reference="b2f-Ih-psh"/>
-        <segue reference="HRg-Sz-9x4"/>
+        <segue reference="cm2-r2-fC2"/>
         <segue reference="vQe-bs-BbG"/>
         <segue reference="q3q-Cp-yMt"/>
         <segue reference="Nez-xr-i6e"/>
