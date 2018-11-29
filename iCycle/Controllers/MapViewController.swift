@@ -19,7 +19,7 @@ class MapViewController: UIViewController, GMSMapViewDelegate {
     @IBOutlet weak var menuButton: UIBarButtonItem!
     
     var locationManager = CLLocationManager()
-    var currentLocation: CLLocation?
+    //var currentLocation: CLLocation?
     var zoomLevel: Float = 12.0
     
     

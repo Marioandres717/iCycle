@@ -7,15 +7,22 @@
 //
 
 import UIKit
+import GoogleMaps
+import GooglePlaces
 
 class SelectWaypointViewController: UIViewController {
     
     var pins: [Node]?
-    
     var pin: Node?
     
     @IBOutlet weak var cancelButton: UIButton!
     @IBOutlet weak var saveButton: UIButton!
+    
+    @IBOutlet weak var mapView: GMSMapView!
+    @IBOutlet weak var locationLabel: UILabel!
+    
+    var locationManager = CLLocationManager()
+    var zoomLevel: Float = 12.0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,10 +30,34 @@ class SelectWaypointViewController: UIViewController {
         cancelButton.backgroundColor = FlatRed()
         saveButton.backgroundColor = FlatGreen()
         
+        mapView.delegate = self
+        
         updateSaveButtonState()
     }
     
     // MARK: Map Functionality
+    private func reverseGeocodeCoordinate(_ coordinate: CLLocationCoordinate2D){
+        
+        // object for turning latitude and logitude into a street address
+        let geocoder = GMSGeocoder()
+        
+        // reverse geocode the coordinates
+        geocoder.reverseGeocodeCoordinate(coordinate){
+            response, error in
+            guard let location = response?.firstResult(), let lines = location.lines else{
+                return
+            }
+            
+            // set the label text to the address
+            self.locationLabel.text = lines.joined(separator: "\n")
+            
+            // animate the label change
+            UIView.animate(withDuration: 0.25) {
+                self.view.layoutIfNeeded()
+            }
+        }
+    }
+    
     
     
     // MARK: - Navigation
@@ -63,5 +94,15 @@ class SelectWaypointViewController: UIViewController {
             saveButton.backgroundColor = FlatGray()
             saveButton.isEnabled = false
         }
+    }
+}
+
+// MARK: GMSMapViewDelegate
+
+extension SelectWaypointViewController: GMSMapViewDelegate {
+    
+    // reverse geocode location once the map stops moving
+    func mapView(_ mapView: GMSMapView, idleAt position: GMSCameraPosition){
+        reverseGeocodeCoordinate(position.target)
     }
 }
