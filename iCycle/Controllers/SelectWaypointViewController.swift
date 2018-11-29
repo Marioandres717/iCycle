@@ -9,6 +9,7 @@
 import UIKit
 import GoogleMaps
 import GooglePlaces
+import os.log
 
 class SelectWaypointViewController: UIViewController {
     
@@ -20,6 +21,7 @@ class SelectWaypointViewController: UIViewController {
     
     @IBOutlet weak var mapView: GMSMapView!
     @IBOutlet weak var locationLabel: UILabel!
+    @IBOutlet weak var searchLocationBar: UISearchBar!
     
     var locationManager = CLLocationManager()
     var zoomLevel: Float = 12.0
@@ -49,7 +51,7 @@ class SelectWaypointViewController: UIViewController {
             }
             
             // set the label text to the address
-            self.locationLabel.text = lines.joined(separator: "\n")
+            self.searchLocationBar.text = lines.joined(separator: "\n")
             
             // animate the label change
             UIView.animate(withDuration: 0.25) {
@@ -102,7 +104,9 @@ class SelectWaypointViewController: UIViewController {
 extension SelectWaypointViewController: GMSMapViewDelegate {
     
     // reverse geocode location once the map stops moving
-    func mapView(_ mapView: GMSMapView, idleAt position: GMSCameraPosition){
-        reverseGeocodeCoordinate(position.target)
+    func mapView(_ mapView: GMSMapView, didTapAt coordinate: CLLocationCoordinate2D) {
+    
+        reverseGeocodeCoordinate(coordinate)
+        print("Location: \(coordinate) ")
     }
 }

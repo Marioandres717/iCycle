@@ -779,6 +779,15 @@
                             </searchBar>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4D6-0K-pP0" customClass="GMSMapView">
                                 <rect key="frame" x="0.0" y="76" width="414" height="554"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ER0-k7-hIh">
+                                        <rect key="frame" x="8" y="525" width="398" height="21"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="E4c-hn-ZC6">
@@ -824,14 +833,17 @@
                     <navigationItem key="navigationItem" id="yt7-Ah-AFw"/>
                     <connections>
                         <outlet property="cancelButton" destination="E4c-hn-ZC6" id="e3o-6F-Gbo"/>
+                        <outlet property="locationLabel" destination="ER0-k7-hIh" id="JYH-dO-doH"/>
+                        <outlet property="mapView" destination="4D6-0K-pP0" id="OhJ-Xc-zfF"/>
                         <outlet property="saveButton" destination="5nE-0x-Izh" id="eV1-a1-HUV"/>
+                        <outlet property="searchLocationBar" destination="YTc-yz-81U" id="ZXy-ft-yde"/>
                         <segue destination="c4p-Ue-fPB" kind="unwind" identifier="unwindToCreateRoute" unwindAction="unwindToCreateRouteWithSegue:" id="x28-3v-mOW"/>
                     </connections>
                 </viewController>
                 <exit id="c4p-Ue-fPB" userLabel="Exit" sceneMemberID="exit"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="RDJ-sx-cKM" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1500" y="602"/>
+            <point key="canvasLocation" x="1500.0000000000002" y="601.63043478260875"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="kgS-sr-kEt">
