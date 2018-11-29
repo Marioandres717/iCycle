@@ -10,24 +10,24 @@ import UIKit
 
 class SignUpViewController: UIViewController {
 
-//    @IBOutlet weak var emailTextField: UITextField!
-//    @IBOutlet weak var usernameTextField: UITextField!
-//    @IBOutlet weak var passTextField: UITextField!
-//    @IBOutlet weak var confirmPassTextField: UITextField!
-//    @IBOutlet weak var saveBtn: UIButton!
-//    @IBOutlet weak var cancelBtn: UIButton!
+    @IBOutlet weak var emailTextField: UITextField!
+    @IBOutlet weak var usernameTextField: UITextField!
+    @IBOutlet weak var passTextField: UITextField!
+    @IBOutlet weak var confirmPassTextField: UITextField!
+    @IBOutlet weak var submitBtn: UIButton!
+    @IBOutlet weak var cancelBtn: UIButton!
     
     let apiPath = "http://localhost:3000/v1/users"
     
     override func viewDidLoad() {
         super.viewDidLoad()
-    //    setupView()
+        setupView()
     }
     
-    /*
+    
     // MARK: ACTIONS
     
-    @IBAction func handleSave(_ sender: UIButton) {
+    @IBAction func handleSubmit(_ sender: UIButton) {
         guard let email = emailTextField.text else { return }
         guard let username = usernameTextField.text else { return }
         guard let password = passTextField.text else { return }
@@ -60,10 +60,10 @@ class SignUpViewController: UIViewController {
         dismiss(animated: true, completion: nil)
     }
     
+    
     @IBAction func handleCancel(_ sender: UIButton) {
         dismiss(animated: true, completion: nil)
     }
-    
     
     
     // MARK: UI STYLES
@@ -98,13 +98,12 @@ class SignUpViewController: UIViewController {
     }
     
     func setupBtns() {
-        saveBtn.layer.cornerRadius = 5
-        saveBtn.layer.borderWidth = 1
-        saveBtn.layer.borderColor = UIColor(red: 80/255, green: 227/255, blue: 194/255, alpha: 1).cgColor
+        submitBtn.layer.cornerRadius = 5
+        submitBtn.layer.borderWidth = 1
+        submitBtn.layer.borderColor = UIColor(red: 80/255, green: 227/255, blue: 194/255, alpha: 1).cgColor
         
         cancelBtn.layer.cornerRadius = 5
         cancelBtn.layer.borderWidth = 1
         cancelBtn.layer.borderColor = UIColor(red: 255/255, green: 151/255, blue: 164/255, alpha: 1).cgColor
     }
- */
 }
