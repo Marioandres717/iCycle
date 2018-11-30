@@ -9,8 +9,7 @@
 import UIKit
 import GoogleMaps
 import GooglePlaces
-import Chameleon
-import SideMenu
+import ChameleonFramework
 
 class MapViewController: UIViewController, GMSMapViewDelegate {
     
