@@ -81,8 +81,9 @@ class SelectWaypointViewController: UIViewController {
         let source: String = "\(sourceCoordinate.latitude),\(sourceCoordinate.longitude)"
         let destination: String = "\(destinationCoordinate.latitude),\(destinationCoordinate.longitude)"
         
-        let urlString = "https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins=\(source)&destinations=\(destination)&key=AIzaSyCrX4BFXbvFAvct8Q1xp1ml6yW8rhdNs6A"
-        
+        //let urlString = "https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins=\(source)&destinations=\(destination)&key=AIzaSyBUJZaFSeeEgoJktJao7Fh3V02MsHMY2cI"
+        let urlString = "https://maps.googleapis.com/maps/api/directions/json?origin=\(source)&destination=\(destination)&mode=driving&key=AIzaSyBUJZaFSeeEgoJktJao7Fh3V02MsHMY2cI"
+
         
         Alamofire.request(urlString, method: .get).validate().responseJSON { response in
             switch response.result {
@@ -90,7 +91,7 @@ class SelectWaypointViewController: UIViewController {
                 let json = JSON(value)
                 print("JSON HERE: \(json)")
                 let routes = json["routes"].arrayValue
-                
+                print("routes \(routes[0])")
                 for route in routes
                 {
                     let routeOverviewPolyline = route["overview_polyline"].dictionary
@@ -101,7 +102,7 @@ class SelectWaypointViewController: UIViewController {
                     polyline.map = self.mapView
                 }
             case .failure(let error):
-                print("ERORRRRRR: \(error)")
+                print("ERROR: \(error)")
             }
         }
     }
@@ -167,6 +168,7 @@ extension SelectWaypointViewController: GMSMapViewDelegate {
         
         if let markers = markers {
             if(markers.count > 0) {
+                
                 drawRouteBetweenTwoLastPins(sourceCoordinate: CLLocationCoordinate2D(latitude: markers[markers.count-1].position.latitude, longitude: markers[markers.count-1].position.longitude), destinationCoordinate: coordinate)
             }
         }
