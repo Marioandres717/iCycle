@@ -27,9 +27,7 @@ class SelectWaypointViewController: UIViewController {
     
     @IBOutlet weak var cancelButton: UIButton!
     @IBOutlet weak var saveButton: UIButton!
-    
     @IBOutlet weak var mapView: GMSMapView!
-    @IBOutlet weak var locationLabel: UILabel!
     @IBOutlet weak var searchLocationBar: UISearchBar!
     
     var locationManager = CLLocationManager()
@@ -176,3 +174,9 @@ extension SelectWaypointViewController: GMSMapViewDelegate {
         reverseGeocodeCoordinate(coordinate)
     }
 }
+
+// MARK: UISearchBarDelegate
+extension SelectWaypointViewController: UISearchBarDelegate {
+    
+}
+

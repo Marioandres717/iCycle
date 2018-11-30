@@ -27,7 +27,41 @@ class RouteCreateViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // Set Delegates
         mapView.delegate = self
+        routeTitle.delegate = self
+        routeNotes.delegate = self
+        
+        
+        // Listen for Keyboard Events
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(keyboardWillShow),
+            name: UIResponder.keyboardWillShowNotification,
+            object: nil
+        )
+        
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(keyboardWillHide),
+            name: UIResponder.keyboardWillHideNotification,
+            object: nil
+        )
+    }
+    
+    deinit {
+        // Stop Listening for Keyboard Events
+        NotificationCenter.default.removeObserver(
+            self,
+            name: UIResponder.keyboardWillShowNotification,
+            object: nil
+        )
+        
+        NotificationCenter.default.removeObserver(
+            self,
+            name: UIResponder.keyboardWillHideNotification,
+            object: nil
+        )
     }
     
     // MARK: - Navigation
@@ -38,6 +72,7 @@ class RouteCreateViewController: UIViewController {
             
         case "saveRoute": // Saving and returning to the list of Routes
             print(segue.identifier)
+            print(JSONSerialization.isValidJSONObject(Node.self))
             guard let routeTableViewController = segue.destination as? RouteTableViewController else {
                 fatalError("Unexpected destination: \(segue.destination)")
             }
@@ -50,7 +85,6 @@ class RouteCreateViewController: UIViewController {
             let route = Route(title: title, note: notes, path: pins, difficulty: difficulty, voted: false, upVotes: 0, downVotes: 0, privateRoute: privacy, user: "TEMP_USER", saved: false)
             
             // SEND ROUTE TO BACKEND-------
-            
             let parameters = ["title": route.title, "note": route.note, "path": route.path, "difficulty": route.difficulty, "privateRoute": route.privateRoute, "user": "1"] as [String : Any]
             
             guard let url = URL(string: apiPath) else {return}
@@ -76,8 +110,6 @@ class RouteCreateViewController: UIViewController {
                     }
                 }
                 }.resume()
-            
-            
             //-----------------------------
             break
         case "addWaypoint":
@@ -99,6 +131,8 @@ class RouteCreateViewController: UIViewController {
         }
     }
     
+    //MARK: Methods
+    
     // Update the save button when all conditions are met.
     func updateSaveState() {
         if pins.count < 2 {
@@ -119,10 +153,84 @@ class RouteCreateViewController: UIViewController {
             marker.map = mapView
         }
     }
+    
+    @objc func keyboardWillShow(notification: Notification) {
+        if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
+            let keyboardRectangle = keyboardFrame.cgRectValue
+            let keyboardHeight = keyboardRectangle.height
+            
+            view.frame.origin.y = -keyboardHeight
+        }
+    }
+    
+    @objc func keyboardWillHide(notification: Notification) {
+        if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
+            let keyboardRectangle = keyboardFrame.cgRectValue
+            let keyboardHeight = keyboardRectangle.height
+            
+            view.frame.origin.y += keyboardHeight
+        }
+    }
+    
+    @IBAction func userTappedBackground(sender: AnyObject) {
+        view.endEditing(true)
+    }
+    
 }
 
 // MARK: GMSMapViewDelegate
-
 extension RouteCreateViewController: GMSMapViewDelegate {
     
+}
+
+// MARK: UITextFieldDelegate
+extension RouteCreateViewController: UITextFieldDelegate {
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        textField.becomeFirstResponder()
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        // Hide Keyboard
+        textField.resignFirstResponder()
+        return true
+    }
+}
+
+// MARK: UITextViewDelegate
+extension RouteCreateViewController: UITextViewDelegate {
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        textView.becomeFirstResponder()
+    }
+}
+
+extension UITextView {
+    @IBInspectable var doneAccessory: Bool{
+        get{
+            return self.doneAccessory
+        }
+        set (hasDone) {
+            if hasDone{
+                addDoneButtonOnKeyboard()
+            }
+        }
+    }
+    
+    func addDoneButtonOnKeyboard()
+    {
+        let doneToolbar: UIToolbar = UIToolbar(frame: CGRect.init(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 50))
+        doneToolbar.barStyle = .default
+        
+        let flexSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        let done: UIBarButtonItem = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(self.doneButtonAction))
+        
+        let items = [flexSpace, done]
+        doneToolbar.items = items
+        doneToolbar.sizeToFit()
+        
+        self.inputAccessoryView = doneToolbar
+    }
+    
+    @objc func doneButtonAction() {
+        self.resignFirstResponder()
+    }
 }
