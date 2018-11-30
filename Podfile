@@ -8,4 +8,5 @@ target 'iCycle' do
     pod 'Firebase/Storage'
     pod 'GoogleMaps'
     pod 'GooglePlaces'
+    pod 'Alamofire', '~> 4.7'
 end
