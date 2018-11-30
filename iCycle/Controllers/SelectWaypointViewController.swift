@@ -11,6 +11,11 @@ import GoogleMaps
 import GooglePlaces
 import os.log
 
+enum JSONError: String, Error {
+    case NoData = "ERROR: no data"
+    case ConversionFailed = "ERROR: conversion from JSON failed"
+}
+
 class SelectWaypointViewController: UIViewController {
     var pin: Node?
     
@@ -18,6 +23,7 @@ class SelectWaypointViewController: UIViewController {
     var marker: GMSMarker?
     
     let path = GMSMutablePath()
+    
     
     @IBOutlet weak var cancelButton: UIButton!
     @IBOutlet weak var saveButton: UIButton!
@@ -69,6 +75,39 @@ class SelectWaypointViewController: UIViewController {
         }
     }
     
+    private func drawRouteBetweenTwoLastPins (sourceCoordinate: CLLocationCoordinate2D, destinationCoordinate: CLLocationCoordinate2D) {
+        /*
+        let rectangle = GMSPolyline(path: path)
+        
+        rectangle.strokeWidth = 2.0
+        if (path.count() > 1){
+            rectangle.map = mapView
+        }*/
+        let source: String = "\(sourceCoordinate.latitude),\(sourceCoordinate.longitude)"
+        let destination: String = "\(destinationCoordinate.latitude),\(destinationCoordinate.longitude)"
+        
+        let urlString = "https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins=\(source)&destinations=\(destination)&key=AIzaSyCrX4BFXbvFAvct8Q1xp1ml6yW8rhdNs6A"
+        /*
+        Alamofire.request(urlString).responseJSON { response in
+            print(response.request)  // original URL request
+            print(response.response) // HTTP URL response
+            print(response.data)     // server data
+            print(response.result)   // result of response serialization
+            
+            let json = JSON(data: response.data!)
+            let routes = json["routes"].arrayValue
+            
+            for route in routes
+            {
+                let routeOverviewPolyline = route["overview_polyline"].dictionary
+                let points = routeOverviewPolyline?["points"]?.stringValue
+                let path = GMSPath.init(fromEncodedPath: points!)
+                let polyline = GMSPolyline.init(path: path)
+                polyline.map = self.mapView
+            }
+        }*/
+    }
+    
     // MARK: - Navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         super.prepare(for: segue, sender: sender)
@@ -114,7 +153,7 @@ class SelectWaypointViewController: UIViewController {
 
 extension SelectWaypointViewController: GMSMapViewDelegate {
     
-    // reverse geocode location once the map stops moving
+    // reverse geocode location at a tap location
     func mapView(_ mapView: GMSMapView, didTapAt coordinate: CLLocationCoordinate2D) {
         
         if marker != nil {
@@ -128,7 +167,7 @@ extension SelectWaypointViewController: GMSMapViewDelegate {
         marker!.map = mapView
         
         path.add(coordinate);
-        //if (path.length(of: <#T##GMSLengthKind#>))
+        
         
         pin = Node(long: coordinate.longitude, lat: coordinate.latitude)
         
