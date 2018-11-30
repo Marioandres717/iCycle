@@ -17,6 +17,8 @@ class SelectWaypointViewController: UIViewController {
     var markers: [GMSMarker]?
     var marker: GMSMarker?
     
+    let path = GMSMutablePath()
+    
     @IBOutlet weak var cancelButton: UIButton!
     @IBOutlet weak var saveButton: UIButton!
     
@@ -111,6 +113,7 @@ extension SelectWaypointViewController: GMSMapViewDelegate {
     
     // reverse geocode location once the map stops moving
     func mapView(_ mapView: GMSMapView, didTapAt coordinate: CLLocationCoordinate2D) {
+        
         if marker != nil {
             marker!.map = nil // Clear the previously placed pin
             pin = nil;
@@ -120,6 +123,9 @@ extension SelectWaypointViewController: GMSMapViewDelegate {
         marker!.appearAnimation = GMSMarkerAnimation.pop
         marker!.title = "New Waypoint"
         marker!.map = mapView
+        
+        path.add(coordinate);
+        //if (path.length(of: <#T##GMSLengthKind#>))
         
         pin = Node(long: coordinate.longitude, lat: coordinate.latitude)
         
