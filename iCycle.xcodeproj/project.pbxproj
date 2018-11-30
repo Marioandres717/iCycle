@@ -15,6 +15,7 @@
 		2188323C21955E8C00F7E9C5 /* RouteTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2188323B21955E8C00F7E9C5 /* RouteTableViewController.swift */; };
 		2188323E21955FEA00F7E9C5 /* RouteCreateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2188323D21955FEA00F7E9C5 /* RouteCreateViewController.swift */; };
 		2188329421958EFC00F7E9C5 /* SideMenuItemTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2188329321958EFC00F7E9C5 /* SideMenuItemTableViewCell.swift */; };
+		21A6987321B0BB4400E07322 /* SWRevealViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 21A6987221B0BB4400E07322 /* SWRevealViewController.m */; };
 		21F416C221977D6700232FAD /* RouteDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21F416C121977D6700232FAD /* RouteDetailViewController.swift */; };
 		21F416C821977DA000232FAD /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21F416C721977DA000232FAD /* ProfileViewController.swift */; };
 		21F416CC21977E1E00232FAD /* BilletTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21F416CB21977E1E00232FAD /* BilletTableViewController.swift */; };
@@ -75,6 +76,8 @@
 		2188323B21955E8C00F7E9C5 /* RouteTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = RouteTableViewController.swift; path = iCycle/Controllers/RouteTableViewController.swift; sourceTree = SOURCE_ROOT; };
 		2188323D21955FEA00F7E9C5 /* RouteCreateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = RouteCreateViewController.swift; path = iCycle/Controllers/RouteCreateViewController.swift; sourceTree = SOURCE_ROOT; };
 		2188329321958EFC00F7E9C5 /* SideMenuItemTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SideMenuItemTableViewCell.swift; path = iCycle/Views/SideMenuItemTableViewCell.swift; sourceTree = SOURCE_ROOT; };
+		21A6987121B0BB4400E07322 /* SWRevealViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWRevealViewController.h; sourceTree = "<group>"; };
+		21A6987221B0BB4400E07322 /* SWRevealViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWRevealViewController.m; sourceTree = "<group>"; };
 		21F416C121977D6700232FAD /* RouteDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = RouteDetailViewController.swift; path = iCycle/Controllers/RouteDetailViewController.swift; sourceTree = SOURCE_ROOT; };
 		21F416C721977DA000232FAD /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ProfileViewController.swift; path = iCycle/Controllers/ProfileViewController.swift; sourceTree = SOURCE_ROOT; };
 		21F416CB21977E1E00232FAD /* BilletTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = BilletTableViewController.swift; path = iCycle/Controllers/BilletTableViewController.swift; sourceTree = SOURCE_ROOT; };
@@ -183,6 +186,8 @@
 		21883220219557CE00F7E9C5 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				21A6987121B0BB4400E07322 /* SWRevealViewController.h */,
+				21A6987221B0BB4400E07322 /* SWRevealViewController.m */,
 				21F416D321979AD400232FAD /* iCycle-Bridging-Header.h */,
 				F68BC86521950F930073125F /* MapViewController.swift */,
 				2188323B21955E8C00F7E9C5 /* RouteTableViewController.swift */,
@@ -407,6 +412,7 @@
 				21F416D221977F9700232FAD /* ProfilePhotoCollectionViewController.swift in Sources */,
 				2182BD68219A71080024119C /* Route.swift in Sources */,
 				B9912FF221ACEEA8001AEAD5 /* SignUpViewController.swift in Sources */,
+				21A6987321B0BB4400E07322 /* SWRevealViewController.m in Sources */,
 				F68BC86621950F930073125F /* MapViewController.swift in Sources */,
 				21F416DA2197C6F100232FAD /* NavMenuTableViewController.swift in Sources */,
 				21F416C221977D6700232FAD /* RouteDetailViewController.swift in Sources */,
