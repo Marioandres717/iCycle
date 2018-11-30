@@ -32,10 +32,6 @@
 		F68BC86B21950FA30073125F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F68BC86A21950FA30073125F /* Assets.xcassets */; };
 		F68BC86E21950FA30073125F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F68BC86C21950FA30073125F /* LaunchScreen.storyboard */; };
 		F68BC876219514AE0073125F /* splashGear.png in Resources */ = {isa = PBXBuildFile; fileRef = F68BC875219514AE0073125F /* splashGear.png */; };
-		F68BC87C21951BF30073125F /* GoogleMaps.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F68BC87921951BED0073125F /* GoogleMaps.framework */; };
-		F68BC87D21951BF30073125F /* GoogleMapsCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F68BC87A21951BF10073125F /* GoogleMapsCore.framework */; };
-		F68BC87E21951BF30073125F /* GoogleMapsBase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F68BC87B21951BF30073125F /* GoogleMapsBase.framework */; };
-		F68BC88021951C3D0073125F /* GoogleMaps.bundle in Resources */ = {isa = PBXBuildFile; fileRef = F68BC87F21951C3D0073125F /* GoogleMaps.bundle */; };
 		F68BC88321951CD50073125F /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F68BC88221951CD50073125F /* Accelerate.framework */; };
 		F68BC88521951CE00073125F /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F68BC88421951CE00073125F /* CoreData.framework */; };
 		F68BC88721951CE90073125F /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F68BC88621951CE90073125F /* CoreGraphics.framework */; };
@@ -50,8 +46,6 @@
 		F68BC89921951D3F0073125F /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F68BC89821951D3F0073125F /* QuartzCore.framework */; };
 		F68BC89B21951D470073125F /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F68BC89A21951D470073125F /* SystemConfiguration.framework */; };
 		F68BC89D21951D4F0073125F /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F68BC89C21951D4E0073125F /* UIKit.framework */; };
-		F69A5823219783D600070E26 /* GooglePlaces.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F69A5822219783D600070E26 /* GooglePlaces.framework */; };
-		F69A5825219783F900070E26 /* GooglePlacePicker.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F69A5824219783F900070E26 /* GooglePlacePicker.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -102,7 +96,6 @@
 		F68BC87921951BED0073125F /* GoogleMaps.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleMaps.framework; sourceTree = "<group>"; };
 		F68BC87A21951BF10073125F /* GoogleMapsCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleMapsCore.framework; sourceTree = "<group>"; };
 		F68BC87B21951BF30073125F /* GoogleMapsBase.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleMapsBase.framework; sourceTree = "<group>"; };
-		F68BC87F21951C3D0073125F /* GoogleMaps.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = GoogleMaps.bundle; path = iCycle/GoogleMaps.bundle; sourceTree = SOURCE_ROOT; };
 		F68BC88221951CD50073125F /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
 		F68BC88421951CE00073125F /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		F68BC88621951CE90073125F /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -119,8 +112,6 @@
 		F68BC89C21951D4E0073125F /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		F69A5822219783D600070E26 /* GooglePlaces.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GooglePlaces.framework; sourceTree = "<group>"; };
 		F69A5824219783F900070E26 /* GooglePlacePicker.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GooglePlacePicker.framework; sourceTree = "<group>"; };
-		F69A58262197844D00070E26 /* GooglePlaces.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = GooglePlaces.bundle; sourceTree = "<group>"; };
-		F69A58272197847100070E26 /* GooglePlacePicker.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = GooglePlacePicker.bundle; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -133,7 +124,6 @@
 				F68BC89921951D3F0073125F /* QuartzCore.framework in Frameworks */,
 				F68BC89721951D370073125F /* OpenGLES.framework in Frameworks */,
 				F68BC89521951D2F0073125F /* libz.tbd in Frameworks */,
-				F69A5825219783F900070E26 /* GooglePlacePicker.framework in Frameworks */,
 				F68BC89321951D270073125F /* libc++.tbd in Frameworks */,
 				F68BC89121951D140073125F /* ImageIO.framework in Frameworks */,
 				F68BC88F21951D090073125F /* GLKit.framework in Frameworks */,
@@ -143,10 +133,6 @@
 				F68BC88721951CE90073125F /* CoreGraphics.framework in Frameworks */,
 				F68BC88521951CE00073125F /* CoreData.framework in Frameworks */,
 				F68BC88321951CD50073125F /* Accelerate.framework in Frameworks */,
-				F68BC87E21951BF30073125F /* GoogleMapsBase.framework in Frameworks */,
-				F68BC87C21951BF30073125F /* GoogleMaps.framework in Frameworks */,
-				F68BC87D21951BF30073125F /* GoogleMapsCore.framework in Frameworks */,
-				F69A5823219783D600070E26 /* GooglePlaces.framework in Frameworks */,
 				728706FFEB80DC3E9AE86595 /* Pods_iCycle.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -247,9 +233,6 @@
 				2188321D2195579900F7E9C5 /* Theme */,
 				F68BC86A21950FA30073125F /* Assets.xcassets */,
 				F68BC86F21950FA30073125F /* Info.plist */,
-				F69A58272197847100070E26 /* GooglePlacePicker.bundle */,
-				F69A58262197844D00070E26 /* GooglePlaces.bundle */,
-				F68BC87F21951C3D0073125F /* GoogleMaps.bundle */,
 			);
 			path = iCycle;
 			sourceTree = "<group>";
@@ -294,6 +277,7 @@
 				F68BC85E21950F930073125F /* Resources */,
 				F69A581921977C7400070E26 /* Embed Frameworks */,
 				59181ED7113849A3A80E44AF /* [CP] Embed Pods Frameworks */,
+				68FC709ACE982CD6B7E54389 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -347,7 +331,6 @@
 				F68BC86B21950FA30073125F /* Assets.xcassets in Resources */,
 				F68BC86921950F940073125F /* Main.storyboard in Resources */,
 				F68BC876219514AE0073125F /* splashGear.png in Resources */,
-				F68BC88021951C3D0073125F /* GoogleMaps.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -402,6 +385,30 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-iCycle/Pods-iCycle-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		68FC709ACE982CD6B7E54389 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-iCycle/Pods-iCycle-resources.sh",
+				"${PODS_ROOT}/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Resources/GoogleMaps.bundle",
+				"${PODS_ROOT}/GooglePlaces/Frameworks/GooglePlaces.framework/Resources/GooglePlaces.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleMaps.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GooglePlaces.bundle",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-iCycle/Pods-iCycle-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */

@@ -6,4 +6,6 @@ target 'iCycle' do
     pod 'ChameleonFramework/Swift', :git => 'https://github.com/ViccAlexander/Chameleon.git'
     pod 'Firebase/Core'
     pod 'Firebase/Storage'
+    pod 'GoogleMaps'
+    pod 'GooglePlaces'
 end
