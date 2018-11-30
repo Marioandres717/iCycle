@@ -70,20 +70,23 @@ class SelectWaypointViewController: UIViewController {
     // MARK: - Navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         super.prepare(for: segue, sender: sender)
-
-        guard let routeCreateViewController = segue.destination as? RouteCreateViewController else {
-            fatalError("Unexpected destination: \(segue.destination)")
-        }
         
-        if let pin = pin {
-            routeCreateViewController.pins += [pin]
+        switch(segue.identifier) {
+            case "cancelWaypoint":
+            break
+            case "saveWaypoint":
+                guard let routeCreateViewController = segue.destination as? RouteCreateViewController else {
+                    fatalError("Unexpected destination: \(segue.destination)")
+                }
+                
+                if let pin = pin {
+                    routeCreateViewController.pins += [pin]
+                }
+            break
+            default:
+                fatalError("Unexpected segue: \(segue.identifier)")
+            break
         }
-    }
- 
-    
-    // Cancel without adding a pin.
-    @IBAction func cancel(_ sender: Any) {
-        self.dismiss(animated: true, completion: nil)
     }
     
     // Enable the save button when all conditions are met.
