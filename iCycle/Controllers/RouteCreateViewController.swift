@@ -7,16 +7,19 @@
 //
 
 import UIKit
+import GoogleMaps
 import os.log
 
 class RouteCreateViewController: UIViewController {
     var pins: [Node] = []
     
+    var markers: [GMSMarker] = []
+    
     @IBOutlet weak var routeTitle: UITextField!
     @IBOutlet weak var routeDifficulty: UISegmentedControl!
     @IBOutlet weak var routeNotes: UITextView!
     @IBOutlet weak var routeIsPrivate: UISwitch!
-    
+    @IBOutlet weak var mapView: GMSMapView!
     @IBOutlet weak var saveButton: UIBarButtonItem!
     
     let apiPath = "marioandres.xyz/v1/routes"
@@ -24,21 +27,17 @@ class RouteCreateViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        mapView.delegate = self
     }
     
     // MARK: - Navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        print("Here")
         super.prepare(for: segue, sender: sender)
-        
-        guard let button = sender as? UIBarButtonItem, button === saveButton else {
-            print("ERROR")
-            return
-        }
         
         switch(segue.identifier ?? "") {
             
         case "saveRoute": // Saving and returning to the list of Routes
+            print(segue.identifier)
             guard let routeTableViewController = segue.destination as? RouteTableViewController else {
                 fatalError("Unexpected destination: \(segue.destination)")
             }
@@ -80,7 +79,12 @@ class RouteCreateViewController: UIViewController {
             
             
             //-----------------------------
+            break
         case "addWaypoint":
+            guard let selectWaypointViewController = segue.destination as? SelectWaypointViewController else {
+                fatalError("Unexpected destination: \(segue.destination)")
+            }
+            selectWaypointViewController.markers = markers
             break
         default:
             fatalError("Unexpected Segue Identifier; \(String(describing: segue.identifier))")
@@ -89,7 +93,10 @@ class RouteCreateViewController: UIViewController {
  
     // Execute when returning from adding a pin.
     @IBAction func unwindToCreateRoute(segue:UIStoryboardSegue) {
-        updateSaveState()
+        if let selectWaypointViewController = segue.source as? SelectWaypointViewController {
+            updateMapPins()
+            updateSaveState()
+        }
     }
     
     // Update the save button when all conditions are met.
@@ -100,4 +107,22 @@ class RouteCreateViewController: UIViewController {
             saveButton.isEnabled = true
         }
     }
+    
+    func updateMapPins() {
+        let newPin = pins[pins.count - 1]
+        let position = CLLocationCoordinate2D(latitude: newPin.lat, longitude: newPin.long)
+        let newMarker = GMSMarker(position: position)
+        markers += [newMarker]
+        
+        for marker in markers {
+            marker.appearAnimation = GMSMarkerAnimation.pop
+            marker.map = mapView
+        }
+    }
+}
+
+// MARK: GMSMapViewDelegate
+
+extension RouteCreateViewController: GMSMapViewDelegate {
+    
 }

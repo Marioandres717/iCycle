@@ -12,9 +12,10 @@ import GooglePlaces
 import os.log
 
 class SelectWaypointViewController: UIViewController {
-    
-    var pins: [Node]?
     var pin: Node?
+    
+    var markers: [GMSMarker]?
+    var marker: GMSMarker?
     
     @IBOutlet weak var cancelButton: UIButton!
     @IBOutlet weak var saveButton: UIButton!
@@ -33,6 +34,12 @@ class SelectWaypointViewController: UIViewController {
         saveButton.backgroundColor = FlatGreen()
         
         mapView.delegate = self
+        
+        if let markers = markers {
+            if(markers.count > 0) {
+                updateMapPins()
+            }
+        }
         
         updateSaveButtonState()
     }
@@ -60,24 +67,16 @@ class SelectWaypointViewController: UIViewController {
         }
     }
     
-    
-    
     // MARK: - Navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         super.prepare(for: segue, sender: sender)
+
+        guard let routeCreateViewController = segue.destination as? RouteCreateViewController else {
+            fatalError("Unexpected destination: \(segue.destination)")
+        }
         
-        switch(segue.identifier ?? "") {
-            
-        case "unwindToCreateRoute":
-            guard let routeCreateViewController = segue.destination as? RouteCreateViewController else {
-                fatalError("Unexpected destination: \(segue.destination)")
-            }
-            
-            if let pin = pin {
-                routeCreateViewController.pins += [pin]
-            }
-        default:
-            fatalError("Unexpected Segue Identifier; \(segue.identifier)")
+        if let pin = pin {
+            routeCreateViewController.pins += [pin]
         }
     }
  
@@ -97,6 +96,13 @@ class SelectWaypointViewController: UIViewController {
             saveButton.isEnabled = false
         }
     }
+    
+    func updateMapPins() {
+        for marker in markers! {
+            marker.appearAnimation = GMSMarkerAnimation.pop
+            marker.map = mapView
+        }
+    }
 }
 
 // MARK: GMSMapViewDelegate
@@ -105,8 +111,20 @@ extension SelectWaypointViewController: GMSMapViewDelegate {
     
     // reverse geocode location once the map stops moving
     func mapView(_ mapView: GMSMapView, didTapAt coordinate: CLLocationCoordinate2D) {
-    
+        if marker != nil {
+            marker!.map = nil // Clear the previously placed pin
+            pin = nil;
+        }
+        
+        marker = GMSMarker(position: coordinate)
+        marker!.appearAnimation = GMSMarkerAnimation.pop
+        marker!.title = "New Waypoint"
+        marker!.map = mapView
+        
+        pin = Node(long: coordinate.longitude, lat: coordinate.latitude)
+        
+        updateSaveButtonState()
+        
         reverseGeocodeCoordinate(coordinate)
-        print("Location: \(coordinate) ")
     }
 }
