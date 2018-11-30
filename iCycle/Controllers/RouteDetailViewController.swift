@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import Chameleon
+import ChameleonFramework
 
 class RouteDetailViewController: UIViewController {
     

@@ -27,7 +27,7 @@
 
 import UIKit
 import CoreGraphics
-import Chameleon
+import ChameleonFramework
 
 // MARK: - UIColor Methods Shorthand
 /**
