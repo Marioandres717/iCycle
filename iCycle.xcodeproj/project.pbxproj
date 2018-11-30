@@ -21,7 +21,6 @@
 		21F416CE21977E4200232FAD /* BilletDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21F416CD21977E4200232FAD /* BilletDetailViewController.swift */; };
 		21F416D021977E5E00232FAD /* BilletCreateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21F416CF21977E5E00232FAD /* BilletCreateViewController.swift */; };
 		21F416D221977F9700232FAD /* ProfilePhotoCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21F416D121977F9700232FAD /* ProfilePhotoCollectionViewController.swift */; };
-		21F416D621979AD500232FAD /* SWRevealViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 21F416D421979AD500232FAD /* SWRevealViewController.m */; };
 		21F416DA2197C6F100232FAD /* NavMenuTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21F416D92197C6F100232FAD /* NavMenuTableViewController.swift */; };
 		728706FFEB80DC3E9AE86595 /* Pods_iCycle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5187A9AE605887F2B732F01E /* Pods_iCycle.framework */; };
 		B9912FEC21ACEE85001AEAD5 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9912FEB21ACEE85001AEAD5 /* LoginViewController.swift */; };
@@ -83,8 +82,6 @@
 		21F416CF21977E5E00232FAD /* BilletCreateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = BilletCreateViewController.swift; path = iCycle/Controllers/BilletCreateViewController.swift; sourceTree = SOURCE_ROOT; };
 		21F416D121977F9700232FAD /* ProfilePhotoCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ProfilePhotoCollectionViewController.swift; path = iCycle/Controllers/ProfilePhotoCollectionViewController.swift; sourceTree = SOURCE_ROOT; };
 		21F416D321979AD400232FAD /* iCycle-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "iCycle-Bridging-Header.h"; sourceTree = "<group>"; };
-		21F416D421979AD500232FAD /* SWRevealViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SWRevealViewController.m; path = SWRevealViewController/SWRevealViewController/SWRevealViewController.m; sourceTree = SOURCE_ROOT; };
-		21F416D521979AD500232FAD /* SWRevealViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SWRevealViewController.h; path = SWRevealViewController/SWRevealViewController/SWRevealViewController.h; sourceTree = SOURCE_ROOT; };
 		21F416D92197C6F100232FAD /* NavMenuTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = NavMenuTableViewController.swift; path = iCycle/Controllers/NavMenuTableViewController.swift; sourceTree = SOURCE_ROOT; };
 		5187A9AE605887F2B732F01E /* Pods_iCycle.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_iCycle.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		76B5BCA7786DFBEFBB501AA2 /* Pods-iCycle.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iCycle.release.xcconfig"; path = "Pods/Target Support Files/Pods-iCycle/Pods-iCycle.release.xcconfig"; sourceTree = "<group>"; };
@@ -187,8 +184,6 @@
 			isa = PBXGroup;
 			children = (
 				21F416D321979AD400232FAD /* iCycle-Bridging-Header.h */,
-				21F416D521979AD500232FAD /* SWRevealViewController.h */,
-				21F416D421979AD500232FAD /* SWRevealViewController.m */,
 				F68BC86521950F930073125F /* MapViewController.swift */,
 				2188323B21955E8C00F7E9C5 /* RouteTableViewController.swift */,
 				2188323D21955FEA00F7E9C5 /* RouteCreateViewController.swift */,
@@ -405,7 +400,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				21F416D621979AD500232FAD /* SWRevealViewController.m in Sources */,
 				2188329421958EFC00F7E9C5 /* SideMenuItemTableViewCell.swift in Sources */,
 				21610C9621AE410200275419 /* SelectWaypointViewController.swift in Sources */,
 				21F416CC21977E1E00232FAD /* BilletTableViewController.swift in Sources */,
