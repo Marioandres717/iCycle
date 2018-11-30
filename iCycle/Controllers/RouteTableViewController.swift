@@ -148,6 +148,13 @@ class RouteTableViewController: UITableViewController {
         }
     }
     
+    // Execute when returning from adding a route.
+    @IBAction func unwindToRouteTable(segue:UIStoryboardSegue) {
+        if let routeCreateController = segue.source as? RouteCreateViewController {
+            
+        }
+    }
+    
     
     func sideMenu() {
         if revealViewController() != nil {

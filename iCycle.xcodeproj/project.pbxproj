@@ -178,6 +178,7 @@
 				F68BC86521950F930073125F /* MapViewController.swift */,
 				2188323B21955E8C00F7E9C5 /* RouteTableViewController.swift */,
 				2188323D21955FEA00F7E9C5 /* RouteCreateViewController.swift */,
+				21610C9521AE410200275419 /* SelectWaypointViewController.swift */,
 				21F416C121977D6700232FAD /* RouteDetailViewController.swift */,
 				21F416C721977DA000232FAD /* ProfileViewController.swift */,
 				21F416CB21977E1E00232FAD /* BilletTableViewController.swift */,
@@ -187,7 +188,6 @@
 				21F416D92197C6F100232FAD /* NavMenuTableViewController.swift */,
 				B9912FEB21ACEE85001AEAD5 /* LoginViewController.swift */,
 				B9912FF121ACEEA8001AEAD5 /* SignUpViewController.swift */,
-				21610C9521AE410200275419 /* SelectWaypointViewController.swift */,
 			);
 			name = Controllers;
 			path = iCycle/Controllers;
