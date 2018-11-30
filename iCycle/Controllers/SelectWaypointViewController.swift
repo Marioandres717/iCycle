@@ -9,12 +9,9 @@
 import UIKit
 import GoogleMaps
 import GooglePlaces
+import Alamofire
+import SwiftyJSON
 import os.log
-
-enum JSONError: String, Error {
-    case NoData = "ERROR: no data"
-    case ConversionFailed = "ERROR: conversion from JSON failed"
-}
 
 class SelectWaypointViewController: UIViewController {
     var pin: Node?
@@ -85,25 +82,28 @@ class SelectWaypointViewController: UIViewController {
         let destination: String = "\(destinationCoordinate.latitude),\(destinationCoordinate.longitude)"
         
         let urlString = "https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins=\(source)&destinations=\(destination)&key=AIzaSyCrX4BFXbvFAvct8Q1xp1ml6yW8rhdNs6A"
-        /*
-        Alamofire.request(urlString).responseJSON { response in
-            print(response.request)  // original URL request
-            print(response.response) // HTTP URL response
-            print(response.data)     // server data
-            print(response.result)   // result of response serialization
-            
-            let json = JSON(data: response.data!)
-            let routes = json["routes"].arrayValue
-            
-            for route in routes
-            {
-                let routeOverviewPolyline = route["overview_polyline"].dictionary
-                let points = routeOverviewPolyline?["points"]?.stringValue
-                let path = GMSPath.init(fromEncodedPath: points!)
-                let polyline = GMSPolyline.init(path: path)
-                polyline.map = self.mapView
+        
+        
+        Alamofire.request(urlString, method: .get).validate().responseJSON { response in
+            switch response.result {
+            case .success(let value):
+                let json = JSON(value)
+                print("JSON HERE: \(json)")
+                let routes = json["routes"].arrayValue
+                
+                for route in routes
+                {
+                    let routeOverviewPolyline = route["overview_polyline"].dictionary
+                    let points = routeOverviewPolyline?["points"]?.stringValue
+                    let path = GMSPath.init(fromEncodedPath: points!)
+                    let polyline = GMSPolyline.init(path: path)
+                    print("points: \(points)")
+                    polyline.map = self.mapView
+                }
+            case .failure(let error):
+                print("ERORRRRRR: \(error)")
             }
-        }*/
+        }
     }
     
     // MARK: - Navigation
@@ -164,8 +164,15 @@ extension SelectWaypointViewController: GMSMapViewDelegate {
         marker!.title = "New Waypoint"
         marker!.map = mapView
         
-        path.add(coordinate);
         
+        if let markers = markers {
+            if(markers.count > 0) {
+                drawRouteBetweenTwoLastPins(sourceCoordinate: CLLocationCoordinate2D(latitude: markers[markers.count-1].position.latitude, longitude: markers[markers.count-1].position.longitude), destinationCoordinate: coordinate)
+            }
+        }
+        
+
+        path.add(coordinate);
         
         pin = Node(long: coordinate.longitude, lat: coordinate.latitude)
         
