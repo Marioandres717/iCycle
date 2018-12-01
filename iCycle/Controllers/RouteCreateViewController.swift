@@ -153,6 +153,14 @@ class RouteCreateViewController: UIViewController {
             marker.appearAnimation = GMSMarkerAnimation.pop
             marker.map = mapView
         }
+        
+        if (markers.count > 1) {
+            for route in routePoints {
+                let path = GMSPath.init(fromEncodedPath: route)
+                let polyline = GMSPolyline.init(path: path)
+                polyline.map = self.mapView
+            }
+        }
     }
     
     @objc func keyboardWillShow(notification: Notification) {
