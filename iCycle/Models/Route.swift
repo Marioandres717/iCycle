@@ -43,4 +43,5 @@ class Route {
         self.id = id
         self.pointPins = pointPins
     }
+
 }
