@@ -13,6 +13,7 @@ import os.log
 class RouteCreateViewController: UIViewController, URLSessionDelegate, URLSessionDataDelegate {
     var pins: [Node] = []
     var markers: [GMSMarker] = []
+    var pointPins: [Node] = []
     var routePoints: [String] = []
     var session: URLSession?
     var user: User?
@@ -90,7 +91,7 @@ class RouteCreateViewController: UIViewController, URLSessionDelegate, URLSessio
                         
             // SEND ROUTE TO BACKEND-------
             self.user = User.loadUser()
-            let parameters = ["title": title, "note": notes, "coordinates": path, "difficulty": difficulty, "private": privacy, "userId": user?.id ?? -1] as [String : Any]
+            let parameters = ["title": title, "note": notes, "routePins": path, "difficulty": difficulty, "private": privacy, "userId": user?.id ?? -1, "pointPins": self.pointPins] as [String : Any]
             
             print("params: \(parameters)")
             
