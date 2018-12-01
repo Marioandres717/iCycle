@@ -12,15 +12,55 @@ import ChameleonFramework
 class ProfileViewController: UIViewController {
 
     @IBOutlet weak var menuButton: UIBarButtonItem!
+    @IBOutlet weak var myRoutesButton: UIButton!
+    @IBOutlet weak var myPhotosButton: UIButton!
+    @IBOutlet weak var myBikePhoto: UIImageView!
+    @IBOutlet weak var myBikeSerialNumber: UITextField!
+    @IBOutlet weak var myBikeBrand: UITextField!
+    @IBOutlet weak var myBikeNotes: UITextView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // Delegates
+        myBikeSerialNumber.delegate = self
+        myBikeBrand.delegate = self
+        myBikeNotes.delegate = self
+        
+        // Customization
         sideMenu()
         customizeNavBar()
-        
         initChameleonColors()
-        // Do any additional setup after loading the view.
+        
+        // Listen for Keyboard Events
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(keyboardWillShow),
+            name: UIResponder.keyboardWillShowNotification,
+            object: nil
+        )
+        
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(keyboardWillHide),
+            name: UIResponder.keyboardWillHideNotification,
+            object: nil
+        )
+    }
+    
+    deinit {
+        // Stop Listening for Keyboard Events
+        NotificationCenter.default.removeObserver(
+            self,
+            name: UIResponder.keyboardWillShowNotification,
+            object: nil
+        )
+        
+        NotificationCenter.default.removeObserver(
+            self,
+            name: UIResponder.keyboardWillHideNotification,
+            object: nil
+        )
     }
     
 
@@ -33,6 +73,8 @@ class ProfileViewController: UIViewController {
         // Pass the selected object to the new view controller.
     }
     */
+    
+    // MARK: Customization
     
     func sideMenu() {
         if revealViewController() != nil {
@@ -47,13 +89,57 @@ class ProfileViewController: UIViewController {
     func customizeNavBar() {
         navigationController?.navigationBar.tintColor = FlatOrange()
         navigationController?.navigationBar.barTintColor = FlatBlack()
-        
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: FlatWhite()]
     }
     
-    // MARK: Chameleon related
     func initChameleonColors() {
         view.backgroundColor = FlatBlack()
     }
+    
+    // MARK: Keyboard
+    
+    @objc func keyboardWillShow(notification: Notification) {
+        if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
+            let keyboardRectangle = keyboardFrame.cgRectValue
+            let keyboardHeight = keyboardRectangle.height
+            
+            view.frame.origin.y = -keyboardHeight
+        }
+    }
+    
+    @objc func keyboardWillHide(notification: Notification) {
+        if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
+            let keyboardRectangle = keyboardFrame.cgRectValue
+            let keyboardHeight = keyboardRectangle.height
+            
+            view.frame.origin.y += keyboardHeight
+        }
+    }
+    
+    // MARK: Actions
+    
+    @IBAction func userTappedBackground(sender: AnyObject) {
+        view.endEditing(true)
+    }
+    
+}
 
+// MARK: UITextFieldDelegate
+extension ProfileViewController: UITextFieldDelegate {
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        textField.becomeFirstResponder()
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        // Hide Keyboard
+        textField.resignFirstResponder()
+        return true
+    }
+}
+
+// MARK: UITextViewDelegate
+extension ProfileViewController: UITextViewDelegate {
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        textView.becomeFirstResponder()
+    }
 }
