@@ -23,7 +23,10 @@ class SelectWaypointViewController: UIViewController {
     
     let path = GMSMutablePath()
     
+    var pickerData: [String] = [String]()
     
+    @IBOutlet weak var pinTypePicker: UIPickerView!
+    @IBOutlet weak var pinTitle: UITextField!
     @IBOutlet weak var cancelButton: UIButton!
     @IBOutlet weak var saveButton: UIButton!
     @IBOutlet weak var mapView: GMSMapView!
@@ -35,11 +38,22 @@ class SelectWaypointViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // Customize Buttons
         cancelButton.backgroundColor = FlatRed()
         saveButton.backgroundColor = FlatGreen()
         
+        // Set Delegates
         mapView.delegate = self
+        pinTypePicker.delegate = self
+        pinTitle.delegate = self
         
+        // Fill the Picker
+        pinTypePicker.dataSource = self
+        
+        // Input the data into the array
+        pickerData = ["Route", "Bike Shop", "Store", "Point of Interest", "Hazard"]
+        
+        // Update The Map
         if let markers = markers {
             if(markers.count > 0) {
                 updateMapPins()
@@ -195,7 +209,7 @@ extension SelectWaypointViewController: GMSMapViewDelegate {
 
         path.add(coordinate);
         
-        pin = Node(long: coordinate.longitude, lat: coordinate.latitude)!
+        pin = Node(long: coordinate.longitude, lat: coordinate.latitude, type: pickerData[pinTypePicker.selectedRow(inComponent: 1)], title: pinTitle.text ?? "")!
         
         updateSaveButtonState()
         
@@ -208,3 +222,35 @@ extension SelectWaypointViewController: UISearchBarDelegate {
     
 }
 
+// MARK: UITextFieldDelegate
+extension SelectWaypointViewController: UITextFieldDelegate {
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        textField.becomeFirstResponder()
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        // Hide Keyboard
+        textField.resignFirstResponder()
+        return true
+    }
+}
+
+// MARK: UIPickerViewDelegate
+extension SelectWaypointViewController: UIPickerViewDelegate {
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        print(pickerData[row])
+    }
+}
+
+// MARK: UIPickerViewDataSource
+extension SelectWaypointViewController: UIPickerViewDataSource {
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return pickerData.count
+    }
+    
+    
+}

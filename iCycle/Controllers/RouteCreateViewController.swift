@@ -72,7 +72,6 @@ class RouteCreateViewController: UIViewController, URLSessionDelegate, URLSessio
             
         case "saveRoute": // Saving and returning to the list of Routes
             print(segue.identifier)
-            print(JSONSerialization.isValidJSONObject(Node.self))
             guard let routeTableViewController = segue.destination as? RouteTableViewController else {
                 fatalError("Unexpected destination: \(segue.destination)")
             }
@@ -90,7 +89,7 @@ class RouteCreateViewController: UIViewController, URLSessionDelegate, URLSessio
                         
             // SEND ROUTE TO BACKEND-------
             self.user = User.loadUser()
-            let parameters = ["title": title, "note": notes, "coordinates": path, "difficulty": difficulty, "private": privacy, "userId": user?.id ?? -1] as [String : Any]
+            let parameters = ["title": title, "note": notes, "routePath": path, "pointPins": [], "difficulty": difficulty, "private": privacy, "userId": user?.id ?? -1] as [String : Any]
             
             print("params: \(parameters)")
             
@@ -126,7 +125,6 @@ class RouteCreateViewController: UIViewController, URLSessionDelegate, URLSessio
     }
     
     //MARK: Methods
-    
     func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, didReceive data: Data) {
         DispatchQueue.main.async {
             self.navigationController?.popViewController(animated: true)

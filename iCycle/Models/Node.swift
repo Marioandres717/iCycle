@@ -9,10 +9,16 @@
 import Foundation
 
 class Node: Codable {
+    var title: String?
+    var type: String
     var long: Double
     var lat: Double
     
-    init?(long: Double, lat: Double) {
+    init?(long: Double, lat: Double, type: String, title: String?) {
+        if let title = title {
+            self.title = title
+        }
+        self.type = type
         self.long = long
         self.lat = lat
     }
