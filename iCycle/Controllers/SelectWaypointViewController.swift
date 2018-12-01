@@ -18,6 +18,8 @@ class SelectWaypointViewController: UIViewController {
     
     var markers: [GMSMarker]?
     var marker: GMSMarker?
+    var newestRoute: GMSPolyline?
+    var routePoints: [String]?
     
     let path = GMSMutablePath()
     
@@ -70,14 +72,8 @@ class SelectWaypointViewController: UIViewController {
         }
     }
     
-    private func drawRouteBetweenTwoLastPins (sourceCoordinate: CLLocationCoordinate2D, destinationCoordinate: CLLocationCoordinate2D) {
-        /*
-        let rectangle = GMSPolyline(path: path)
-        
-        rectangle.strokeWidth = 2.0
-        if (path.count() > 1){
-            rectangle.map = mapView
-        }*/
+    private func drawRouteBetweenTwoLastPins (sourceCoordinate: CLLocationCoordinate2D, destinationCoordinate: CLLocationCoordinate2D, completion : @escaping ()->()) {
+    
         let source: String = "\(sourceCoordinate.latitude),\(sourceCoordinate.longitude)"
         let destination: String = "\(destinationCoordinate.latitude),\(destinationCoordinate.longitude)"
         
@@ -89,21 +85,24 @@ class SelectWaypointViewController: UIViewController {
             switch response.result {
             case .success(let value):
                 let json = JSON(value)
-                print("JSON HERE: \(json)")
+                //print("JSON HERE: \(json)")
                 let routes = json["routes"].arrayValue
-                print("routes \(routes[0])")
                 for route in routes
                 {
                     let routeOverviewPolyline = route["overview_polyline"].dictionary
-                    let points = routeOverviewPolyline?["points"]?.stringValue
-                    let path = GMSPath.init(fromEncodedPath: points!)
-                    let polyline = GMSPolyline.init(path: path)
-                    print("points: \(points)")
-                    polyline.map = self.mapView
+                    if let points = routeOverviewPolyline?["points"]?.stringValue{
+                        
+                        self.routePoints! += [points]
+                        //print
+                    } else {
+                        print ("ERROR: routePoints is nil")
+                    }
                 }
             case .failure(let error):
                 print("ERROR: \(error)")
             }
+            
+            completion()
         }
     }
     
@@ -121,6 +120,10 @@ class SelectWaypointViewController: UIViewController {
                 
                 if let pin = pin {
                     routeCreateViewController.pins += [pin]
+                }
+                
+                if let routePoints = routePoints {
+                    routeCreateViewController.routePoints = routePoints
                 }
             break
             default:
@@ -145,6 +148,14 @@ class SelectWaypointViewController: UIViewController {
             marker.appearAnimation = GMSMarkerAnimation.pop
             marker.map = mapView
         }
+        
+        if (markers!.count > 1) {
+            for route in routePoints! {
+                let path = GMSPath.init(fromEncodedPath: route)
+                let polyline = GMSPolyline.init(path: path)
+                polyline.map = self.mapView
+            }
+        }
     }
 }
 
@@ -157,6 +168,8 @@ extension SelectWaypointViewController: GMSMapViewDelegate {
         
         if marker != nil {
             marker!.map = nil // Clear the previously placed pin
+            newestRoute!.map = nil
+            routePoints!.popLast()
             pin = nil;
         }
         
@@ -169,7 +182,13 @@ extension SelectWaypointViewController: GMSMapViewDelegate {
         if let markers = markers {
             if(markers.count > 0) {
                 
-                drawRouteBetweenTwoLastPins(sourceCoordinate: CLLocationCoordinate2D(latitude: markers[markers.count-1].position.latitude, longitude: markers[markers.count-1].position.longitude), destinationCoordinate: coordinate)
+                drawRouteBetweenTwoLastPins(sourceCoordinate: CLLocationCoordinate2D(latitude: markers[markers.count-1].position.latitude, longitude: markers[markers.count-1].position.longitude), destinationCoordinate: coordinate, completion: {
+                    print ("routePoints: \(self.routePoints)")
+                    
+                    let path = GMSPath.init(fromEncodedPath: self.routePoints![self.routePoints!.count - 1])
+                    self.newestRoute = GMSPolyline.init(path: path)
+                    self.newestRoute!.map = self.mapView
+                })
             }
         }
         

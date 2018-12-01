@@ -12,8 +12,8 @@ import os.log
 
 class RouteCreateViewController: UIViewController {
     var pins: [Node] = []
-    
     var markers: [GMSMarker] = []
+    var routePoints: [String] = []
     
     @IBOutlet weak var routeTitle: UITextField!
     @IBOutlet weak var routeDifficulty: UISegmentedControl!
@@ -117,6 +117,7 @@ class RouteCreateViewController: UIViewController {
                 fatalError("Unexpected destination: \(segue.destination)")
             }
             selectWaypointViewController.markers = markers
+            selectWaypointViewController.routePoints = routePoints
             break
         default:
             fatalError("Unexpected Segue Identifier; \(String(describing: segue.identifier))")
