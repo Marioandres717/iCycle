@@ -8,7 +8,7 @@
 
 import UIKit
 
-class LoginViewController: UIViewController {
+class LoginViewController: UIViewController, URLSessionDelegate, URLSessionDataDelegate {
 
     @IBOutlet weak var loginBtn: UIButton!
     @IBOutlet weak var signupBtn: UIButton!
@@ -16,7 +16,8 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var stackView: UIStackView!
     
-    let apiPath = "http://localhost:3000/v1/users/authenticate"
+    var session: URLSession?
+    var response: URLResponse?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,32 +41,39 @@ class LoginViewController: UIViewController {
         
         let parameters = ["username": username, "password": password]
         print("username: \(username) & password: \(password)")
-        guard let url = URL(string: apiPath) else {return}
+
+        guard let url = URL(string: UrlBuilder.getUserByUsernameAndPassword()) else {return}
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         guard let httpBody = try? JSONSerialization.data(withJSONObject: parameters, options: []) else {return}
         request.httpBody = httpBody
 
-        let session = URLSession.shared
-        session.dataTask(with: request) { (data, response, error) in
-            if let response = response {
-                print(response)
-            }
-
-            if let data = data {
-                print(data)
-                do {
-                    let json = try JSONSerialization.jsonObject(with: data, options: [])
-                    print(json)
-                } catch {
-                    print(error)
-                }
-            }
-        }.resume()
+        let sessionConfig = URLSessionConfiguration.default
+        sessionConfig.urlCache = nil
+        
+        self.session = URLSession(configuration: sessionConfig, delegate: self, delegateQueue: nil)
+        
+        if let task = self.session?.dataTask(with: request) {
+            task.resume()
+        }
     }
     
-   
+    func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, didReceive data: Data) {
+        print("didReceive data")
+        if let responseText = String(data: data, encoding: .utf8) {
+            print(self.response ?? "")
+            print("\n Server's response text")
+            print(responseText)
+        }
+        
+        guard let json = try? JSONSerialization.jsonObject(with: data, options: []) else {return}
+        print(json)
+        
+        DispatchQueue.main.async {
+            self.performSegue(withIdentifier: "startApp", sender: nil)
+        }
+    }
     
     // MARK: UI STYLES
     

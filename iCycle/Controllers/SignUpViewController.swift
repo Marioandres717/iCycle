@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SignUpViewController: UIViewController {
+class SignUpViewController: UIViewController, URLSessionDelegate, URLSessionDataDelegate {
 
     @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var usernameTextField: UITextField!
@@ -17,8 +17,9 @@ class SignUpViewController: UIViewController {
     @IBOutlet weak var submitBtn: UIButton!
     @IBOutlet weak var cancelBtn: UIButton!
     
-    let apiPath = "http://localhost:3000/v1/users"
-    
+    var session: URLSession?
+    var response: URLResponse?
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
@@ -34,30 +35,21 @@ class SignUpViewController: UIViewController {
         
         let parameters = ["email": email, "username": username, "password": password]
         
-        guard let url = URL(string: apiPath) else { return }
+        guard let url = URL(string: UrlBuilder.createUser()) else { return }
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         guard let httpBody = try? JSONSerialization.data(withJSONObject: parameters, options: []) else {return}
         request.httpBody = httpBody
         
-        let session = URLSession.shared
-        session.dataTask(with: request) { (data, response, error) in
-            if let response = response {
-                print(response)
-            }
-            
-            if let data = data {
-                do {
-                    let json = try JSONSerialization.jsonObject(with: data, options: [])
-                    print(json)
-                } catch {
-                    print(error)
-                }
-            }
-            
-            }.resume()
-        dismiss(animated: true, completion: nil)
+        let sessionConfig = URLSessionConfiguration.default
+        sessionConfig.urlCache = nil
+        self.session = URLSession(configuration: sessionConfig, delegate: self, delegateQueue: nil)
+        
+        if let task = self.session?.dataTask(with: request) {
+            task.resume()
+            dismiss(animated: true, completion: nil)
+        }
     }
     
     
@@ -65,6 +57,17 @@ class SignUpViewController: UIViewController {
         dismiss(animated: true, completion: nil)
     }
     
+    func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, didReceive data: Data) {
+        print("didReceive data")
+        if let responseText = String(data: data, encoding: .utf8) {
+            print(self.response ?? "")
+            print("\n Server's response text")
+            print(responseText)
+        }
+        
+        guard let json = try? JSONSerialization.jsonObject(with: data, options: []) else {return}
+        print(json)
+    }
     
     // MARK: UI STYLES
     

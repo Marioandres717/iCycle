@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		11EAF8A621B1FA8D004B9AF0 /* UrlBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11EAF8A521B1FA8D004B9AF0 /* UrlBuilder.swift */; };
 		21610C9621AE410200275419 /* SelectWaypointViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21610C9521AE410200275419 /* SelectWaypointViewController.swift */; };
 		21610C9C21AE4B6C00275419 /* Node.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21610C9B21AE4B6C00275419 /* Node.swift */; };
 		2182BD62219A5BCB0024119C /* RouteTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2182BD61219A5BCB0024119C /* RouteTableViewCell.swift */; };
@@ -62,6 +63,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		11EAF8A521B1FA8D004B9AF0 /* UrlBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UrlBuilder.swift; sourceTree = "<group>"; };
 		21610C9521AE410200275419 /* SelectWaypointViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectWaypointViewController.swift; sourceTree = "<group>"; };
 		21610C9B21AE4B6C00275419 /* Node.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Node.swift; sourceTree = "<group>"; };
 		2182BD61219A5BCB0024119C /* RouteTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = RouteTableViewCell.swift; path = iCycle/Views/RouteTableViewCell.swift; sourceTree = SOURCE_ROOT; };
@@ -140,6 +142,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		11EAF8A421B1F9D6004B9AF0 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				11EAF8A521B1FA8D004B9AF0 /* UrlBuilder.swift */,
+			);
+			path = Utilities;
+			sourceTree = "<group>";
+		};
 		2188321D2195579900F7E9C5 /* Theme */ = {
 			isa = PBXGroup;
 			children = (
@@ -231,6 +241,7 @@
 				2188321F219557BE00F7E9C5 /* Views */,
 				2188321E219557B600F7E9C5 /* Models */,
 				2188321D2195579900F7E9C5 /* Theme */,
+				11EAF8A421B1F9D6004B9AF0 /* Utilities */,
 				F68BC86A21950FA30073125F /* Assets.xcassets */,
 				F68BC86F21950FA30073125F /* Info.plist */,
 			);
@@ -434,6 +445,7 @@
 				21F416DA2197C6F100232FAD /* NavMenuTableViewController.swift in Sources */,
 				21F416C221977D6700232FAD /* RouteDetailViewController.swift in Sources */,
 				21610C9C21AE4B6C00275419 /* Node.swift in Sources */,
+				11EAF8A621B1FA8D004B9AF0 /* UrlBuilder.swift in Sources */,
 				F68BC86421950F930073125F /* AppDelegate.swift in Sources */,
 				21F416CE21977E4200232FAD /* BilletDetailViewController.swift in Sources */,
 				2182BD62219A5BCB0024119C /* RouteTableViewCell.swift in Sources */,
