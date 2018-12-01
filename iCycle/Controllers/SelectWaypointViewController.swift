@@ -119,7 +119,7 @@ class SelectWaypointViewController: UIViewController {
                 }
                 
                 if let pin = pin {
-                    routeCreateViewController.pins += [pin]
+                    routeCreateViewController.pins.append(pin)
                 }
                 
                 if let routePoints = routePoints {
@@ -195,7 +195,7 @@ extension SelectWaypointViewController: GMSMapViewDelegate {
 
         path.add(coordinate);
         
-        pin = Node(long: coordinate.longitude, lat: coordinate.latitude)
+        pin = Node(long: coordinate.longitude, lat: coordinate.latitude)!
         
         updateSaveButtonState()
         

@@ -18,7 +18,6 @@ class SignUpViewController: UIViewController, URLSessionDelegate, URLSessionData
     @IBOutlet weak var cancelBtn: UIButton!
     
     var session: URLSession?
-    var response: URLResponse?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,20 +34,14 @@ class SignUpViewController: UIViewController, URLSessionDelegate, URLSessionData
         
         let parameters = ["email": email, "username": username, "password": password]
         
-        guard let url = URL(string: UrlBuilder.createUser()) else { return }
-        var request = URLRequest(url: url)
-        request.httpMethod = "POST"
-        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        guard let httpBody = try? JSONSerialization.data(withJSONObject: parameters, options: []) else {return}
-        request.httpBody = httpBody
+        HttpConfig.postRequestConfig(url: UrlBuilder.createUser(), parameters: parameters)
         
-        let sessionConfig = URLSessionConfiguration.default
-        sessionConfig.urlCache = nil
+        let sessionConfig = HttpConfig.sessionConfig()
+        
         self.session = URLSession(configuration: sessionConfig, delegate: self, delegateQueue: nil)
         
-        if let task = self.session?.dataTask(with: request) {
+        if let task = self.session?.dataTask(with: HttpConfig.request) {
             task.resume()
-            dismiss(animated: true, completion: nil)
         }
     }
     
@@ -58,15 +51,9 @@ class SignUpViewController: UIViewController, URLSessionDelegate, URLSessionData
     }
     
     func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, didReceive data: Data) {
-        print("didReceive data")
-        if let responseText = String(data: data, encoding: .utf8) {
-            print(self.response ?? "")
-            print("\n Server's response text")
-            print(responseText)
+        DispatchQueue.main.async {
+            self.dismiss(animated: true, completion: nil)
         }
-        
-        guard let json = try? JSONSerialization.jsonObject(with: data, options: []) else {return}
-        print(json)
     }
     
     // MARK: UI STYLES

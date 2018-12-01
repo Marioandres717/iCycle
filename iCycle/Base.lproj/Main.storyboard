@@ -119,7 +119,7 @@
         <!--Reveal View Controller-->
         <scene sceneID="OkM-n1-X2j">
             <objects>
-                <viewController id="xsf-VM-zWO" customClass="SWRevealViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SWRevealViewController" id="xsf-VM-zWO" customClass="SWRevealViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="wfi-p7-zUT">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1474,7 +1474,7 @@
         <image name="MenuIcon" width="60" height="60"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="HS9-3l-5Or"/>
+        <segue reference="qgT-UH-ObC"/>
         <segue reference="HRg-Sz-9x4"/>
         <segue reference="xRi-85-swV"/>
         <segue reference="0pB-Sn-MGZ"/>

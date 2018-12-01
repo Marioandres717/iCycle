@@ -10,10 +10,12 @@ import UIKit
 import GoogleMaps
 import os.log
 
-class RouteCreateViewController: UIViewController {
+class RouteCreateViewController: UIViewController, URLSessionDelegate, URLSessionDataDelegate {
     var pins: [Node] = []
     var markers: [GMSMarker] = []
     var routePoints: [String] = []
+    var session: URLSession?
+    var user: User?
     
     @IBOutlet weak var routeTitle: UITextField!
     @IBOutlet weak var routeDifficulty: UISegmentedControl!
@@ -21,8 +23,6 @@ class RouteCreateViewController: UIViewController {
     @IBOutlet weak var routeIsPrivate: UISwitch!
     @IBOutlet weak var mapView: GMSMapView!
     @IBOutlet weak var saveButton: UIBarButtonItem!
-    
-    let apiPath = "marioandres.xyz/v1/routes"
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -82,34 +82,27 @@ class RouteCreateViewController: UIViewController {
             let notes = routeNotes.text ?? ""
             let privacy = routeIsPrivate.isOn
             
-            let route = Route(title: title, note: notes, path: pins, difficulty: difficulty, voted: false, upVotes: 0, downVotes: 0, privateRoute: privacy, user: "TEMP_USER", saved: false)
+            print("path pins: \(pins)")
             
+            let path = pins.map({(pin) -> String in
+                return "{'long': \(pin.long),'lat': \(pin.lat)}"
+            })
+                        
             // SEND ROUTE TO BACKEND-------
-            let parameters = ["title": route.title, "note": route.note, "path": route.path, "difficulty": route.difficulty, "privateRoute": route.privateRoute, "user": "1"] as [String : Any]
+            self.user = User.loadUser()
+            let parameters = ["title": title, "note": notes, "coordinates": path, "difficulty": difficulty, "private": privacy, "userId": user?.id ?? -1] as [String : Any]
             
-            guard let url = URL(string: apiPath) else {return}
-            var request = URLRequest(url: url)
-            request.httpMethod = "POST"
-            request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-            guard let httpBody = try? JSONSerialization.data(withJSONObject: parameters, options: []) else {return}
-            request.httpBody = httpBody
+            print("params: \(parameters)")
             
-            let session = URLSession.shared
-            session.dataTask(with: request) { (data, response, error) in
-                if let response = response {
-                    print(response)
-                }
-                
-                if let data = data {
-                    print(data)
-                    do {
-                        let json = try JSONSerialization.jsonObject(with: data, options: [])
-                        print(json)
-                    } catch {
-                        print(error)
-                    }
-                }
-                }.resume()
+            HttpConfig.postRequestConfig(url: UrlBuilder.createRoute(), parameters: parameters)
+            
+            let sessionConfig = HttpConfig.sessionConfig()
+            
+            session = URLSession(configuration: sessionConfig, delegate: self, delegateQueue: nil)
+            
+            if let task = self.session?.dataTask(with: HttpConfig.request) {
+                task.resume()
+            }
             //-----------------------------
             break
         case "addWaypoint":
@@ -133,6 +126,13 @@ class RouteCreateViewController: UIViewController {
     }
     
     //MARK: Methods
+    
+    func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, didReceive data: Data) {
+        DispatchQueue.main.async {
+            self.navigationController?.popViewController(animated: true)
+        }
+    }
+    
     
     // Update the save button when all conditions are met.
     func updateSaveState() {

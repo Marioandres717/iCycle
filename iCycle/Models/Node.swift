@@ -8,11 +8,11 @@
 
 import Foundation
 
-class Node {
+class Node: Codable {
     var long: Double
     var lat: Double
     
-    init(long: Double, lat: Double) {
+    init?(long: Double, lat: Double) {
         self.long = long
         self.lat = lat
     }
