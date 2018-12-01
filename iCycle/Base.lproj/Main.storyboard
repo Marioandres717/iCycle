@@ -53,7 +53,6 @@
                                         </state>
                                         <connections>
                                             <action selector="handleLogin:" destination="K2j-ww-Hde" eventType="touchUpInside" id="dqD-zT-iP3"/>
-                                            <segue destination="xsf-VM-zWO" kind="showDetail" identifier="LoginUser" id="Nez-xr-i6e"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8CD-zw-fRR">
@@ -110,6 +109,7 @@
                         <outlet property="signupBtn" destination="8CD-zw-fRR" id="acA-lU-vyT"/>
                         <outlet property="stackView" destination="AAj-pC-riy" id="onp-bw-evb"/>
                         <outlet property="usernameTextField" destination="tua-2O-mud" id="kIO-I4-q8Z"/>
+                        <segue destination="xsf-VM-zWO" kind="showDetail" identifier="startApp" id="lIw-jN-FJ2"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7c2-Rr-Etz" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1718,6 +1718,6 @@
         <segue reference="HRg-Sz-9x4"/>
         <segue reference="xRi-85-swV"/>
         <segue reference="q3q-Cp-yMt"/>
-        <segue reference="WgZ-wi-GnL"/>
+        <segue reference="lIw-jN-FJ2"/>
     </inferredMetricsTieBreakers>
 </document>
