@@ -10,7 +10,10 @@ import UIKit
 import ChameleonFramework
 
 class ProfileViewController: UIViewController {
+    
+    var notesKeyboard: Bool = false
 
+    @IBOutlet weak var myUsername: UILabel!
     @IBOutlet weak var menuButton: UIBarButtonItem!
     @IBOutlet weak var myRoutesButton: UIButton!
     @IBOutlet weak var myPhotosButton: UIButton!
@@ -18,6 +21,7 @@ class ProfileViewController: UIViewController {
     @IBOutlet weak var myBikeSerialNumber: UITextField!
     @IBOutlet weak var myBikeBrand: UITextField!
     @IBOutlet weak var myBikeNotes: UITextView!
+    @IBOutlet weak var savedRoutes: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -87,13 +91,16 @@ class ProfileViewController: UIViewController {
     }
     
     func customizeNavBar() {
-        navigationController?.navigationBar.tintColor = FlatOrange()
+        navigationController?.navigationBar.tintColor = FlatGreen()
         navigationController?.navigationBar.barTintColor = FlatBlack()
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: FlatWhite()]
     }
     
     func initChameleonColors() {
         view.backgroundColor = FlatBlack()
+        myRoutesButton.backgroundColor = FlatGreen()
+        myPhotosButton.backgroundColor = FlatGreen()
+        savedRoutes.backgroundColor = FlatGreen()
     }
     
     // MARK: Keyboard
@@ -103,7 +110,10 @@ class ProfileViewController: UIViewController {
             let keyboardRectangle = keyboardFrame.cgRectValue
             let keyboardHeight = keyboardRectangle.height
             
-            view.frame.origin.y = -keyboardHeight
+            if myBikeNotes.isFirstResponder {
+                view.frame.origin.y = -keyboardHeight
+                notesKeyboard = true;
+            }
         }
     }
     
@@ -112,7 +122,9 @@ class ProfileViewController: UIViewController {
             let keyboardRectangle = keyboardFrame.cgRectValue
             let keyboardHeight = keyboardRectangle.height
             
-            view.frame.origin.y += keyboardHeight
+            if notesKeyboard == true {
+                view.frame.origin.y += keyboardHeight
+            }
         }
     }
     
