@@ -67,7 +67,7 @@ class Route {
             let stringWithLongAndLat = coordinate.components(separatedBy: ",")
             let stringWithLong = stringWithLongAndLat[0].components(separatedBy: ": ")[1]
             let stringWithLat = stringWithLongAndLat[1].components(separatedBy: ": ")[1].dropLast()
-            self.path.append(Node(long: Double(stringWithLong)!, lat: Double(stringWithLat)!)!)
+            //self.path.append(Node(long: Double(stringWithLong)!, lat: Double(stringWithLat)!)!)
         }
         
         self.pointPins = [] // needs to be implemented
