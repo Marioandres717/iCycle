@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1160DB6621B21FA0003AB7A3 /* ErrorHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1160DB6521B21FA0003AB7A3 /* ErrorHandler.swift */; };
+		11EAF8A621B1FA8D004B9AF0 /* UrlBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11EAF8A521B1FA8D004B9AF0 /* UrlBuilder.swift */; };
+		11F8E41E21B273C900505E0E /* LogoutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11F8E41D21B273C900505E0E /* LogoutViewController.swift */; };
+		11F8E42421B2830400505E0E /* Http.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11F8E42321B2830400505E0E /* Http.swift */; };
+		211A4F2321B21DF500BCB856 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 211A4F2221B21DF500BCB856 /* User.swift */; };
 		21610C9621AE410200275419 /* SelectWaypointViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21610C9521AE410200275419 /* SelectWaypointViewController.swift */; };
 		21610C9C21AE4B6C00275419 /* Node.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21610C9B21AE4B6C00275419 /* Node.swift */; };
 		2182BD62219A5BCB0024119C /* RouteTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2182BD61219A5BCB0024119C /* RouteTableViewCell.swift */; };
@@ -62,6 +67,11 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		1160DB6521B21FA0003AB7A3 /* ErrorHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ErrorHandler.swift; path = iCycle/Utilities/ErrorHandler.swift; sourceTree = SOURCE_ROOT; };
+		11EAF8A521B1FA8D004B9AF0 /* UrlBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UrlBuilder.swift; sourceTree = "<group>"; };
+		11F8E41D21B273C900505E0E /* LogoutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoutViewController.swift; sourceTree = "<group>"; };
+		11F8E42321B2830400505E0E /* Http.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Http.swift; path = iCycle/Utilities/Http.swift; sourceTree = SOURCE_ROOT; };
+		211A4F2221B21DF500BCB856 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		21610C9521AE410200275419 /* SelectWaypointViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectWaypointViewController.swift; sourceTree = "<group>"; };
 		21610C9B21AE4B6C00275419 /* Node.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Node.swift; sourceTree = "<group>"; };
 		2182BD61219A5BCB0024119C /* RouteTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = RouteTableViewCell.swift; path = iCycle/Views/RouteTableViewCell.swift; sourceTree = SOURCE_ROOT; };
@@ -140,6 +150,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		11EAF8A421B1F9D6004B9AF0 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				11F8E42321B2830400505E0E /* Http.swift */,
+				1160DB6521B21FA0003AB7A3 /* ErrorHandler.swift */,
+				11EAF8A521B1FA8D004B9AF0 /* UrlBuilder.swift */,
+			);
+			path = Utilities;
+			sourceTree = "<group>";
+		};
 		2188321D2195579900F7E9C5 /* Theme */ = {
 			isa = PBXGroup;
 			children = (
@@ -154,6 +174,7 @@
 			children = (
 				2182BD67219A71080024119C /* Route.swift */,
 				21610C9B21AE4B6C00275419 /* Node.swift */,
+				211A4F2221B21DF500BCB856 /* User.swift */,
 			);
 			name = Models;
 			path = iCycle/Models;
@@ -173,6 +194,7 @@
 			isa = PBXGroup;
 			children = (
 				21A6987121B0BB4400E07322 /* SWRevealViewController.h */,
+				11F8E41D21B273C900505E0E /* LogoutViewController.swift */,
 				21A6987221B0BB4400E07322 /* SWRevealViewController.m */,
 				21F416D321979AD400232FAD /* iCycle-Bridging-Header.h */,
 				F68BC86521950F930073125F /* MapViewController.swift */,
@@ -231,6 +253,7 @@
 				2188321F219557BE00F7E9C5 /* Views */,
 				2188321E219557B600F7E9C5 /* Models */,
 				2188321D2195579900F7E9C5 /* Theme */,
+				11EAF8A421B1F9D6004B9AF0 /* Utilities */,
 				F68BC86A21950FA30073125F /* Assets.xcassets */,
 				F68BC86F21950FA30073125F /* Info.plist */,
 			);
@@ -423,6 +446,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2188329421958EFC00F7E9C5 /* SideMenuItemTableViewCell.swift in Sources */,
+				11F8E42421B2830400505E0E /* Http.swift in Sources */,
 				21610C9621AE410200275419 /* SelectWaypointViewController.swift in Sources */,
 				21F416CC21977E1E00232FAD /* BilletTableViewController.swift in Sources */,
 				2188323A21955D4600F7E9C5 /* ChameleonShorthand.swift in Sources */,
@@ -432,15 +456,19 @@
 				21A6987321B0BB4400E07322 /* SWRevealViewController.m in Sources */,
 				F68BC86621950F930073125F /* MapViewController.swift in Sources */,
 				21F416DA2197C6F100232FAD /* NavMenuTableViewController.swift in Sources */,
+				211A4F2321B21DF500BCB856 /* User.swift in Sources */,
 				21F416C221977D6700232FAD /* RouteDetailViewController.swift in Sources */,
 				21610C9C21AE4B6C00275419 /* Node.swift in Sources */,
+				11EAF8A621B1FA8D004B9AF0 /* UrlBuilder.swift in Sources */,
 				F68BC86421950F930073125F /* AppDelegate.swift in Sources */,
 				21F416CE21977E4200232FAD /* BilletDetailViewController.swift in Sources */,
+				1160DB6621B21FA0003AB7A3 /* ErrorHandler.swift in Sources */,
 				2182BD62219A5BCB0024119C /* RouteTableViewCell.swift in Sources */,
 				21F416D021977E5E00232FAD /* BilletCreateViewController.swift in Sources */,
 				B9912FEC21ACEE85001AEAD5 /* LoginViewController.swift in Sources */,
 				2188323C21955E8C00F7E9C5 /* RouteTableViewController.swift in Sources */,
 				21F416C821977DA000232FAD /* ProfileViewController.swift in Sources */,
+				11F8E41E21B273C900505E0E /* LogoutViewController.swift in Sources */,
 				2188323E21955FEA00F7E9C5 /* RouteCreateViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

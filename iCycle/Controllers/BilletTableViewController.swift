@@ -107,7 +107,7 @@ class BilletTableViewController: UITableViewController {
     }
     
     func customizeNavBar() {
-        navigationController?.navigationBar.tintColor = FlatOrange()
+        navigationController?.navigationBar.tintColor = FlatGreen()
         navigationController?.navigationBar.barTintColor = FlatBlack()
         
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: FlatWhite()]

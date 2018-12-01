@@ -21,10 +21,8 @@ class MapViewController: UIViewController, GMSMapViewDelegate {
     //var currentLocation: CLLocation?
     var zoomLevel: Float = 12.0
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         sideMenu()
         customizeNavBar()
         initChameleonColors()
@@ -34,7 +32,6 @@ class MapViewController: UIViewController, GMSMapViewDelegate {
 
         locationManager.requestWhenInUseAuthorization()
         locationManager.delegate = self
-        
     }
  
    /* func mapView(_ mapView: GMSMapView, didTapPOIWithPlaceID placeID: String,
@@ -59,7 +56,7 @@ class MapViewController: UIViewController, GMSMapViewDelegate {
     }
     
     func customizeNavBar() {
-        navigationController?.navigationBar.tintColor = FlatOrange()
+        navigationController?.navigationBar.tintColor = FlatGreen()
         navigationController?.navigationBar.barTintColor = FlatBlack()
         
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: FlatWhite()]

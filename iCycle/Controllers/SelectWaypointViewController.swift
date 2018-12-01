@@ -18,10 +18,15 @@ class SelectWaypointViewController: UIViewController {
     
     var markers: [GMSMarker]?
     var marker: GMSMarker?
+    var newestRoute: GMSPolyline?
+    var routePoints: [String]?
     
     let path = GMSMutablePath()
     
+    var pickerData: [String] = [String]()
     
+    @IBOutlet weak var pinTypePicker: UIPickerView!
+    @IBOutlet weak var pinTitle: UITextField!
     @IBOutlet weak var cancelButton: UIButton!
     @IBOutlet weak var saveButton: UIButton!
     @IBOutlet weak var mapView: GMSMapView!
@@ -33,11 +38,22 @@ class SelectWaypointViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // Customize Buttons
         cancelButton.backgroundColor = FlatRed()
         saveButton.backgroundColor = FlatGreen()
         
+        // Set Delegates
         mapView.delegate = self
+        pinTypePicker.delegate = self
+        pinTitle.delegate = self
         
+        // Fill the Picker
+        pinTypePicker.dataSource = self
+        
+        // Input the data into the array
+        pickerData = ["Route", "Bike Shop", "Store", "Point of Interest", "Hazard"]
+        
+        // Update The Map
         if let markers = markers {
             if(markers.count > 0) {
                 updateMapPins()
@@ -70,14 +86,8 @@ class SelectWaypointViewController: UIViewController {
         }
     }
     
-    private func drawRouteBetweenTwoLastPins (sourceCoordinate: CLLocationCoordinate2D, destinationCoordinate: CLLocationCoordinate2D) {
-        /*
-        let rectangle = GMSPolyline(path: path)
-        
-        rectangle.strokeWidth = 2.0
-        if (path.count() > 1){
-            rectangle.map = mapView
-        }*/
+    private func drawRouteBetweenTwoLastPins (sourceCoordinate: CLLocationCoordinate2D, destinationCoordinate: CLLocationCoordinate2D, completion : @escaping ()->()) {
+    
         let source: String = "\(sourceCoordinate.latitude),\(sourceCoordinate.longitude)"
         let destination: String = "\(destinationCoordinate.latitude),\(destinationCoordinate.longitude)"
         
@@ -89,21 +99,24 @@ class SelectWaypointViewController: UIViewController {
             switch response.result {
             case .success(let value):
                 let json = JSON(value)
-                print("JSON HERE: \(json)")
+                //print("JSON HERE: \(json)")
                 let routes = json["routes"].arrayValue
-                print("routes \(routes[0])")
                 for route in routes
                 {
                     let routeOverviewPolyline = route["overview_polyline"].dictionary
-                    let points = routeOverviewPolyline?["points"]?.stringValue
-                    let path = GMSPath.init(fromEncodedPath: points!)
-                    let polyline = GMSPolyline.init(path: path)
-                    print("points: \(points)")
-                    polyline.map = self.mapView
+                    if let points = routeOverviewPolyline?["points"]?.stringValue{
+                        
+                        self.routePoints! += [points]
+                        //print
+                    } else {
+                        print ("ERROR: routePoints is nil")
+                    }
                 }
             case .failure(let error):
                 print("ERROR: \(error)")
             }
+            
+            completion()
         }
     }
     
@@ -120,7 +133,11 @@ class SelectWaypointViewController: UIViewController {
                 }
                 
                 if let pin = pin {
-                    routeCreateViewController.pins += [pin]
+                    routeCreateViewController.pins.append(pin)
+                }
+                
+                if let routePoints = routePoints {
+                    routeCreateViewController.routePoints = routePoints
                 }
             break
             default:
@@ -145,6 +162,14 @@ class SelectWaypointViewController: UIViewController {
             marker.appearAnimation = GMSMarkerAnimation.pop
             marker.map = mapView
         }
+        
+        if (markers!.count > 1) {
+            for route in routePoints! {
+                let path = GMSPath.init(fromEncodedPath: route)
+                let polyline = GMSPolyline.init(path: path)
+                polyline.map = self.mapView
+            }
+        }
     }
 }
 
@@ -157,6 +182,8 @@ extension SelectWaypointViewController: GMSMapViewDelegate {
         
         if marker != nil {
             marker!.map = nil // Clear the previously placed pin
+            newestRoute!.map = nil
+            routePoints!.popLast()
             pin = nil;
         }
         
@@ -169,14 +196,20 @@ extension SelectWaypointViewController: GMSMapViewDelegate {
         if let markers = markers {
             if(markers.count > 0) {
                 
-                drawRouteBetweenTwoLastPins(sourceCoordinate: CLLocationCoordinate2D(latitude: markers[markers.count-1].position.latitude, longitude: markers[markers.count-1].position.longitude), destinationCoordinate: coordinate)
+                drawRouteBetweenTwoLastPins(sourceCoordinate: CLLocationCoordinate2D(latitude: markers[markers.count-1].position.latitude, longitude: markers[markers.count-1].position.longitude), destinationCoordinate: coordinate, completion: {
+                    print ("routePoints: \(self.routePoints)")
+                    
+                    let path = GMSPath.init(fromEncodedPath: self.routePoints![self.routePoints!.count - 1])
+                    self.newestRoute = GMSPolyline.init(path: path)
+                    self.newestRoute!.map = self.mapView
+                })
             }
         }
         
 
         path.add(coordinate);
         
-        pin = Node(long: coordinate.longitude, lat: coordinate.latitude)
+        pin = Node(long: coordinate.longitude, lat: coordinate.latitude, type: pickerData[pinTypePicker.selectedRow(inComponent: 1)], title: pinTitle.text ?? "")!
         
         updateSaveButtonState()
         
@@ -189,3 +222,35 @@ extension SelectWaypointViewController: UISearchBarDelegate {
     
 }
 
+// MARK: UITextFieldDelegate
+extension SelectWaypointViewController: UITextFieldDelegate {
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        textField.becomeFirstResponder()
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        // Hide Keyboard
+        textField.resignFirstResponder()
+        return true
+    }
+}
+
+// MARK: UIPickerViewDelegate
+extension SelectWaypointViewController: UIPickerViewDelegate {
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        print(pickerData[row])
+    }
+}
+
+// MARK: UIPickerViewDataSource
+extension SelectWaypointViewController: UIPickerViewDataSource {
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return pickerData.count
+    }
+    
+    
+}

@@ -8,7 +8,7 @@
 
 import UIKit
 
-class LoginViewController: UIViewController {
+class LoginViewController: UIViewController, URLSessionDelegate, URLSessionDataDelegate {
 
     @IBOutlet weak var loginBtn: UIButton!
     @IBOutlet weak var signupBtn: UIButton!
@@ -16,10 +16,12 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var stackView: UIStackView!
     
-    let apiPath = "http://localhost:3000/v1/users/authenticate"
+    var session: URLSession?
+    var user: User?
     
     override func viewDidLoad() {
         super.viewDidLoad()
+//        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Logout", style: .plain, target: self, action: #selector(handleLogout))
         setupView()
     }
     
@@ -28,10 +30,17 @@ class LoginViewController: UIViewController {
         navigationController?.navigationBar.isHidden = true
     }
     
+    
     func setupView() -> Void {
         setupTextFields()
         setupBtns()
     }
+    
+//    @objc func handleLogout() {
+//        print("calling")
+//        UserDefaults.standard.set(false, forKey: "isLoggedIn")
+//        UserDefaults.standard.synchronize()
+//    }
     
     // MARK: ACTIONS
     @IBAction func handleLogin(_ sender: UIButton) {
@@ -40,32 +49,45 @@ class LoginViewController: UIViewController {
         
         let parameters = ["username": username, "password": password]
         print("username: \(username) & password: \(password)")
-        guard let url = URL(string: apiPath) else {return}
-        var request = URLRequest(url: url)
-        request.httpMethod = "POST"
-        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        guard let httpBody = try? JSONSerialization.data(withJSONObject: parameters, options: []) else {return}
-        request.httpBody = httpBody
 
-        let session = URLSession.shared
-        session.dataTask(with: request) { (data, response, error) in
-            if let response = response {
-                print(response)
-            }
+        HttpConfig.postRequestConfig(url: UrlBuilder.getUserByUsernameAndPassword(), parameters: parameters)
+        
+        let sessionConfig = HttpConfig.sessionConfig()
 
-            if let data = data {
-                print(data)
-                do {
-                    let json = try JSONSerialization.jsonObject(with: data, options: [])
-                    print(json)
-                } catch {
-                    print(error)
-                }
-            }
-        }.resume()
+        self.session = URLSession(configuration: sessionConfig, delegate: self, delegateQueue: nil)
+        
+        if let task = self.session?.dataTask(with: HttpConfig.request) {
+            task.resume()
+        }
     }
     
-   
+    func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, didReceive data: Data) {
+        
+        guard let json = try? JSONSerialization.jsonObject(with: data, options: []) else {return}
+        print(json)
+        
+        if let res = json as? [String: Any] {
+            if let err = res["statusCode"] as? Int, let message = res["message"] as? String {
+                DispatchQueue.main.async {
+                    let alert = ErrorHandler.handleError(title: "Login Error",message: message + " \(err)")
+                    self.present(alert, animated: true, completion: nil)
+                }
+            } else {
+                DispatchQueue.main.async {
+                    let user = User(json: res)!
+                    let isSucessfulSave = User.saveUser(user: user)
+                    if isSucessfulSave {
+                        UserDefaults.standard.set(true, forKey: "isLoggedIn")
+                        self.performSegue(withIdentifier: "startApp", sender: nil)
+                    } else {
+                        let alert = ErrorHandler.handleError(title: "Unexpected error", message: "Try again")
+                        self.present(alert, animated: true, completion: nil)
+                    }
+                }
+            }
+      }
+    }
+    
     
     // MARK: UI STYLES
     
