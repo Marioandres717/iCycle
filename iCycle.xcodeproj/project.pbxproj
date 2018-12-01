@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		11EAF8A621B1FA8D004B9AF0 /* UrlBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11EAF8A521B1FA8D004B9AF0 /* UrlBuilder.swift */; };
+		211A4F2321B21DF500BCB856 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 211A4F2221B21DF500BCB856 /* User.swift */; };
 		21610C9621AE410200275419 /* SelectWaypointViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21610C9521AE410200275419 /* SelectWaypointViewController.swift */; };
 		21610C9C21AE4B6C00275419 /* Node.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21610C9B21AE4B6C00275419 /* Node.swift */; };
 		2182BD62219A5BCB0024119C /* RouteTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2182BD61219A5BCB0024119C /* RouteTableViewCell.swift */; };
@@ -64,6 +65,7 @@
 
 /* Begin PBXFileReference section */
 		11EAF8A521B1FA8D004B9AF0 /* UrlBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UrlBuilder.swift; sourceTree = "<group>"; };
+		211A4F2221B21DF500BCB856 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		21610C9521AE410200275419 /* SelectWaypointViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectWaypointViewController.swift; sourceTree = "<group>"; };
 		21610C9B21AE4B6C00275419 /* Node.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Node.swift; sourceTree = "<group>"; };
 		2182BD61219A5BCB0024119C /* RouteTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = RouteTableViewCell.swift; path = iCycle/Views/RouteTableViewCell.swift; sourceTree = SOURCE_ROOT; };
@@ -164,6 +166,7 @@
 			children = (
 				2182BD67219A71080024119C /* Route.swift */,
 				21610C9B21AE4B6C00275419 /* Node.swift */,
+				211A4F2221B21DF500BCB856 /* User.swift */,
 			);
 			name = Models;
 			path = iCycle/Models;
@@ -443,6 +446,7 @@
 				21A6987321B0BB4400E07322 /* SWRevealViewController.m in Sources */,
 				F68BC86621950F930073125F /* MapViewController.swift in Sources */,
 				21F416DA2197C6F100232FAD /* NavMenuTableViewController.swift in Sources */,
+				211A4F2321B21DF500BCB856 /* User.swift in Sources */,
 				21F416C221977D6700232FAD /* RouteDetailViewController.swift in Sources */,
 				21610C9C21AE4B6C00275419 /* Node.swift in Sources */,
 				11EAF8A621B1FA8D004B9AF0 /* UrlBuilder.swift in Sources */,

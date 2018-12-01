@@ -12,6 +12,7 @@ import ChameleonFramework
 class ProfileViewController: UIViewController {
     
     var notesKeyboard: Bool = false
+    var bikeChanges: Bool = false
 
     @IBOutlet weak var myUsername: UILabel!
     @IBOutlet weak var menuButton: UIBarButtonItem!
@@ -22,9 +23,15 @@ class ProfileViewController: UIViewController {
     @IBOutlet weak var myBikeBrand: UITextField!
     @IBOutlet weak var myBikeNotes: UITextView!
     @IBOutlet weak var savedRoutes: UIButton!
+    @IBOutlet weak var saveChangesButton: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        getUser()
+        
+        saveChangesButton.isEnabled = false;
+        saveChangesButton.backgroundColor = FlatGray()
         
         // Delegates
         myBikeSerialNumber.delegate = self
@@ -101,6 +108,7 @@ class ProfileViewController: UIViewController {
         myRoutesButton.backgroundColor = FlatGreen()
         myPhotosButton.backgroundColor = FlatGreen()
         savedRoutes.backgroundColor = FlatGreen()
+        saveChangesButton.backgroundColor = FlatSkyBlue()
     }
     
     // MARK: Keyboard
@@ -112,7 +120,9 @@ class ProfileViewController: UIViewController {
             
             if myBikeNotes.isFirstResponder {
                 view.frame.origin.y = -keyboardHeight
-                notesKeyboard = true;
+                notesKeyboard = true
+            } else {
+                notesKeyboard = false
             }
         }
     }
@@ -132,6 +142,12 @@ class ProfileViewController: UIViewController {
     
     @IBAction func userTappedBackground(sender: AnyObject) {
         view.endEditing(true)
+    }
+    
+    // MARK: Custom Methods
+    
+    func getUser() {
+        
     }
     
 }
