@@ -100,7 +100,7 @@ class RouteTableViewController: UITableViewController, URLSessionDelegate, URLSe
     }
     
     func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, didReceive data: Data) {
-    
+        /*
         guard let json = try? JSONSerialization.jsonObject(with: data, options: []) else {return}
         print(json)
     
@@ -113,6 +113,7 @@ class RouteTableViewController: UITableViewController, URLSessionDelegate, URLSe
                 self.tableView.reloadData()
             }
         }
+         */
     }
     
 

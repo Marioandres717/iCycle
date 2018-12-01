@@ -11,10 +11,15 @@ import GoogleMaps
 import os.log
 
 class RouteCreateViewController: UIViewController, URLSessionDelegate, URLSessionDataDelegate {
-    var pins: [Node] = []
-    var markers: [GMSMarker] = []
+    // For saving in the Route
+    var routePins: [Node] = []
     var pointPins: [Node] = []
+    
+    // For Display on the Map
+    var routeMarkers: [GMSMarker] = []
+    var pointMarkers: [GMSMarker] = []
     var routePoints: [String] = []
+    
     var session: URLSession?
     var user: User?
     
@@ -82,15 +87,19 @@ class RouteCreateViewController: UIViewController, URLSessionDelegate, URLSessio
             let notes = routeNotes.text ?? ""
             let privacy = routeIsPrivate.isOn
             
-            print("path pins: \(pins)")
+            print("path pins: \(routePins)")
             
-            let path = pins.map({(pin) -> String in
-                return "{'long': \(pin.long),'lat': \(pin.lat)}"
+            let path = routePins.map({(pin) -> String in
+                return "{'long': \(pin.long),'lat': \(pin.lat),'type': \(pin.type),'title': \(pin.title)}"
+            })
+            
+            let points = pointPins.map({(pin) -> String in
+                return "{'long': \(pin.long),'lat': \(pin.lat),'type': \(pin.type),'title': \(pin.title)}"
             })
                         
             // SEND ROUTE TO BACKEND-------
             self.user = User.loadUser()
-            let parameters = ["title": title, "note": notes, "routePins": path, "difficulty": difficulty, "private": privacy, "userId": user?.id ?? -1, "pointPins": self.pointPins] as [String : Any]
+            let parameters = ["title": title, "note": notes, "routePins": path, "difficulty": difficulty, "private": privacy, "userId": user?.id ?? -1, "pointPins": points] as [String : Any]
             
             print("params: \(parameters)")
             
@@ -109,7 +118,8 @@ class RouteCreateViewController: UIViewController, URLSessionDelegate, URLSessio
             guard let selectWaypointViewController = segue.destination as? SelectWaypointViewController else {
                 fatalError("Unexpected destination: \(segue.destination)")
             }
-            selectWaypointViewController.markers = markers
+            selectWaypointViewController.routeMarkers = routeMarkers
+            selectWaypointViewController.pointMarkers = pointMarkers
             selectWaypointViewController.routePoints = routePoints
             break
         default:
@@ -135,7 +145,7 @@ class RouteCreateViewController: UIViewController, URLSessionDelegate, URLSessio
     
     // Update the save button when all conditions are met.
     func updateSaveState() {
-        if pins.count < 2 {
+        if routePins.count < 2 {
             saveButton.isEnabled = false
         } else {
             saveButton.isEnabled = true
@@ -143,17 +153,31 @@ class RouteCreateViewController: UIViewController, URLSessionDelegate, URLSessio
     }
     
     func updateMapPins() {
-        let newPin = pins[pins.count - 1]
-        let position = CLLocationCoordinate2D(latitude: newPin.lat, longitude: newPin.long)
-        let newMarker = GMSMarker(position: position)
-        markers += [newMarker]
-        
-        for marker in markers {
-            marker.appearAnimation = GMSMarkerAnimation.pop
-            marker.map = mapView
+        if routePins != nil && routePins.count > 0 {
+            for pin in routePins {
+                let position = CLLocationCoordinate2D(latitude: CLLocationDegrees(pin.lat), longitude: CLLocationDegrees(pin.long))
+                let marker = GMSMarker(position: position)
+                marker.appearAnimation = GMSMarkerAnimation.pop
+                marker.title = pin.title
+                marker.map = self.mapView
+                
+                routeMarkers += [marker]
+            }
         }
         
-        if (markers.count > 1) {
+        if pointPins != nil && pointPins.count > 0 {
+            for pin in pointPins {
+                let position = CLLocationCoordinate2D(latitude: CLLocationDegrees(pin.lat), longitude: CLLocationDegrees(pin.long))
+                let marker = GMSMarker(position: position)
+                marker.appearAnimation = GMSMarkerAnimation.pop
+                marker.title = pin.title
+                marker.map = self.mapView
+                
+                pointMarkers += [marker]
+            }
+        }
+        
+        if (routePins.count > 1) {
             for route in routePoints {
                 let path = GMSPath.init(fromEncodedPath: route)
                 let polyline = GMSPolyline.init(path: path)
