@@ -142,6 +142,37 @@ class RouteCreateViewController: UIViewController, URLSessionDelegate, URLSessio
         }
     }
     
+    func saveRoute (completion : @escaping ()->()) {
+        /*
+        let urlString = "https://maps.googleapis.com/maps/api/directions/json?origin=\(source)&destination=\(destination)&mode=driving&key=AIzaSyBUJZaFSeeEgoJktJao7Fh3V02MsHMY2cI"
+        
+        
+        Alamofire.request(urlString, method: .get).validate().responseJSON { response in
+            switch response.result {
+            case .success(let value):
+                let json = JSON(value)
+                //print("JSON HERE: \(json)")
+                let routes = json["routes"].arrayValue
+                for route in routes
+                {
+                    let routeOverviewPolyline = route["overview_polyline"].dictionary
+                    if let points = routeOverviewPolyline?["points"]?.stringValue{
+                        
+                        self.routePoints! += [points]
+                        //print
+                    } else {
+                        print ("ERROR: routePoints is nil")
+                    }
+                }
+            case .failure(let error):
+                print("ERROR: \(error)")
+            }
+            
+            completion()
+        }
+ */
+    }
+    
     
     // Update the save button when all conditions are met.
     func updateSaveState() {
