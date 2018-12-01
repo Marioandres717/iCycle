@@ -16,8 +16,10 @@ import os.log
 class SelectWaypointViewController: UIViewController {
     var pin: Node?
     
-    var markers: [GMSMarker]?
-    var marker: GMSMarker?
+    var routeMarkers: [GMSMarker]? // Marker to signify the route
+    var pointMarkers: [GMSMarker]? // Marker to signify special points on the route
+    
+    var marker: GMSMarker? // The currently selected marker
     var newestRoute: GMSPolyline?
     var routePoints: [String]?
     
@@ -54,9 +56,15 @@ class SelectWaypointViewController: UIViewController {
         pickerData = ["Route", "Bike Shop", "Store", "Point of Interest", "Hazard"]
         
         // Update The Map
-        if let markers = markers {
-            if(markers.count > 0) {
-                updateMapPins()
+        if let routeMarkers = routeMarkers {
+            if routeMarkers.count > 0 {
+                updateRoutePins()
+            }
+        }
+        
+        if let pointMarkers = pointMarkers {
+            if pointMarkers.count > 0 {
+                updatePointPins()
             }
         }
         
@@ -132,13 +140,23 @@ class SelectWaypointViewController: UIViewController {
                     fatalError("Unexpected destination: \(segue.destination)")
                 }
                 
+                pin = Node(long: marker!.position.longitude, lat: marker!.position.latitude, type: pickerData[pinTypePicker.selectedRow(inComponent: 0)], title: pinTitle.text ?? "")!
+                
                 if let pin = pin {
-                    routeCreateViewController.pins.append(pin)
+                    switch (pickerData[pinTypePicker.selectedRow(inComponent: 0)]) {
+                    case "Route":
+                        routeCreateViewController.routePins.append(pin)
+                        break
+                    default:
+                        routeCreateViewController.pointPins.append(pin)
+                        break;
+                    }
                 }
                 
                 if let routePoints = routePoints {
                     routeCreateViewController.routePoints = routePoints
                 }
+
             break
             default:
                 fatalError("Unexpected segue: \(segue.identifier)")
@@ -148,7 +166,7 @@ class SelectWaypointViewController: UIViewController {
     
     // Enable the save button when all conditions are met.
     func updateSaveButtonState() {
-        if pin != nil {
+        if marker != nil {
             saveButton.backgroundColor = FlatGreen()
             saveButton.isEnabled = true
         } else {
@@ -157,18 +175,25 @@ class SelectWaypointViewController: UIViewController {
         }
     }
     
-    func updateMapPins() {
-        for marker in markers! {
-            marker.appearAnimation = GMSMarkerAnimation.pop
-            marker.map = mapView
+    func updateRoutePins() {
+        for routeMarker in routeMarkers! {
+            routeMarker.appearAnimation = GMSMarkerAnimation.pop
+            routeMarker.map = mapView
         }
         
-        if (markers!.count > 1) {
+        if (routeMarkers!.count > 1) {
             for route in routePoints! {
                 let path = GMSPath.init(fromEncodedPath: route)
                 let polyline = GMSPolyline.init(path: path)
                 polyline.map = self.mapView
             }
+        }
+    }
+    
+    func updatePointPins() {
+        for pointMarker in pointMarkers! {
+            pointMarker.appearAnimation = GMSMarkerAnimation.pop
+            pointMarker.map = mapView
         }
     }
 }
@@ -177,42 +202,48 @@ class SelectWaypointViewController: UIViewController {
 
 extension SelectWaypointViewController: GMSMapViewDelegate {
     
-    // reverse geocode location at a tap location
+    // User Placed a Marker
     func mapView(_ mapView: GMSMapView, didTapAt coordinate: CLLocationCoordinate2D) {
-        
-        if marker != nil {
+        if marker != nil { // If a marker has been previously placed
             marker!.map = nil // Clear the previously placed pin
-            newestRoute!.map = nil
-            routePoints!.popLast()
-            pin = nil;
-        }
-        
-        marker = GMSMarker(position: coordinate)
-        marker!.appearAnimation = GMSMarkerAnimation.pop
-        marker!.title = "New Waypoint"
-        marker!.map = mapView
-        
-        
-        if let markers = markers {
-            if(markers.count > 0) {
-                
-                drawRouteBetweenTwoLastPins(sourceCoordinate: CLLocationCoordinate2D(latitude: markers[markers.count-1].position.latitude, longitude: markers[markers.count-1].position.longitude), destinationCoordinate: coordinate, completion: {
-                    print ("routePoints: \(self.routePoints)")
-                    
-                    let path = GMSPath.init(fromEncodedPath: self.routePoints![self.routePoints!.count - 1])
-                    self.newestRoute = GMSPolyline.init(path: path)
-                    self.newestRoute!.map = self.mapView
-                })
+            if newestRoute != nil {
+                newestRoute!.map = nil
+                routePoints!.popLast()
             }
         }
         
-
-        path.add(coordinate);
-        
-        pin = Node(long: coordinate.longitude, lat: coordinate.latitude, type: pickerData[pinTypePicker.selectedRow(inComponent: 1)], title: pinTitle.text ?? "")!
+        switch (pickerData[pinTypePicker.selectedRow(inComponent: 0)]) {
+        case "Route":
+            // Create a new marker using the tapped position.
+            marker = GMSMarker(position: coordinate)
+            marker!.appearAnimation = GMSMarkerAnimation.pop
+            marker!.map = mapView
+            marker!.title = pinTitle.text ?? ""
+            
+            // If there are more than
+            if let routeMarkers = routeMarkers {
+                if(routeMarkers.count > 0) {
+                    drawRouteBetweenTwoLastPins(sourceCoordinate: CLLocationCoordinate2D(latitude: routeMarkers[routeMarkers.count-1].position.latitude, longitude: routeMarkers[routeMarkers.count-1].position.longitude), destinationCoordinate: coordinate, completion: {
+                        print ("routePoints: \(self.routePoints)")
+                        
+                        let path = GMSPath.init(fromEncodedPath: self.routePoints![self.routePoints!.count - 1])
+                        self.newestRoute = GMSPolyline.init(path: path)
+                        self.newestRoute!.map = self.mapView
+                    })
+                }
+            }
+            
+            path.add(coordinate);
+            break;
+        default:
+            marker = GMSMarker(position: coordinate)
+            marker!.appearAnimation = GMSMarkerAnimation.pop
+            marker!.map = mapView
+            marker!.title = pinTitle.text ?? ""
+            break
+        }
         
         updateSaveButtonState()
-        
         reverseGeocodeCoordinate(coordinate)
     }
 }
@@ -238,7 +269,14 @@ extension SelectWaypointViewController: UITextFieldDelegate {
 // MARK: UIPickerViewDelegate
 extension SelectWaypointViewController: UIPickerViewDelegate {
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        print(pickerData[row])
+        if marker != nil { // If a marker has been previously placed
+            marker!.map = nil // Clear the previously placed pin
+            if newestRoute != nil {
+                newestRoute!.map = nil
+                routePoints!.popLast()
+                path.removeLastCoordinate()
+            }
+        }
     }
 }
 
@@ -252,5 +290,7 @@ extension SelectWaypointViewController: UIPickerViewDataSource {
         return pickerData.count
     }
     
-    
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return pickerData[row]
+    }
 }
