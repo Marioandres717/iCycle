@@ -43,32 +43,5 @@ class Route {
         self.id = id
         self.pointPins = pointPins
     }
-    
-    init?(json: [String: Any]) {
-        self.title = json["title"] as? String ?? ""
-        self.note = json["note"] as? String ?? ""
-        self.difficulty = json["difficulty"] as? Int ?? 1
-        self.voted = json["title"] as? Bool ?? false
-        self.upVotes = json["upVotes"] as? Int ?? 0
-        self.downVotes = json["downVotes"] as? Int ?? 0
-        self.score = upVotes - downVotes
-        self.privateRoute = json["private"] as? Bool ?? false
-        self.saved = false
-        self.id = json["id"] as? Int ?? -1
-        
-        
-        let u = json["user"] as? [String: Any] ?? nil
-        self.user = User(json: u!)!
-    
-        self.path = []
-        let pathCoordinates = json["routePins"] as? [String] ?? nil
-        for coordinate in pathCoordinates! {
-            let stringWithLongAndLat = coordinate.components(separatedBy: ",")
-            let stringWithLong = stringWithLongAndLat[0].components(separatedBy: ": ")[1]
-            let stringWithLat = stringWithLongAndLat[1].components(separatedBy: ": ")[1].dropLast()
-            //self.path.append(Node(long: Double(stringWithLong)!, lat: Double(stringWithLat)!)!)
-        }
-        
-        self.pointPins = [] // needs to be implemented
-    }
+
 }
