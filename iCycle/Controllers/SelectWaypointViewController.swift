@@ -323,8 +323,13 @@ extension SelectWaypointViewController: CLLocationManagerDelegate {
             return
         }
         
-        // update map to center around the user's location
-        mapView.camera = GMSCameraPosition(target: location.coordinate, zoom: zoomLevel, bearing: 0, viewingAngle: 0)
+        if routeMarkers!.count > 0 {
+            mapView.camera = GMSCameraPosition(target: routeMarkers![routeMarkers!.count-1].position , zoom: zoomLevel, bearing: 0, viewingAngle: 0)
+        }
+        else {
+            // update map to center around the user's location
+            mapView.camera = GMSCameraPosition(target: location.coordinate, zoom: zoomLevel, bearing: 0, viewingAngle: 0)
+        }
         
         // no longer need updates, stop updating
         locationManager.stopUpdatingLocation()
