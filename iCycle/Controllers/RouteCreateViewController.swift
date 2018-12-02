@@ -8,6 +8,8 @@
 
 import UIKit
 import GoogleMaps
+import Alamofire
+import SwiftyJSON
 import os.log
 
 class RouteCreateViewController: UIViewController, URLSessionDelegate, URLSessionDataDelegate {
@@ -22,6 +24,8 @@ class RouteCreateViewController: UIViewController, URLSessionDelegate, URLSessio
     
     var session: URLSession?
     var user: User?
+    
+    var route: Route?
     
     @IBOutlet weak var routeTitle: UITextField!
     @IBOutlet weak var routeDifficulty: UISegmentedControl!
@@ -81,37 +85,10 @@ class RouteCreateViewController: UIViewController, URLSessionDelegate, URLSessio
             guard let routeTableViewController = segue.destination as? RouteTableViewController else {
                 fatalError("Unexpected destination: \(segue.destination)")
             }
-            
-            let title = routeTitle.text ?? ""
-            let difficulty = routeDifficulty.selectedSegmentIndex + 1
-            let notes = routeNotes.text ?? ""
-            let privacy = routeIsPrivate.isOn
-            
-            print("path pins: \(routePins)")
-            
-            let path = routePins.map({(pin) -> String in
-                return "{'long': \(pin.long),'lat': \(pin.lat),'type': \(pin.type),'title': \(pin.title)}"
-            })
-            
-            let points = pointPins.map({(pin) -> String in
-                return "{'long': \(pin.long),'lat': \(pin.lat),'type': \(pin.type),'title': \(pin.title)}"
-            })
-                        
             // SEND ROUTE TO BACKEND-------
-            self.user = User.loadUser()
-            let parameters = ["title": title, "note": notes, "routePins": path, "difficulty": difficulty, "private": privacy, "userId": user?.id ?? -1, "pointPins": points] as [String : Any]
-            
-            print("params: \(parameters)")
-            
-            HttpConfig.postRequestConfig(url: UrlBuilder.createRoute(), parameters: parameters)
-            
-            let sessionConfig = HttpConfig.sessionConfig()
-            
-            session = URLSession(configuration: sessionConfig, delegate: self, delegateQueue: nil)
-            
-            if let task = self.session?.dataTask(with: HttpConfig.request) {
-                task.resume()
-            }
+            saveRoute(completion: {
+                print("Created route \(self.route!.title)")
+            })
             //-----------------------------
             break
         case "addWaypoint":
@@ -143,34 +120,68 @@ class RouteCreateViewController: UIViewController, URLSessionDelegate, URLSessio
     }
     
     func saveRoute (completion : @escaping ()->()) {
-        /*
-        let urlString = "https://maps.googleapis.com/maps/api/directions/json?origin=\(source)&destination=\(destination)&mode=driving&key=AIzaSyBUJZaFSeeEgoJktJao7Fh3V02MsHMY2cI"
+        let urlString = UrlBuilder.createRoute()
+        
+        let title = routeTitle.text ?? ""
+        let difficulty = routeDifficulty.selectedSegmentIndex + 1
+        let notes = routeNotes.text ?? ""
+        let privacy = routeIsPrivate.isOn
+        
+        self.user = User.loadUser()
+        
+        let path = routePins.map({(pin) -> String in
+            return "{'long': \(pin.long),'lat': \(pin.lat),'type': \(pin.type),'title': \(pin.title!)}"
+        })
+        
+        let points = pointPins.map({(pin) -> String in
+            return "{'long': \(pin.long),'lat': \(pin.lat),'type': \(pin.type),'title': \(pin.title!)}"
+        })
         
         
-        Alamofire.request(urlString, method: .get).validate().responseJSON { response in
+        let parameters = ["title": title, "note": notes, "routePins": path, "difficulty": difficulty, "private": privacy, "userId": user?.id ?? -1, "pointPins": points] as [String : Any]
+        
+        Alamofire.request(urlString, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: nil).responseJSON {
+            response in
             switch response.result {
-            case .success(let value):
-                let json = JSON(value)
-                //print("JSON HERE: \(json)")
-                let routes = json["routes"].arrayValue
-                for route in routes
-                {
-                    let routeOverviewPolyline = route["overview_polyline"].dictionary
-                    if let points = routeOverviewPolyline?["points"]?.stringValue{
-                        
-                        self.routePoints! += [points]
-                        //print
-                    } else {
-                        print ("ERROR: routePoints is nil")
+            case .success(let result):
+                let res = JSON(result)
+                print(res)
+                let id = res["id"].intValue
+                let title = res["title"].stringValue
+                let note = res["note"].stringValue
+                let difficulty = res["difficulty"].intValue
+                let upVotes = res["upVotes"].intValue
+                let downVotes = res["downVotes"].intValue
+                let privateRoute = res["private"].boolValue
+                let routePinsTemp = JSON(res["routePins"])
+                var path: [Node] = []
+                for pin in routePinsTemp {
+                    let obj = JSON(pin)
+                    guard let node = Node(long: obj["long"].doubleValue, lat: obj["lat"].doubleValue, type: obj["type"].stringValue, title: obj["title"].stringValue) else {
+                        fatalError("Could not read object from server correctly when creating a node")
                     }
+                    path.append(node)
                 }
+                
+                let pointPinsTemp = JSON(res["pointPins"])
+                var points: [Node] = []
+                for pin in pointPinsTemp {
+                    let obj = JSON(pin)
+                    guard let node = Node(long: obj["long"].doubleValue, lat: obj["lat"].doubleValue, type: obj["type"].stringValue, title: obj["title"].stringValue) else {
+                        fatalError("Could not read object from server correctly when creating a node")
+                    }
+                    points.append(node)
+                }
+                
+                self.route = Route(id: id, title: title, note: note, routePins: path, difficulty: difficulty, upVotes: upVotes, downVotes: downVotes, privateRoute: privateRoute, user: self.user!, pointPins: points, voted: false)
+                
+                break
             case .failure(let error):
-                print("ERROR: \(error)")
+                print(error)
+                break
             }
-            
             completion()
         }
- */
     }
     
     
