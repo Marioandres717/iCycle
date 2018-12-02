@@ -9,12 +9,13 @@
 import UIKit
 import ChameleonFramework
 
-class RouteTableViewController: UITableViewController {
+class RouteTableViewController: UITableViewController, URLSessionDelegate, URLSessionDataDelegate {
     
     //MARK: Attributes
     @IBOutlet weak var menuButton: UIBarButtonItem!
     var routes = [Route]()
-    
+    var session: URLSession?
+        
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -23,12 +24,17 @@ class RouteTableViewController: UITableViewController {
         
         initChameleonColors()
         
-        loadSampleRoutes()
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        
+        loadRoutes()
     }
 
     // MARK: - Table view data source
@@ -78,6 +84,36 @@ class RouteTableViewController: UITableViewController {
         cell.author.text = "USERNAME"
         
         return cell
+    }
+    
+    func loadRoutes() {
+
+        HttpConfig.getRequestConfig(url: UrlBuilder.getAllRoutes())
+        
+        let sessionConfig = HttpConfig.sessionConfig()
+        
+        self.session = URLSession(configuration: sessionConfig, delegate: self, delegateQueue: nil)
+        
+        if let task = self.session?.dataTask(with: HttpConfig.request) {
+            task.resume()
+        }
+    }
+    
+    func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, didReceive data: Data) {
+        /*
+        guard let json = try? JSONSerialization.jsonObject(with: data, options: []) else {return}
+        print(json)
+    
+        if let rawRoutes = json as? [[String: Any]] {
+            DispatchQueue.main.async {
+                for rawRoute in rawRoutes {
+                    self.routes.append(Route(json: rawRoute)!)
+                }
+                print(self.routes)
+                self.tableView.reloadData()
+            }
+        }
+         */
     }
     
 
@@ -177,12 +213,4 @@ class RouteTableViewController: UITableViewController {
     func initChameleonColors() {
         view.backgroundColor = FlatBlack()
     }
-    
-    // MARK: Sample Data
-    private func loadSampleRoutes() {
-        let sampleRoute_1 = Route(title: "Sample1", note: "Notes about Sample1", path: [Node(long: 1, lat: 1), Node(long: 2, lat: 2)], difficulty: 2, voted: false, upVotes: 5, downVotes: 2, privateRoute: false, user: "Austin McPhail", saved: false)
-        
-        routes += [sampleRoute_1]
-    }
-
 }

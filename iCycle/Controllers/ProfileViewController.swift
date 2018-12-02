@@ -9,10 +9,12 @@
 import UIKit
 import ChameleonFramework
 
-class ProfileViewController: UIViewController {
+class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     var notesKeyboard: Bool = false
     var bikeChanges: Bool = false
+    
+    var user: User?
 
     @IBOutlet weak var myUsername: UILabel!
     @IBOutlet weak var menuButton: UIBarButtonItem!
@@ -24,11 +26,13 @@ class ProfileViewController: UIViewController {
     @IBOutlet weak var myBikeNotes: UITextView!
     @IBOutlet weak var savedRoutes: UIButton!
     @IBOutlet weak var saveChangesButton: UIButton!
+    @IBOutlet weak var bikeView: UIView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        getUser()
+        user = User.loadUser()!
+        addUserInfoToView()
         
         saveChangesButton.isEnabled = false;
         saveChangesButton.backgroundColor = FlatGray()
@@ -37,7 +41,6 @@ class ProfileViewController: UIViewController {
         myBikeSerialNumber.delegate = self
         myBikeBrand.delegate = self
         myBikeNotes.delegate = self
-        
         // Customization
         sideMenu()
         customizeNavBar()
@@ -74,7 +77,39 @@ class ProfileViewController: UIViewController {
         )
     }
     
-
+    func addUserInfoToView() {
+        myUsername.text = user?.userName ?? ""
+        myBikePhoto.image = user?.bikeImage ?? nil
+        myBikeSerialNumber.text = user?.bikeSerialNumber ?? ""
+        myBikeBrand.text = user?.bikeBrand ?? ""
+        myBikeNotes.text = user?.bikeNotes ?? ""
+    }
+    
+    @IBAction func addNewImage(_ sender: UITapGestureRecognizer) {
+        myBikeBrand.resignFirstResponder()
+        myBikeSerialNumber.resignFirstResponder()
+        myBikePhoto.resignFirstResponder()
+        
+        let imagePickerController = UIImagePickerController()
+        imagePickerController.sourceType = .photoLibrary
+        imagePickerController.delegate = self
+        present(imagePickerController, animated: true, completion: nil)
+    }
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        dismiss(animated: true, completion: nil)
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        
+        guard let selectedImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage else {
+            fatalError("Expected a dictionary containing an image, but was provided the following: \(info)")
+        }
+        
+        myBikePhoto.image = selectedImage
+        
+        dismiss(animated: true, completion: nil)
+    }
     /*
     // MARK: - Navigation
 
@@ -105,10 +140,30 @@ class ProfileViewController: UIViewController {
     
     func initChameleonColors() {
         view.backgroundColor = FlatBlack()
-        myRoutesButton.backgroundColor = FlatGreen()
-        myPhotosButton.backgroundColor = FlatGreen()
-        savedRoutes.backgroundColor = FlatGreen()
+        
+        myPhotosButton.backgroundColor = FlatForestGreen()
+        myPhotosButton.layer.cornerRadius = 5
+        myPhotosButton.layer.borderWidth = 1
+        myPhotosButton.layer.borderColor = FlatGreen().cgColor
+
+        savedRoutes.backgroundColor = FlatForestGreen()
+        savedRoutes.layer.cornerRadius = 5
+        savedRoutes.layer.borderWidth = 1
+        savedRoutes.layer.borderColor = FlatGreen().cgColor
+        
         saveChangesButton.backgroundColor = FlatSkyBlue()
+        saveChangesButton.layer.cornerRadius = 5
+        saveChangesButton.layer.borderWidth = 1
+        saveChangesButton.layer.borderColor = FlatWhite().cgColor
+        
+        myRoutesButton.backgroundColor = FlatForestGreen()
+        myRoutesButton.layer.cornerRadius = 5
+        myRoutesButton.layer.borderWidth = 1
+        myRoutesButton.layer.borderColor = FlatGreen().cgColor
+        
+        bikeView.layer.cornerRadius = 5
+        bikeView.layer.borderWidth = 1
+        bikeView.layer.borderColor = FlatGreen().cgColor
     }
     
     // MARK: Keyboard
@@ -143,13 +198,6 @@ class ProfileViewController: UIViewController {
     @IBAction func userTappedBackground(sender: AnyObject) {
         view.endEditing(true)
     }
-    
-    // MARK: Custom Methods
-    
-    func getUser() {
-        
-    }
-    
 }
 
 // MARK: UITextFieldDelegate

@@ -19,4 +19,12 @@ class UrlBuilder {
     public static func createUser() -> String {
         return baseURL + "users"
     }
+    
+    public static func createRoute() -> String {
+        return baseURL + "routes"
+    }
+    
+    public static func getAllRoutes() -> String {
+        return baseURL + "routes"
+    }
 }

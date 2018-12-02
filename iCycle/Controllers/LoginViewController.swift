@@ -17,11 +17,13 @@ class LoginViewController: UIViewController, URLSessionDelegate, URLSessionDataD
     @IBOutlet weak var stackView: UIStackView!
     
     var session: URLSession?
-    var response: URLResponse?
+    var user: User?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
+        
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -29,10 +31,17 @@ class LoginViewController: UIViewController, URLSessionDelegate, URLSessionDataD
         navigationController?.navigationBar.isHidden = true
     }
     
+    
     func setupView() -> Void {
         setupTextFields()
         setupBtns()
     }
+    
+//    @objc func handleLogout() {
+//        print("calling")
+//        UserDefaults.standard.set(false, forKey: "isLoggedIn")
+//        UserDefaults.standard.synchronize()
+//    }
     
     // MARK: ACTIONS
     @IBAction func handleLogin(_ sender: UIButton) {
@@ -42,38 +51,44 @@ class LoginViewController: UIViewController, URLSessionDelegate, URLSessionDataD
         let parameters = ["username": username, "password": password]
         print("username: \(username) & password: \(password)")
 
-        guard let url = URL(string: UrlBuilder.getUserByUsernameAndPassword()) else {return}
-        var request = URLRequest(url: url)
-        request.httpMethod = "POST"
-        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        guard let httpBody = try? JSONSerialization.data(withJSONObject: parameters, options: []) else {return}
-        request.httpBody = httpBody
-
-        let sessionConfig = URLSessionConfiguration.default
-        sessionConfig.urlCache = nil
+        HttpConfig.postRequestConfig(url: UrlBuilder.getUserByUsernameAndPassword(), parameters: parameters)
         
+        let sessionConfig = HttpConfig.sessionConfig()
+
         self.session = URLSession(configuration: sessionConfig, delegate: self, delegateQueue: nil)
         
-        if let task = self.session?.dataTask(with: request) {
+        if let task = self.session?.dataTask(with: HttpConfig.request) {
             task.resume()
         }
     }
     
     func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, didReceive data: Data) {
-        print("didReceive data")
-        if let responseText = String(data: data, encoding: .utf8) {
-            print(self.response ?? "")
-            print("\n Server's response text")
-            print(responseText)
-        }
         
         guard let json = try? JSONSerialization.jsonObject(with: data, options: []) else {return}
         print(json)
         
-        DispatchQueue.main.async {
-            self.performSegue(withIdentifier: "startApp", sender: nil)
-        }
+        if let res = json as? [String: Any] {
+            if let err = res["statusCode"] as? Int, let message = res["message"] as? String {
+                DispatchQueue.main.async {
+                    let alert = ErrorHandler.handleError(title: "Login Error",message: message + " \(err)")
+                    self.present(alert, animated: true, completion: nil)
+                }
+            } else {
+                DispatchQueue.main.async {
+                    let user = User(json: res)!
+                    let isSucessfulSave = User.saveUser(user: user)
+                    if isSucessfulSave {
+                        UserDefaults.standard.set(true, forKey: "isLoggedIn")
+                        self.performSegue(withIdentifier: "startApp", sender: nil)
+                    } else {
+                        let alert = ErrorHandler.handleError(title: "Unexpected error", message: "Try again")
+                        self.present(alert, animated: true, completion: nil)
+                    }
+                }
+            }
+      }
     }
+    
     
     // MARK: UI STYLES
     
@@ -116,4 +131,23 @@ class LoginViewController: UIViewController, URLSessionDelegate, URLSessionDataD
      // Pass the selected object to the new view controller.
      }
      */
+}
+
+// MARK: UITextFieldDelegate
+extension LoginViewController: UITextFieldDelegate {
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        textField.becomeFirstResponder()
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        // Hide Keyboard
+        textField.resignFirstResponder()
+        return true
+    }
+    
+    // MARK: Actions
+    
+    @IBAction func userTappedBackground(sender: AnyObject) {
+        view.endEditing(true)
+    }
 }

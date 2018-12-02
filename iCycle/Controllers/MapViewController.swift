@@ -18,30 +18,18 @@ class MapViewController: UIViewController, GMSMapViewDelegate {
     @IBOutlet weak var menuButton: UIBarButtonItem!
     
     var locationManager = CLLocationManager()
-    //var currentLocation: CLLocation?
     var zoomLevel: Float = 12.0
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         sideMenu()
         customizeNavBar()
         initChameleonColors()
         
-        //mapView.camera = GMSCameraPosition.camera(withLatitude: 50, longitude:-100, zoom: zoomLevel)
-        //mapView = GMSMapView.map(withFrame: self.view.bounds, camera: camera)
-
         locationManager.requestWhenInUseAuthorization()
         locationManager.delegate = self
-        
     }
  
-   /* func mapView(_ mapView: GMSMapView, didTapPOIWithPlaceID placeID: String,
-                 name: String, location: CLLocationCoordinate2D) {
-        print("You tapped \(name): \(placeID), \(location.latitude)/\(location.longitude)")
-    }*/
-    
     // MARK: Chameleon related
     func initChameleonColors() {
         view.backgroundColor = FlatBlack()
@@ -67,8 +55,7 @@ class MapViewController: UIViewController, GMSMapViewDelegate {
 
 }
 
-// MARK: - CLLocationManagerDelegate
-
+// MARK: CLLocationManagerDelegate
 extension MapViewController: CLLocationManagerDelegate {
     
     // called when user grants or revokes location permission
