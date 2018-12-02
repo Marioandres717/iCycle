@@ -35,7 +35,7 @@ class SelectWaypointViewController: UIViewController {
     @IBOutlet weak var searchLocationBar: UISearchBar!
     
     var locationManager = CLLocationManager()
-    var zoomLevel: Float = 12.0
+    var zoomLevel: Float = 13.0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -187,6 +187,8 @@ class SelectWaypointViewController: UIViewController {
             for route in routePoints! {
                 let path = GMSPath.init(fromEncodedPath: route)
                 let polyline = GMSPolyline.init(path: path)
+                polyline.spans = [GMSStyleSpan(color: .red)]
+                polyline.strokeWidth = 3.0
                 polyline.map = self.mapView
             }
         }
@@ -231,6 +233,8 @@ extension SelectWaypointViewController: GMSMapViewDelegate {
                         
                         let path = GMSPath.init(fromEncodedPath: self.routePoints![self.routePoints!.count - 1])
                         self.newestRoute = GMSPolyline.init(path: path)
+                        self.newestRoute!.spans = [GMSStyleSpan(color: .red)]
+                        self.newestRoute!.strokeWidth = 3.0
                         self.newestRoute!.map = self.mapView
                     })
                 }

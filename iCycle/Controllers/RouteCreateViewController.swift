@@ -28,7 +28,7 @@ class RouteCreateViewController: UIViewController, URLSessionDelegate, URLSessio
     var route: Route?
     
     var locationManager = CLLocationManager()
-    var zoomLevel: Float = 12.0
+    var zoomLevel: Float = 13.0
     
     @IBOutlet weak var routeTitle: UITextField!
     @IBOutlet weak var routeDifficulty: UISegmentedControl!
@@ -245,6 +245,8 @@ class RouteCreateViewController: UIViewController, URLSessionDelegate, URLSessio
             for route in routePoints {
                 let path = GMSPath.init(fromEncodedPath: route)
                 let polyline = GMSPolyline.init(path: path)
+                polyline.spans = [GMSStyleSpan(color: .red)]
+                polyline.strokeWidth = 3.0
                 polyline.map = self.mapView
             }
         }
