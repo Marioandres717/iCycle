@@ -27,18 +27,10 @@ class MapViewController: UIViewController, GMSMapViewDelegate {
         customizeNavBar()
         initChameleonColors()
         
-        //mapView.camera = GMSCameraPosition.camera(withLatitude: 50, longitude:-100, zoom: zoomLevel)
-        //mapView = GMSMapView.map(withFrame: self.view.bounds, camera: camera)
-
         locationManager.requestWhenInUseAuthorization()
         locationManager.delegate = self
     }
  
-   /* func mapView(_ mapView: GMSMapView, didTapPOIWithPlaceID placeID: String,
-                 name: String, location: CLLocationCoordinate2D) {
-        print("You tapped \(name): \(placeID), \(location.latitude)/\(location.longitude)")
-    }*/
-    
     // MARK: Chameleon related
     func initChameleonColors() {
         view.backgroundColor = FlatBlack()
