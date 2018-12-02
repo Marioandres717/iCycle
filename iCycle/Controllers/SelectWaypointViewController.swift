@@ -296,7 +296,7 @@ extension SelectWaypointViewController: UIPickerViewDataSource {
     }
 }
 
-
+// MARK: CLLocationManagerDelegate
 extension SelectWaypointViewController: CLLocationManagerDelegate {
     
     // called when user grants or revokes location permission

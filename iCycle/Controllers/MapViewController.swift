@@ -18,7 +18,6 @@ class MapViewController: UIViewController, GMSMapViewDelegate {
     @IBOutlet weak var menuButton: UIBarButtonItem!
     
     var locationManager = CLLocationManager()
-    //var currentLocation: CLLocation?
     var zoomLevel: Float = 12.0
     
     override func viewDidLoad() {
@@ -56,8 +55,7 @@ class MapViewController: UIViewController, GMSMapViewDelegate {
 
 }
 
-// MARK: - CLLocationManagerDelegate
-
+// MARK: CLLocationManagerDelegate
 extension MapViewController: CLLocationManagerDelegate {
     
     // called when user grants or revokes location permission

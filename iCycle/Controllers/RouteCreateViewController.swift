@@ -27,6 +27,9 @@ class RouteCreateViewController: UIViewController, URLSessionDelegate, URLSessio
     
     var route: Route?
     
+    var locationManager = CLLocationManager()
+    var zoomLevel: Float = 12.0
+    
     @IBOutlet weak var routeTitle: UITextField!
     @IBOutlet weak var routeDifficulty: UISegmentedControl!
     @IBOutlet weak var routeNotes: UITextView!
@@ -41,7 +44,9 @@ class RouteCreateViewController: UIViewController, URLSessionDelegate, URLSessio
         mapView.delegate = self
         routeTitle.delegate = self
         routeNotes.delegate = self
+        locationManager.delegate = self
         
+        locationManager.requestWhenInUseAuthorization()
         
         // Listen for Keyboard Events
         NotificationCenter.default.addObserver(
@@ -205,6 +210,7 @@ class RouteCreateViewController: UIViewController, URLSessionDelegate, URLSessio
                 
                 routeMarkers += [marker]
             }
+            mapView.camera = GMSCameraPosition(target: routeMarkers[routeMarkers.count-1].position , zoom: zoomLevel, bearing: 0, viewingAngle: 0)
         }
         
         if pointPins != nil && pointPins.count > 0 {
@@ -274,5 +280,42 @@ extension RouteCreateViewController: UITextFieldDelegate {
 extension RouteCreateViewController: UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
         textView.becomeFirstResponder()
+    }
+}
+
+// MARK: CLLocationManagerDelegate
+extension RouteCreateViewController: CLLocationManagerDelegate {
+    
+    // called when user grants or revokes location permission
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus){
+        
+        if status == .denied{
+            mapView.camera = GMSCameraPosition.camera(withLatitude: 50, longitude:-100, zoom: 3) //North America
+        }
+        guard status == .authorizedWhenInUse else {
+            return
+        }
+        
+        // once permission is granted, start updating the location
+        locationManager.startUpdatingLocation()
+        
+        mapView.isMyLocationEnabled = true //ligth blue dot on the map will appear
+        mapView.settings.myLocationButton = true //button, when tapped, shows user's current location
+    }
+    
+    // called when location manager receives new location data
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        
+        guard let location = locations.first else {
+            return
+        }
+        
+        if routeMarkers.count < 1 {
+            // update map to center around the user's location
+            mapView.camera = GMSCameraPosition(target: location.coordinate, zoom: zoomLevel, bearing: 0, viewingAngle: 0)
+        }
+        
+        // no longer need updates, stop updating
+        locationManager.stopUpdatingLocation()
     }
 }
