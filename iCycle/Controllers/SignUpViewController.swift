@@ -22,6 +22,10 @@ class SignUpViewController: UIViewController, URLSessionDelegate, URLSessionData
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
+        
+        usernameTextField.delegate = self
+        passTextField.delegate = self
+        confirmPassTextField.delegate = self
     }
     
     
@@ -95,5 +99,24 @@ class SignUpViewController: UIViewController, URLSessionDelegate, URLSessionData
         cancelBtn.layer.cornerRadius = 5
         cancelBtn.layer.borderWidth = 1
         cancelBtn.layer.borderColor = UIColor(red: 255/255, green: 151/255, blue: 164/255, alpha: 1).cgColor
+    }
+    
+    // MARK: Actions
+    
+    @IBAction func userTappedBackground(sender: AnyObject) {
+        view.endEditing(true)
+    }
+}
+
+// MARK: UITextFieldDelegate
+extension SignUpViewController: UITextFieldDelegate {
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        textField.becomeFirstResponder()
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        // Hide Keyboard
+        textField.resignFirstResponder()
+        return true
     }
 }

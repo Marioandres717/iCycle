@@ -22,6 +22,8 @@ class LoginViewController: UIViewController, URLSessionDelegate, URLSessionDataD
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
+        
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -129,4 +131,23 @@ class LoginViewController: UIViewController, URLSessionDelegate, URLSessionDataD
      // Pass the selected object to the new view controller.
      }
      */
+}
+
+// MARK: UITextFieldDelegate
+extension LoginViewController: UITextFieldDelegate {
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        textField.becomeFirstResponder()
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        // Hide Keyboard
+        textField.resignFirstResponder()
+        return true
+    }
+    
+    // MARK: Actions
+    
+    @IBAction func userTappedBackground(sender: AnyObject) {
+        view.endEditing(true)
+    }
 }
