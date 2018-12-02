@@ -206,6 +206,7 @@ class RouteCreateViewController: UIViewController, URLSessionDelegate, URLSessio
                 let marker = GMSMarker(position: position)
                 marker.appearAnimation = GMSMarkerAnimation.pop
                 marker.title = pin.title
+                marker.icon = UIImage(named: "routePin")
                 marker.map = self.mapView
                 
                 routeMarkers += [marker]
@@ -219,9 +220,24 @@ class RouteCreateViewController: UIViewController, URLSessionDelegate, URLSessio
                 let marker = GMSMarker(position: position)
                 marker.appearAnimation = GMSMarkerAnimation.pop
                 marker.title = pin.title
+                print("pin type: \(pin.type)")
+                switch pin.type {
+                case "Bike Shop":
+                    marker.icon = UIImage(named: "bikeShop")
+                case "Store":
+                    marker.icon = UIImage(named: "store")
+                case "Point of Interest":
+                    marker.icon = UIImage(named: "pointOfInterest")
+                case "Hazard":
+                    marker.icon = UIImage(named: "hazard")
+                default:
+                    marker.icon = GMSMarker.markerImage(with: .black)
+                }
+                
                 marker.map = self.mapView
                 
                 pointMarkers += [marker]
+                
             }
         }
         

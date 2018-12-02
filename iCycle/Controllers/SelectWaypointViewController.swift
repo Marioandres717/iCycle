@@ -90,7 +90,7 @@ class SelectWaypointViewController: UIViewController {
             // set the label text to the address
             self.searchLocationBar.text = lines.joined(separator: "\n")
             
-            // animate the label change
+            // animate the text change
             UIView.animate(withDuration: 0.25) {
                 self.view.layoutIfNeeded()
             }
@@ -179,6 +179,7 @@ class SelectWaypointViewController: UIViewController {
     func updateRoutePins() {
         for routeMarker in routeMarkers! {
             routeMarker.appearAnimation = GMSMarkerAnimation.pop
+            routeMarker.icon = UIImage(named: "routePin")
             routeMarker.map = mapView
         }
         
@@ -220,7 +221,8 @@ extension SelectWaypointViewController: GMSMapViewDelegate {
             marker!.appearAnimation = GMSMarkerAnimation.pop
             marker!.map = mapView
             marker!.title = pinTitle.text ?? ""
-            
+            marker!.icon = UIImage(named: "routePin")
+
             // If there are more than
             if let routeMarkers = routeMarkers {
                 if(routeMarkers.count > 0) {
@@ -236,6 +238,34 @@ extension SelectWaypointViewController: GMSMapViewDelegate {
             
             path.add(coordinate);
             break;
+        case "Bike Shop":
+            marker = GMSMarker(position: coordinate)
+            marker!.appearAnimation = GMSMarkerAnimation.pop
+            marker!.map = mapView
+            marker!.title = pinTitle.text ?? ""
+            marker!.icon = UIImage(named: "bikeShop")
+            break
+        case "Store":
+            marker = GMSMarker(position: coordinate)
+            marker!.appearAnimation = GMSMarkerAnimation.pop
+            marker!.map = mapView
+            marker!.title = pinTitle.text ?? ""
+            marker!.icon = UIImage(named: "store")
+            break
+        case "Point of Interest":
+            marker = GMSMarker(position: coordinate)
+            marker!.appearAnimation = GMSMarkerAnimation.pop
+            marker!.map = mapView
+            marker!.title = pinTitle.text ?? ""
+            marker!.icon = UIImage(named: "pointOfInterest")
+            break
+        case "Hazard":
+            marker = GMSMarker(position: coordinate)
+            marker!.appearAnimation = GMSMarkerAnimation.pop
+            marker!.map = mapView
+            marker!.title = pinTitle.text ?? ""
+            marker!.icon = UIImage(named: "hazard")
+            break
         default:
             marker = GMSMarker(position: coordinate)
             marker!.appearAnimation = GMSMarkerAnimation.pop
