@@ -1116,6 +1116,9 @@
                                         <state key="normal" title="Save Changes">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
+                                        <connections>
+                                            <action selector="handleSaveChanges:" destination="Ht7-vt-Be6" eventType="touchUpInside" id="bCp-go-4gF"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

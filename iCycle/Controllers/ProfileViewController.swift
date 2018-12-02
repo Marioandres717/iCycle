@@ -230,6 +230,11 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     @IBAction func userTappedBackground(sender: AnyObject) {
         view.endEditing(true)
     }
+    
+    @IBAction func handleSaveChanges(_ sender: UIButton) {
+    }
+    
+    
 }
 
 // MARK: UITextFieldDelegate
