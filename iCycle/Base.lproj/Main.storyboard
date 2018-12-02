@@ -1061,12 +1061,16 @@
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Y1K-jU-l1B">
+                                    <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Y1K-jU-l1B">
                                         <rect key="frame" x="8" y="37" width="128" height="128"/>
+                                        <gestureRecognizers/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="128" id="2wx-6C-fq2"/>
                                             <constraint firstAttribute="height" constant="128" id="J1y-lq-a6k"/>
                                         </constraints>
+                                        <connections>
+                                            <outletCollection property="gestureRecognizers" destination="i1w-Lj-Ji5" appends="YES" id="NN5-7s-l6r"/>
+                                        </connections>
                                     </imageView>
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="tQY-dp-BC1">
                                         <rect key="frame" x="8" y="203" width="358" height="97"/>
@@ -1195,6 +1199,11 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="uUg-9o-16y" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="i1w-Lj-Ji5">
+                    <connections>
+                        <action selector="addNewImage:" destination="Ht7-vt-Be6" id="t7s-y1-vXZ"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="-1320.289855072464" y="2074.7282608695655"/>
         </scene>

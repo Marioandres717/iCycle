@@ -9,7 +9,7 @@
 import UIKit
 import ChameleonFramework
 
-class ProfileViewController: UIViewController {
+class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     var notesKeyboard: Bool = false
     var bikeChanges: Bool = false
@@ -31,7 +31,6 @@ class ProfileViewController: UIViewController {
         super.viewDidLoad()
         
         user = User.loadUser()!
-        print("aSDpaosijdasjda\(user)")
         addUserInfoToView()
         
         saveChangesButton.isEnabled = false;
@@ -41,7 +40,6 @@ class ProfileViewController: UIViewController {
         myBikeSerialNumber.delegate = self
         myBikeBrand.delegate = self
         myBikeNotes.delegate = self
-        
         // Customization
         sideMenu()
         customizeNavBar()
@@ -84,6 +82,32 @@ class ProfileViewController: UIViewController {
         myBikeSerialNumber.text = user?.bikeSerialNumber ?? ""
         myBikeBrand.text = user?.bikeBrand ?? ""
         myBikeNotes.text = user?.bikeNotes ?? ""
+    }
+    
+    @IBAction func addNewImage(_ sender: UITapGestureRecognizer) {
+        myBikeBrand.resignFirstResponder()
+        myBikeSerialNumber.resignFirstResponder()
+        myBikePhoto.resignFirstResponder()
+        
+        let imagePickerController = UIImagePickerController()
+        imagePickerController.sourceType = .photoLibrary
+        imagePickerController.delegate = self
+        present(imagePickerController, animated: true, completion: nil)
+    }
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        dismiss(animated: true, completion: nil)
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        
+        guard let selectedImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage else {
+            fatalError("Expected a dictionary containing an image, but was provided the following: \(info)")
+        }
+        
+        myBikePhoto.image = selectedImage
+        
+        dismiss(animated: true, completion: nil)
     }
     /*
     // MARK: - Navigation
