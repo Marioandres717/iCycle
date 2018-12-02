@@ -90,10 +90,42 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         myBikeSerialNumber.resignFirstResponder()
         myBikePhoto.resignFirstResponder()
         
-        let imagePickerController = UIImagePickerController()
-        imagePickerController.sourceType = .photoLibrary
-        imagePickerController.delegate = self
-        present(imagePickerController, animated: true, completion: nil)
+        let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        
+        let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        
+        let displayCamera = UIAlertAction(title: "Camera", style: .default) { action in
+            self.addImageToProfile(optionSelected: "camera")
+        }
+        
+        let displayPhotoLib = UIAlertAction(title: "Photo Library", style: .default) { action in
+            self.addImageToProfile(optionSelected: "library")
+        }
+        
+        actionSheet.addAction(displayCamera)
+        actionSheet.addAction(displayPhotoLib)
+        actionSheet.addAction(cancel)
+        
+        present(actionSheet, animated: true, completion: nil)
+    }
+    
+    func addImageToProfile(optionSelected: String) {
+        let imgPickerController = UIImagePickerController()
+        imgPickerController.delegate = self
+        imgPickerController.allowsEditing = true
+    
+        if optionSelected == "camera" {
+            imgPickerController.sourceType = .camera
+
+        } else if optionSelected == "library" {
+            imgPickerController.sourceType = .photoLibrary
+            
+        } else {
+            fatalError("Invalid action")
+        }
+        imgPickerController.mediaTypes = UIImagePickerController.availableMediaTypes(for: imgPickerController.sourceType)!
+        
+        present(imgPickerController, animated: true, completion: nil)
     }
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
@@ -101,13 +133,13 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        
-        guard let selectedImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage else {
-            fatalError("Expected a dictionary containing an image, but was provided the following: \(info)")
+    
+        if let editImage = info[UIImagePickerController.InfoKey.editedImage] as? UIImage {
+            myBikePhoto.image = editImage
+        } else if let originalImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
+            myBikePhoto.image = originalImage
         }
-        
-        myBikePhoto.image = selectedImage
-        
+    
         dismiss(animated: true, completion: nil)
     }
     /*
@@ -198,6 +230,11 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     @IBAction func userTappedBackground(sender: AnyObject) {
         view.endEditing(true)
     }
+    
+    @IBAction func handleSaveChanges(_ sender: UIButton) {
+    }
+    
+    
 }
 
 // MARK: UITextFieldDelegate

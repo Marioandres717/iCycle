@@ -20,15 +20,15 @@ struct PropertyKeyUser {
 class User: NSObject, NSCoding {
     var id: Int
     var userName: String
-    var bikeSerialNumber: String
-    var bikeBrand: String
-    var bikeNotes: String
-    var bikeImage: UIImage
+    var bikeSerialNumber: String?
+    var bikeBrand: String?
+    var bikeNotes: String?
+    var bikeImage: UIImage?
     
     static let DocumentsDir = FileManager().urls(for: .documentDirectory, in: .userDomainMask).first!
     static let ArchiveURL = DocumentsDir.appendingPathComponent("user")
     
-    init(id: Int, userName: String, bikeSerialNumber: String, bikeBrand: String, bikeNotes: String, bikeImage: UIImage) {
+    init(id: Int, userName: String, bikeSerialNumber: String?, bikeBrand: String?, bikeNotes: String?, bikeImage: UIImage?) {
         self.id = id
         self.userName = userName
         self.bikeSerialNumber = bikeSerialNumber
