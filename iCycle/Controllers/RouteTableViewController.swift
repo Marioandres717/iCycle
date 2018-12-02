@@ -213,12 +213,4 @@ class RouteTableViewController: UITableViewController, URLSessionDelegate, URLSe
     func initChameleonColors() {
         view.backgroundColor = FlatBlack()
     }
-    
-    // MARK: Sample Data
-//    private func loadSampleRoutes() {
-//        let sampleRoute_1 = Route(title: "Sample1", note: "Notes about Sample1", path: [Node(long: 1, lat: 1), Node(long: 2, lat: 2)], difficulty: 2, voted: false, upVotes: 5, downVotes: 2, privateRoute: false, user: "Austin McPhail", saved: false)
-//        
-//        routes += [sampleRoute_1]
-//    }
-
 }

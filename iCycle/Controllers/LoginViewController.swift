@@ -21,7 +21,6 @@ class LoginViewController: UIViewController, URLSessionDelegate, URLSessionDataD
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Logout", style: .plain, target: self, action: #selector(handleLogout))
         setupView()
     }
     

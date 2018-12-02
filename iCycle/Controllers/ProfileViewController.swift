@@ -13,6 +13,8 @@ class ProfileViewController: UIViewController {
     
     var notesKeyboard: Bool = false
     var bikeChanges: Bool = false
+    
+    var user: User?
 
     @IBOutlet weak var myUsername: UILabel!
     @IBOutlet weak var menuButton: UIBarButtonItem!
@@ -28,7 +30,9 @@ class ProfileViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        getUser()
+        user = User.loadUser()!
+        print("aSDpaosijdasjda\(user)")
+        addUserInfoToView()
         
         saveChangesButton.isEnabled = false;
         saveChangesButton.backgroundColor = FlatGray()
@@ -74,7 +78,13 @@ class ProfileViewController: UIViewController {
         )
     }
     
-
+    func addUserInfoToView() {
+        myUsername.text = user?.userName ?? ""
+        myBikePhoto.image = user?.bikeImage ?? nil
+        myBikeSerialNumber.text = user?.bikeSerialNumber ?? ""
+        myBikeBrand.text = user?.bikeBrand ?? ""
+        myBikeNotes.text = user?.bikeNotes ?? ""
+    }
     /*
     // MARK: - Navigation
 
@@ -143,13 +153,6 @@ class ProfileViewController: UIViewController {
     @IBAction func userTappedBackground(sender: AnyObject) {
         view.endEditing(true)
     }
-    
-    // MARK: Custom Methods
-    
-    func getUser() {
-        
-    }
-    
 }
 
 // MARK: UITextFieldDelegate
