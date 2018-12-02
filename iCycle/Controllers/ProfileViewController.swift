@@ -26,6 +26,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     @IBOutlet weak var myBikeNotes: UITextView!
     @IBOutlet weak var savedRoutes: UIButton!
     @IBOutlet weak var saveChangesButton: UIButton!
+    @IBOutlet weak var bikeView: UIView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -139,10 +140,30 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     
     func initChameleonColors() {
         view.backgroundColor = FlatBlack()
-        myRoutesButton.backgroundColor = FlatGreen()
-        myPhotosButton.backgroundColor = FlatGreen()
-        savedRoutes.backgroundColor = FlatGreen()
+        
+        myPhotosButton.backgroundColor = FlatForestGreen()
+        myPhotosButton.layer.cornerRadius = 5
+        myPhotosButton.layer.borderWidth = 1
+        myPhotosButton.layer.borderColor = FlatGreen().cgColor
+
+        savedRoutes.backgroundColor = FlatForestGreen()
+        savedRoutes.layer.cornerRadius = 5
+        savedRoutes.layer.borderWidth = 1
+        savedRoutes.layer.borderColor = FlatGreen().cgColor
+        
         saveChangesButton.backgroundColor = FlatSkyBlue()
+        saveChangesButton.layer.cornerRadius = 5
+        saveChangesButton.layer.borderWidth = 1
+        saveChangesButton.layer.borderColor = FlatWhite().cgColor
+        
+        myRoutesButton.backgroundColor = FlatForestGreen()
+        myRoutesButton.layer.cornerRadius = 5
+        myRoutesButton.layer.borderWidth = 1
+        myRoutesButton.layer.borderColor = FlatGreen().cgColor
+        
+        bikeView.layer.cornerRadius = 5
+        bikeView.layer.borderWidth = 1
+        bikeView.layer.borderColor = FlatGreen().cgColor
     }
     
     // MARK: Keyboard

@@ -1186,6 +1186,7 @@
                         <barButtonItem key="leftBarButtonItem" title="Item" image="MenuIcon" id="jqz-5R-alj"/>
                     </navigationItem>
                     <connections>
+                        <outlet property="bikeView" destination="p67-ZM-56S" id="ebY-0T-gcx"/>
                         <outlet property="menuButton" destination="jqz-5R-alj" id="x3F-C4-SSf"/>
                         <outlet property="myBikeBrand" destination="tM6-XT-rwI" id="W49-EX-tZd"/>
                         <outlet property="myBikeNotes" destination="tQY-dp-BC1" id="Y81-Tw-ozz"/>
