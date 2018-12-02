@@ -8,37 +8,37 @@
 
 import UIKit
 import ChameleonFramework
+import Alamofire
+import SwiftyJSON
 
-class RouteTableViewController: UITableViewController, URLSessionDelegate, URLSessionDataDelegate {
+class RouteTableViewController: UITableViewController {
     
     //MARK: Attributes
     @IBOutlet weak var menuButton: UIBarButtonItem!
     var routes = [Route]()
     var session: URLSession?
-        
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.tableView.delegate = self
+        self.tableView.dataSource = self
+        
         sideMenu()
         customizeNavBar()
-        
         initChameleonColors()
-        
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-        
-        loadRoutes()
+        loadRoutes {
+            print("Loaded Routes")
+            print(self.routes.count)
+            self.tableView.reloadData()
+        }
     }
 
     // MARK: - Table view data source
-
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return 1
@@ -81,82 +81,62 @@ class RouteTableViewController: UITableViewController, URLSessionDelegate, URLSe
         
         cell.score.text = String(route.score)
         
-        cell.author.text = "USERNAME"
+        cell.author.text = route.user.userName
         
         return cell
     }
     
-    func loadRoutes() {
-
-        HttpConfig.getRequestConfig(url: UrlBuilder.getAllRoutes())
+    func loadRoutes(completion : @escaping ()->()) {
+        let urlString = UrlBuilder.getAllRoutes()
         
-        let sessionConfig = HttpConfig.sessionConfig()
-        
-        self.session = URLSession(configuration: sessionConfig, delegate: self, delegateQueue: nil)
-        
-        if let task = self.session?.dataTask(with: HttpConfig.request) {
-            task.resume()
-        }
-    }
-    
-    func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, didReceive data: Data) {
-        /*
-        guard let json = try? JSONSerialization.jsonObject(with: data, options: []) else {return}
-        print(json)
-    
-        if let rawRoutes = json as? [[String: Any]] {
-            DispatchQueue.main.async {
-                for rawRoute in rawRoutes {
-                    self.routes.append(Route(json: rawRoute)!)
+        Alamofire.request(urlString, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: nil).responseJSON {
+            response in
+            switch response.result {
+            case .success(let result):
+                let res = JSON(result)
+                for route in res {
+                    let jsonRoute = JSON(route)
+                    let id = jsonRoute["id"].intValue
+                    let title = jsonRoute["title"].stringValue
+                    let note = jsonRoute["note"].stringValue
+                    let difficulty = jsonRoute["difficulty"].intValue
+                    let upVotes = jsonRoute["upVotes"].intValue
+                    let downVotes = jsonRoute["downVotes"].intValue
+                    let privateRoute = jsonRoute["private"].boolValue
+                    let routePinsTemp = JSON(jsonRoute["routePins"])
+                    let userJson = JSON(jsonRoute["user"])
+                    let user = User(id: userJson["id"].intValue, userName: userJson["username"].stringValue, bikeSerialNumber: userJson["bikeSerialNumber"].stringValue, bikeBrand: userJson["bikeBrand"].stringValue, bikeNotes: userJson["bikeNotes"].stringValue, bikeImage: nil)
+                    var path: [Node] = []
+                    for pin in routePinsTemp {
+                        let obj = JSON(pin)
+                        guard let node = Node(long: obj["long"].doubleValue, lat: obj["lat"].doubleValue, type: obj["type"].stringValue, title: obj["title"].stringValue) else {
+                            fatalError("Could not read object from server correctly when creating a node")
+                        }
+                        path.append(node)
+                    }
+                    
+                    let pointPinsTemp = JSON(jsonRoute["pointPins"])
+                    var points: [Node] = []
+                    for pin in pointPinsTemp {
+                        let obj = JSON(pin)
+                        guard let node = Node(long: obj["long"].doubleValue, lat: obj["lat"].doubleValue, type: obj["type"].stringValue, title: obj["title"].stringValue) else {
+                            fatalError("Could not read object from server correctly when creating a node")
+                        }
+                        points.append(node)
+                    }
+                    
+                    self.routes.append(Route(id: id, title: title, note: note, routePins: path, difficulty: difficulty, upVotes: upVotes, downVotes: downVotes, privateRoute: privateRoute, user: user, pointPins: points, voted: false))
                 }
-                print(self.routes)
-                self.tableView.reloadData()
+                break
+            case .failure(let error):
+                print(error)
+                break
             }
+            completion()
         }
-         */
     }
-    
 
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
-    }
-    */
-
-    /*
-    // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
-    }
-    */
-
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-
-    }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
-    }
-    */
-
-    
     // MARK: - Navigation
-     
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         super.prepare(for: segue, sender: sender)
         
