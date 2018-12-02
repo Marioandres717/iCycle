@@ -9,7 +9,7 @@
 import UIKit
 import ChameleonFramework
 
-class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, URLSessionDelegate, URLSessionDataDelegate {
     
     var notesKeyboard: Bool = false
     var bikeChanges: Bool = false
@@ -232,6 +232,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     }
     
     @IBAction func handleSaveChanges(_ sender: UIButton) {
+        
     }
     
     
