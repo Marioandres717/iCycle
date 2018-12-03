@@ -15,7 +15,7 @@ class RouteTableViewController: UITableViewController {
     
     //MARK: Attributes
     @IBOutlet weak var menuButton: UIBarButtonItem!
-    var routes = [Route]()
+    var routes: [Route] = []
     var session: URLSession?
     
     override func viewDidLoad() {
@@ -31,9 +31,8 @@ class RouteTableViewController: UITableViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
+        self.routes = []
         loadRoutes {
-            print("Loaded Routes")
-            print(self.routes.count)
             self.tableView.reloadData()
         }
     }
@@ -94,18 +93,16 @@ class RouteTableViewController: UITableViewController {
             switch response.result {
             case .success(let result):
                 let res = JSON(result)
-                for route in res {
-                    let jsonRoute = JSON(route)
-                    let id = jsonRoute["id"].intValue
-                    let title = jsonRoute["title"].stringValue
-                    let note = jsonRoute["note"].stringValue
-                    let difficulty = jsonRoute["difficulty"].intValue
-                    let upVotes = jsonRoute["upVotes"].intValue
-                    let downVotes = jsonRoute["downVotes"].intValue
-                    let privateRoute = jsonRoute["private"].boolValue
-                    let routePinsTemp = JSON(jsonRoute["routePins"])
-                    let userJson = JSON(jsonRoute["user"])
-                    let user = User(id: userJson["id"].intValue, userName: userJson["username"].stringValue, bikeSerialNumber: userJson["bikeSerialNumber"].stringValue, bikeBrand: userJson["bikeBrand"].stringValue, bikeNotes: userJson["bikeNotes"].stringValue, bikeImage: nil)
+                for i in 0...res.count {
+                    let id = res[i]["id"].intValue
+                    let title = res[i]["title"].stringValue
+                    let note = res[i]["note"].stringValue
+                    let difficulty = res[i]["difficulty"].intValue
+                    let upVotes = res[i]["upVotes"].intValue
+                    let downVotes = res[i]["downVotes"].intValue
+                    let privateRoute = res[i]["private"].boolValue
+                    let routePinsTemp = res[i]["routePins"]
+                    let user = User(id: res[i]["user"]["id"].intValue, userName: res[i]["user"]["username"].stringValue, bikeSerialNumber: res[i]["user"]["bikeSerialNumber"].stringValue, bikeBrand: res[i]["user"]["bikeBrand"].stringValue, bikeNotes: res[i]["user"]["bikeNotes"].stringValue, bikeImage: nil)
                     var path: [Node] = []
                     for pin in routePinsTemp {
                         let obj = JSON(pin)
@@ -115,7 +112,7 @@ class RouteTableViewController: UITableViewController {
                         path.append(node)
                     }
                     
-                    let pointPinsTemp = JSON(jsonRoute["pointPins"])
+                    let pointPinsTemp = res[i]["pointPins"]
                     var points: [Node] = []
                     for pin in pointPinsTemp {
                         let obj = JSON(pin)
@@ -125,7 +122,9 @@ class RouteTableViewController: UITableViewController {
                         points.append(node)
                     }
                     
-                    self.routes.append(Route(id: id, title: title, note: note, routePins: path, difficulty: difficulty, upVotes: upVotes, downVotes: downVotes, privateRoute: privateRoute, user: user, pointPins: points, voted: false))
+                    let tempRoute = Route(id: id, title: title, note: note, routePins: path, difficulty: difficulty, upVotes: upVotes, downVotes: downVotes, privateRoute: privateRoute, user: user, pointPins: points, voted: false)
+                    
+                    self.routes.append(tempRoute)
                 }
                 break
             case .failure(let error):
