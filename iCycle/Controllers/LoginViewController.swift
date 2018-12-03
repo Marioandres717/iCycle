@@ -111,7 +111,6 @@ class LoginViewController: UIViewController, URLSessionDelegate, URLSessionDataD
     }
     
     func setupBtns() -> Void {
-
         loginBtn.layer.cornerRadius = 5
         loginBtn.layer.borderWidth = 1
         loginBtn.layer.borderColor = UIColor(red: 80/255, green: 227/255, blue: 194/255, alpha: 1).cgColor
