@@ -12,19 +12,14 @@ import ChameleonFramework
 class RouteDetailViewController: UIViewController {
     
     // MARK: Attributes
-    @IBOutlet weak var distanceView: UIView!
-    @IBOutlet weak var difficultyView: UIView!
-    
-    @IBOutlet weak var distanceLabel: UILabel!
     @IBOutlet weak var difficultyLabel: UILabel!
-    
-    @IBOutlet weak var upvoteView: UIView!
-    @IBOutlet weak var downvoteView: UIView!
-    
-    @IBOutlet weak var upvoteButton: UIButton!
-    @IBOutlet weak var downvoteButton: UIButton!
-    
-    @IBOutlet weak var notes: UITextView!
+    @IBOutlet weak var distanceLabel: UILabel!
+    @IBOutlet weak var authorLabel: UILabel!
+    @IBOutlet weak var notesTextView: UITextView!
+    @IBOutlet weak var upVoteButton: UIButton!
+    @IBOutlet weak var downVoteButton: UIButton!
+    @IBOutlet weak var addPinButton: UIButton!
+    @IBOutlet weak var routePhotosButton: UIButton!
     
     @IBOutlet weak var navBar: UINavigationItem!
     
@@ -35,7 +30,6 @@ class RouteDetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         initChameleonColors()
         
         hasUpvoted = false
@@ -45,12 +39,15 @@ class RouteDetailViewController: UIViewController {
             switch (route.difficulty) {
             case 1:
                 difficultyLabel.text = "Low"
+                difficultyLabel.textColor = FlatGreen()
                 break
             case 2:
                 difficultyLabel.text = "Medium"
+                difficultyLabel.textColor = FlatYellow()
                 break
             case 3:
                 difficultyLabel.text = "High"
+                difficultyLabel.textColor = FlatRed()
                 break
             default:
                 break
@@ -58,7 +55,8 @@ class RouteDetailViewController: UIViewController {
             
             navBar.title = route.title
             
-            notes.text = route.note
+            notesTextView.text = route.note
+            authorLabel.text = route.user.userName
             
         }
         // Do any additional setup after loading the view.
@@ -78,43 +76,67 @@ class RouteDetailViewController: UIViewController {
     func initChameleonColors() {
         view.backgroundColor = FlatBlack()
         
-        upvoteButton.backgroundColor = GradientColor(UIGradientStyle.topToBottom, frame: upvoteView.frame, colors: [FlatBlackDark(), FlatGreen()])
+        addPinButton.backgroundColor = FlatForestGreen()
+        addPinButton.layer.cornerRadius = 3
+        addPinButton.layer.borderWidth = 1
+        addPinButton.layer.borderColor = FlatGreen().cgColor
         
-        downvoteButton.backgroundColor = GradientColor(UIGradientStyle.topToBottom, frame: downvoteView.frame, colors: [FlatBlackDark(), FlatSkyBlue()])
+        routePhotosButton.backgroundColor = FlatSkyBlue()
+        routePhotosButton.layer.cornerRadius = 3
+        routePhotosButton.layer.borderWidth = 1
+        routePhotosButton.layer.borderColor = FlatBlue().cgColor
+        
+        upVoteButton.backgroundColor = FlatWhiteDark()
+        upVoteButton.layer.cornerRadius = 3
+        upVoteButton.layer.borderWidth = 1
+        upVoteButton.layer.borderColor = FlatGray().cgColor
+        
+        downVoteButton.backgroundColor = FlatWhiteDark()
+        downVoteButton.layer.cornerRadius = 3
+        downVoteButton.layer.borderWidth = 1
+        downVoteButton.layer.borderColor = FlatGray().cgColor
     }
-
-    @IBAction func upvotePressed(_ sender: Any) {
+    
+    // MARK: Actions
+    @IBAction func upVote(_ sender: Any) {
         if (hasDownvoted == true) {
             hasDownvoted = false;
-            downvoteButton.backgroundColor = GradientColor(UIGradientStyle.topToBottom, frame: downvoteView.frame, colors: [FlatBlackDark(), FlatSkyBlue()])
-            
+            downVoteButton.backgroundColor = FlatWhiteDark()
+            downVoteButton.layer.borderColor = FlatGray().cgColor
+
             hasUpvoted = true;
-            upvoteButton.backgroundColor = FlatGreen();
+            upVoteButton.backgroundColor = FlatForestGreen()
+            upVoteButton.layer.borderColor = FlatForestGreenDark().cgColor
         } else if (hasUpvoted == true) {
             hasUpvoted = false;
-            upvoteButton.backgroundColor = GradientColor(UIGradientStyle.topToBottom, frame: upvoteView.frame, colors: [FlatBlackDark(), FlatGreen()])
-            
+            upVoteButton.backgroundColor = FlatWhiteDark()
+            upVoteButton.layer.borderColor = FlatGray().cgColor
         } else if (hasUpvoted == false) {
             hasUpvoted = true;
-            upvoteButton.backgroundColor = FlatGreen();
+            upVoteButton.backgroundColor = FlatForestGreen()
+            upVoteButton.layer.borderColor = FlatForestGreenDark().cgColor
         }
     }
     
-    @IBAction func downvotePressed(_ sender: Any) {
+    @IBAction func downVote(_ sender: Any) {
         if (hasUpvoted == true) {
             hasUpvoted = false;
-            upvoteButton.backgroundColor = GradientColor(UIGradientStyle.topToBottom, frame: upvoteView.frame, colors: [FlatBlackDark(), FlatGreen()])
+            upVoteButton.backgroundColor = FlatWhiteDark()
+            upVoteButton.layer.borderColor = FlatGray().cgColor
             
             hasDownvoted = true;
-            downvoteButton.backgroundColor = FlatSkyBlue();
+            downVoteButton.backgroundColor = FlatBlue();
+            downVoteButton.layer.borderColor = FlatBlueDark().cgColor
+            
         } else if (hasDownvoted == true) {
             hasDownvoted = false;
-            downvoteButton.backgroundColor = GradientColor(UIGradientStyle.topToBottom, frame: downvoteView.frame, colors: [FlatBlackDark(), FlatSkyBlue()])
+            downVoteButton.backgroundColor = FlatWhiteDark()
+            downVoteButton.layer.borderColor = FlatGray().cgColor
             
         } else if (hasDownvoted == false) {
             hasDownvoted = true;
-            downvoteButton.backgroundColor = FlatSkyBlue();
+            downVoteButton.backgroundColor = FlatBlue();
+            downVoteButton.layer.borderColor = FlatBlueDark().cgColor
         }
     }
-    
 }
