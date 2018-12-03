@@ -50,5 +50,7 @@
 	</array>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Allows user to add photos to app</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Allows user to use camera</string>
 </dict>
 </plist>
