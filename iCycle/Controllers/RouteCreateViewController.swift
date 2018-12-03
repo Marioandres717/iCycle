@@ -42,7 +42,6 @@ class RouteCreateViewController: UIViewController, URLSessionDelegate, URLSessio
         super.viewDidLoad()
         
         // Set Delegates
-        mapView.delegate = self
         routeTitle.delegate = self
         routeNotes.delegate = self
         locationManager.delegate = self
@@ -116,6 +115,7 @@ class RouteCreateViewController: UIViewController, URLSessionDelegate, URLSessio
         if let selectWaypointViewController = segue.source as? SelectWaypointViewController {
             updateMapPins()
             updateSaveState()
+            updateDistance()
         }
     }
     
@@ -254,6 +254,11 @@ class RouteCreateViewController: UIViewController, URLSessionDelegate, URLSessio
         }
     }
     
+    func updateDistance(){
+        let totalDistance = routeDistance.reduce(0, +)
+        print("total distance: \(totalDistance)")
+    }
+    
     @objc func keyboardWillShow(notification: Notification) {
         if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
             let keyboardRectangle = keyboardFrame.cgRectValue
@@ -275,11 +280,6 @@ class RouteCreateViewController: UIViewController, URLSessionDelegate, URLSessio
     @IBAction func userTappedBackground(sender: AnyObject) {
         view.endEditing(true)
     }
-    
-}
-
-// MARK: GMSMapViewDelegate
-extension RouteCreateViewController: GMSMapViewDelegate {
     
 }
 
