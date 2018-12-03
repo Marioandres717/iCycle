@@ -57,16 +57,6 @@ class RouteDetailViewController: UIViewController {
         }
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
     
     // MARK: Methods
     func initChameleonColors() {
@@ -374,5 +364,24 @@ class RouteDetailViewController: UIViewController {
                 }
             }
         })
+    }
+    
+    
+    // MARK: Navigation
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        super.prepare(for: segue, sender: sender)
+        
+        switch(segue.identifier ?? "") {
+            
+        case "addPicture":
+            guard let routeImageViewController = segue.destination as? RouteImageViewController else {
+                fatalError("Unexpected destination: \(segue.destination)")
+            }
+            
+            routeImageViewController.route = self.route
+            
+        default:
+            fatalError("Unexpected Segue Identifier; \(segue.identifier)")
+        }
     }
 }
