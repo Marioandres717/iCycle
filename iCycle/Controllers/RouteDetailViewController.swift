@@ -7,7 +7,11 @@
 //
 
 import UIKit
+import GoogleMaps
+import GooglePlaces
 import ChameleonFramework
+import Alamofire
+import SwiftyJSON
 
 class RouteDetailViewController: UIViewController {
     
@@ -20,8 +24,15 @@ class RouteDetailViewController: UIViewController {
     @IBOutlet weak var downVoteButton: UIButton!
     @IBOutlet weak var addPinButton: UIButton!
     @IBOutlet weak var routePhotosButton: UIButton!
+    @IBOutlet weak var mapView: GMSMapView!
     
     @IBOutlet weak var navBar: UINavigationItem!
+    
+    var routeMarkers: [GMSMarker] = []
+    var pointMarkers: [GMSMarker] = []
+    var routeLines: [String] = []
+    var locationManager = CLLocationManager()
+    var zoomLevel: Float = 13.0
     
     var hasUpvoted: Bool = false
     var hasDownvoted: Bool = false
@@ -36,30 +47,8 @@ class RouteDetailViewController: UIViewController {
         hasDownvoted = false
         
         if let route = route {
-            switch (route.difficulty) {
-            case 1:
-                difficultyLabel.text = "Low"
-                difficultyLabel.textColor = FlatGreen()
-                break
-            case 2:
-                difficultyLabel.text = "Medium"
-                difficultyLabel.textColor = FlatYellow()
-                break
-            case 3:
-                difficultyLabel.text = "High"
-                difficultyLabel.textColor = FlatRed()
-                break
-            default:
-                break
-            }
-            
-            navBar.title = route.title
-            
-            notesTextView.text = route.note
-            authorLabel.text = route.user.userName
-            
+            setUpRoute(route: route)
         }
-        // Do any additional setup after loading the view.
     }
     
 
@@ -73,6 +62,7 @@ class RouteDetailViewController: UIViewController {
     }
     */
     
+    // MARK: Methods
     func initChameleonColors() {
         view.backgroundColor = FlatBlack()
         
@@ -95,6 +85,110 @@ class RouteDetailViewController: UIViewController {
         downVoteButton.layer.cornerRadius = 3
         downVoteButton.layer.borderWidth = 1
         downVoteButton.layer.borderColor = FlatGray().cgColor
+    }
+    
+    func setUpRoute (route: Route) {
+        switch (route.difficulty) {
+        case 1:
+            difficultyLabel.text = "Low"
+            difficultyLabel.textColor = FlatGreen()
+            break
+        case 2:
+            difficultyLabel.text = "Medium"
+            difficultyLabel.textColor = FlatYellow()
+            break
+        case 3:
+            difficultyLabel.text = "High"
+            difficultyLabel.textColor = FlatRed()
+            break
+        default:
+            break
+        }
+        
+        navBar.title = route.title
+        
+        notesTextView.text = route.note
+        authorLabel.text = route.user.userName
+        
+        populateMap(routePins: route.routePins, pointPins: route.pointPins)
+    }
+    
+    func populateMap(routePins: [Node], pointPins: [Node]) {
+        print(route!)
+        if routePins.count > 0 {
+            for pin in routePins {
+                let position = CLLocationCoordinate2D(latitude: CLLocationDegrees(pin.lat), longitude: CLLocationDegrees(pin.long))
+                let marker = GMSMarker(position: position)
+                marker.appearAnimation = GMSMarkerAnimation.pop
+                marker.title = pin.title
+                marker.icon = UIImage(named: "routePin")
+                marker.map = self.mapView
+                
+                routeMarkers += [marker]
+            }
+            mapView.camera = GMSCameraPosition(target: routeMarkers[routeMarkers.count-1].position , zoom: zoomLevel, bearing: 0, viewingAngle: 0)
+        }
+        
+        if pointPins.count > 0 {
+            for pin in pointPins {
+                let position = CLLocationCoordinate2D(latitude: CLLocationDegrees(pin.lat), longitude: CLLocationDegrees(pin.long))
+                let marker = GMSMarker(position: position)
+                marker.appearAnimation = GMSMarkerAnimation.pop
+                marker.title = pin.title
+                switch pin.type {
+                case "Bike Shop":
+                    marker.icon = UIImage(named: "bikeShop")
+                case "Store":
+                    marker.icon = UIImage(named: "store")
+                case "Point of Interest":
+                    marker.icon = UIImage(named: "pointOfInterest")
+                case "Hazard":
+                    marker.icon = UIImage(named: "hazard")
+                default:
+                    marker.icon = GMSMarker.markerImage(with: .black)
+                }
+                
+                marker.map = self.mapView
+                
+                pointMarkers += [marker]
+            }
+        }
+        
+        for i in 0...(routePins.count - 2) {
+            let p1 = CLLocationCoordinate2D(latitude: CLLocationDegrees(routePins[i].lat), longitude: CLLocationDegrees(routePins[i].long))
+            let p2 = CLLocationCoordinate2D(latitude: CLLocationDegrees(routePins[i+1].lat), longitude: CLLocationDegrees(routePins[i+1].long))
+            
+            drawRouteBetweenTwoLastPins(sourceCoordinate: p1, destinationCoordinate: p2, completion: {})
+        }
+        print(self.routeLines.count)
+    }
+    
+    private func drawRouteBetweenTwoLastPins (sourceCoordinate: CLLocationCoordinate2D, destinationCoordinate: CLLocationCoordinate2D, completion : @escaping ()->()) {
+        
+        let source: String = "\(sourceCoordinate.latitude),\(sourceCoordinate.longitude)"
+        let destination: String = "\(destinationCoordinate.latitude),\(destinationCoordinate.longitude)"
+        
+        let urlString = "https://maps.googleapis.com/maps/api/directions/json?origin=\(source)&destination=\(destination)&mode=bicycling&key=AIzaSyBUJZaFSeeEgoJktJao7Fh3V02MsHMY2cI"
+        
+        Alamofire.request(urlString, method: .get).validate().responseJSON { response in
+            switch response.result {
+            case .success(let value):
+                let json = JSON(value)
+                let routes = json["routes"].arrayValue
+                for route in routes
+                {
+                    let routeOverviewPolyline = route["overview_polyline"].dictionary
+                    if let points = routeOverviewPolyline?["points"]?.stringValue{
+                        self.routeLines += [points]
+                    } else {
+                        print ("ERROR: routePoints is nil")
+                    }
+                }
+            case .failure(let error):
+                print("ERROR: \(error)")
+            }
+            completion()
+        }
     }
     
     // MARK: Actions
