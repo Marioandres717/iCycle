@@ -21,6 +21,7 @@ class RouteCreateViewController: UIViewController, URLSessionDelegate, URLSessio
     var routeMarkers: [GMSMarker] = []
     var pointMarkers: [GMSMarker] = []
     var routePoints: [String] = []
+    var routeDistance: [Float] = []
     
     var session: URLSession?
     var user: User?
@@ -103,6 +104,7 @@ class RouteCreateViewController: UIViewController, URLSessionDelegate, URLSessio
             selectWaypointViewController.routeMarkers = routeMarkers
             selectWaypointViewController.pointMarkers = pointMarkers
             selectWaypointViewController.routePoints = routePoints
+            selectWaypointViewController.routeDistance = routeDistance
             break
         default:
             fatalError("Unexpected Segue Identifier; \(String(describing: segue.identifier))")

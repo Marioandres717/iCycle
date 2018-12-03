@@ -22,6 +22,7 @@ class SelectWaypointViewController: UIViewController {
     var marker: GMSMarker? // The currently selected marker
     var newestRoute: GMSPolyline?
     var routePoints: [String]?
+    var routeDistance: [Float] = []
     
     let path = GMSMutablePath()
     
@@ -102,7 +103,6 @@ class SelectWaypointViewController: UIViewController {
         let source: String = "\(sourceCoordinate.latitude),\(sourceCoordinate.longitude)"
         let destination: String = "\(destinationCoordinate.latitude),\(destinationCoordinate.longitude)"
         
-        //let urlString = "https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins=\(source)&destinations=\(destination)&key=AIzaSyBUJZaFSeeEgoJktJao7Fh3V02MsHMY2cI"
         let urlString = "https://maps.googleapis.com/maps/api/directions/json?origin=\(source)&destination=\(destination)&mode=bicycling&key=AIzaSyBUJZaFSeeEgoJktJao7Fh3V02MsHMY2cI"
 
         
@@ -110,6 +110,9 @@ class SelectWaypointViewController: UIViewController {
             switch response.result {
             case .success(let value):
                 let json = JSON(value)
+                
+                print("json \(json)")
+                
                 let routes = json["routes"].arrayValue
                 for route in routes
                 {
@@ -119,6 +122,16 @@ class SelectWaypointViewController: UIViewController {
                         self.routePoints! += [points]
                     } else {
                         print ("ERROR: routePoints is nil")
+                    }
+                    
+                    let legs = route["legs"].arrayValue
+                    for leg in legs {
+                        let distance = leg["distance"].dictionary
+                        if let value = distance?["value"]?.floatValue{
+                            self.routeDistance.append(value)
+                        } else{
+                            print ("ERROR: distance value is nil")
+                        }
                     }
                 }
             case .failure(let error):
@@ -157,6 +170,7 @@ class SelectWaypointViewController: UIViewController {
                 if let routePoints = routePoints {
                     routeCreateViewController.routePoints = routePoints
                 }
+                routeCreateViewController.routeDistance = routeDistance
 
             break
             default:
@@ -200,6 +214,7 @@ class SelectWaypointViewController: UIViewController {
             pointMarker.map = mapView
         }
     }
+    
 }
 
 // MARK: GMSMapViewDelegate
@@ -213,6 +228,7 @@ extension SelectWaypointViewController: GMSMapViewDelegate {
             if newestRoute != nil {
                 newestRoute!.map = nil
                 routePoints!.popLast()
+                routeDistance.popLast()
             }
         }
         
@@ -229,7 +245,6 @@ extension SelectWaypointViewController: GMSMapViewDelegate {
             if let routeMarkers = routeMarkers {
                 if(routeMarkers.count > 0) {
                     drawRouteBetweenTwoLastPins(sourceCoordinate: CLLocationCoordinate2D(latitude: routeMarkers[routeMarkers.count-1].position.latitude, longitude: routeMarkers[routeMarkers.count-1].position.longitude), destinationCoordinate: coordinate, completion: {
-                        print ("routePoints: \(self.routePoints)")
                         
                         let path = GMSPath.init(fromEncodedPath: self.routePoints![self.routePoints!.count - 1])
                         self.newestRoute = GMSPolyline.init(path: path)
@@ -298,6 +313,7 @@ extension SelectWaypointViewController: UIPickerViewDelegate {
             if newestRoute != nil {
                 newestRoute!.map = nil
                 routePoints!.popLast()
+                routeDistance.popLast()
                 path.removeLastCoordinate()
             }
         }
