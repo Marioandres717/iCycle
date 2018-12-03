@@ -26,6 +26,8 @@ class RouteDetailViewController: UIViewController {
     @IBOutlet weak var routePhotosButton: UIButton!
     @IBOutlet weak var mapView: GMSMapView!
     
+    @IBOutlet weak var saveButton: UIBarButtonItem!
+    
     @IBOutlet weak var navBar: UINavigationItem!
     
     var routeMarkers: [GMSMarker] = []
@@ -36,8 +38,10 @@ class RouteDetailViewController: UIViewController {
     
     var hasUpvoted: Bool = false
     var hasDownvoted: Bool = false
+    var hasSaved: Bool = false
     
     var route: Route?
+    var user: User?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -45,6 +49,8 @@ class RouteDetailViewController: UIViewController {
         
         hasUpvoted = false
         hasDownvoted = false
+        
+        self.user = User.loadUser()
         
         if let route = route {
             setUpRoute(route: route)
@@ -107,10 +113,99 @@ class RouteDetailViewController: UIViewController {
         
         navBar.title = route.title
         
+        var totalDistance = route.distance
+        if  totalDistance > 1000 {
+            totalDistance = totalDistance / 1000
+            distanceLabel.text = String(format: "%.1f", totalDistance) + " km"
+        } else {
+            distanceLabel.text = String(format: "%.0f", totalDistance) + " m"
+        }
+        
         notesTextView.text = route.note
         authorLabel.text = route.user.userName
         
-        populateMap(routePins: route.routePins, pointPins: route.pointPins)
+        getVote(completion: {res in
+            switch(res) {
+            case "up":
+                self.hasDownvoted = false;
+                self.downVoteButton.backgroundColor = FlatWhiteDark()
+                self.downVoteButton.layer.borderColor = FlatGray().cgColor
+                
+                self.hasUpvoted = true;
+                self.upVoteButton.backgroundColor = FlatForestGreen()
+                self.upVoteButton.layer.borderColor = FlatForestGreenDark().cgColor
+                break
+            case "down":
+                self.hasUpvoted = false;
+                self.upVoteButton.backgroundColor = FlatWhiteDark()
+                self.upVoteButton.layer.borderColor = FlatGray().cgColor
+                
+                self.hasDownvoted = true;
+                self.downVoteButton.backgroundColor = FlatBlue();
+                self.downVoteButton.layer.borderColor = FlatBlueDark().cgColor
+                break
+            case "none":
+                self.hasUpvoted = false
+                self.hasDownvoted = false
+                break
+            default:
+                fatalError("Unexpected response: \(res)")
+            }
+            
+            self.getHasSaved(completion: {res in
+                if res == true {
+                    self.hasSaved = true
+                    self.saveButton.title = "Un-save"
+                } else {
+                    self.hasSaved = false
+                    self.saveButton.title = "Save"
+                }
+                self.populateMap(routePins: route.routePins, pointPins: route.pointPins)
+            })
+        })
+    }
+    
+    func getVote(completion: @escaping (_ res: String)->()) {
+        let urlString = UrlBuilder.hasVoted(id: self.route!.id, userId: self.user!.id)
+        
+        Alamofire.request(urlString, method: .get).validate().responseJSON { response in
+            switch response.result {
+            case .success(let value):
+                let json = JSON(value)
+                let res = json["voted"].stringValue
+                completion(res)
+            case .failure(let error):
+                print("ERROR: \(error)")
+            }
+        }
+    }
+    
+    func save(completion: @escaping (_ res: Bool)->()) {
+        let urlString = UrlBuilder.saveRoute(id: self.route!.id, userId: self.user!.id)
+        
+        Alamofire.request(urlString, method: .put).validate().responseJSON { response in
+            switch response.result {
+            case .success(let value):
+                completion(JSON(value).boolValue)
+            case .failure(let error):
+                print("ERROR: \(error)")
+            }
+        }
+    }
+    
+    func getHasSaved(completion: @escaping (_ res: Bool)->()) {
+        let urlString = UrlBuilder.hasSaved(id: self.route!.id, userId: self.user!.id)
+        
+        Alamofire.request(urlString, method: .get).validate().responseJSON { response in
+            switch response.result {
+            case .success(let value):
+                let json = JSON(value)
+                let res = json["saved"].boolValue
+                completion(res)
+            case .failure(let error):
+                print("ERROR: \(error)")
+            }
+        }
     }
     
     func populateMap(routePins: [Node], pointPins: [Node]) {
@@ -197,44 +292,87 @@ class RouteDetailViewController: UIViewController {
     
     // MARK: Actions
     @IBAction func upVote(_ sender: Any) {
-        if (hasDownvoted == true) {
-            hasDownvoted = false;
-            downVoteButton.backgroundColor = FlatWhiteDark()
-            downVoteButton.layer.borderColor = FlatGray().cgColor
-
-            hasUpvoted = true;
-            upVoteButton.backgroundColor = FlatForestGreen()
-            upVoteButton.layer.borderColor = FlatForestGreenDark().cgColor
-        } else if (hasUpvoted == true) {
-            hasUpvoted = false;
-            upVoteButton.backgroundColor = FlatWhiteDark()
-            upVoteButton.layer.borderColor = FlatGray().cgColor
-        } else if (hasUpvoted == false) {
-            hasUpvoted = true;
-            upVoteButton.backgroundColor = FlatForestGreen()
-            upVoteButton.layer.borderColor = FlatForestGreenDark().cgColor
+        
+        let urlString = UrlBuilder.upVoteRoute(id: self.route!.id, userId: self.user!.id)
+        
+        Alamofire.request(urlString, method: .put).validate().responseJSON { response in
+            switch response.result {
+            case .success(let value):
+                if JSON(value).boolValue == true {
+                    if (self.hasDownvoted == true) {
+                        self.hasDownvoted = false;
+                        self.downVoteButton.backgroundColor = FlatWhiteDark()
+                        self.downVoteButton.layer.borderColor = FlatGray().cgColor
+                        
+                        self.hasUpvoted = true;
+                        self.upVoteButton.backgroundColor = FlatForestGreen()
+                        self.upVoteButton.layer.borderColor = FlatForestGreenDark().cgColor
+                    } else if (self.hasUpvoted == true) {
+                        self.hasUpvoted = false;
+                        self.upVoteButton.backgroundColor = FlatWhiteDark()
+                        self.upVoteButton.layer.borderColor = FlatGray().cgColor
+                    } else if (self.hasUpvoted == false) {
+                        self.hasUpvoted = true;
+                        self.upVoteButton.backgroundColor = FlatForestGreen()
+                        self.upVoteButton.layer.borderColor = FlatForestGreenDark().cgColor
+                    }
+                }
+            case .failure(let error):
+                print("ERROR: \(error)")
+            }
         }
     }
     
     @IBAction func downVote(_ sender: Any) {
-        if (hasUpvoted == true) {
-            hasUpvoted = false;
-            upVoteButton.backgroundColor = FlatWhiteDark()
-            upVoteButton.layer.borderColor = FlatGray().cgColor
-            
-            hasDownvoted = true;
-            downVoteButton.backgroundColor = FlatBlue();
-            downVoteButton.layer.borderColor = FlatBlueDark().cgColor
-            
-        } else if (hasDownvoted == true) {
-            hasDownvoted = false;
-            downVoteButton.backgroundColor = FlatWhiteDark()
-            downVoteButton.layer.borderColor = FlatGray().cgColor
-            
-        } else if (hasDownvoted == false) {
-            hasDownvoted = true;
-            downVoteButton.backgroundColor = FlatBlue();
-            downVoteButton.layer.borderColor = FlatBlueDark().cgColor
+        
+        let urlString = UrlBuilder.downVoteRoute(id: self.route!.id, userId: self.user!.id)
+        
+        Alamofire.request(urlString, method: .put).validate().responseJSON { response in
+            switch response.result {
+            case .success(let value):
+                if JSON(value).boolValue == true {
+                    if (self.hasUpvoted == true) {
+                        self.hasUpvoted = false;
+                        self.upVoteButton.backgroundColor = FlatWhiteDark()
+                        self.upVoteButton.layer.borderColor = FlatGray().cgColor
+                        
+                        self.hasDownvoted = true;
+                        self.downVoteButton.backgroundColor = FlatBlue();
+                        self.downVoteButton.layer.borderColor = FlatBlueDark().cgColor
+                        
+                    } else if (self.hasDownvoted == true) {
+                        self.hasDownvoted = false;
+                        self.downVoteButton.backgroundColor = FlatWhiteDark()
+                        self.downVoteButton.layer.borderColor = FlatGray().cgColor
+                        
+                    } else if (self.hasDownvoted == false) {
+                        self.hasDownvoted = true;
+                        self.downVoteButton.backgroundColor = FlatBlue();
+                        self.downVoteButton.layer.borderColor = FlatBlueDark().cgColor
+                    }
+                }
+            case .failure(let error):
+                print("ERROR: \(error)")
+            }
         }
+    }
+    
+    @IBAction func saveRoute(_ sender: Any) {
+        save(completion: { res in
+            print(res)
+            if res == true {
+                print("Before: \(self.hasSaved)")
+                self.hasSaved = !self.hasSaved
+                print("After: \(self.hasSaved)")
+                
+                if self.hasSaved == true {
+                    print("Save")
+                    self.saveButton.title = "Un-save"
+                } else {
+                    print("Un-save")
+                    self.saveButton.title = "Save"
+                }
+            }
+        })
     }
 }

@@ -24,6 +24,10 @@ class RouteTableViewController: UITableViewController {
         self.tableView.delegate = self
         self.tableView.dataSource = self
         
+        self.tableView.refreshControl = UIRefreshControl()
+        self.tableView.refreshControl!.tintColor = FlatGreenDark()
+        self.tableView.refreshControl!.attributedTitle = NSAttributedString(string: "Fetching Routes ...", attributes: nil)
+        self.tableView.refreshControl!.addTarget(self, action: #selector(refreshRouteData(_:)), for: .valueChanged)
         sideMenu()
         customizeNavBar()
         initChameleonColors()
@@ -76,13 +80,31 @@ class RouteTableViewController: UITableViewController {
             break
         }
         
-        cell.distance.text = "_ Km"
+        var totalDistance = route.distance
+        if  totalDistance > 1000 {
+            totalDistance = totalDistance / 1000
+            cell.distance.text = String(format: "%.1f", totalDistance) + " km"
+        } else {
+            cell.distance.text = String(format: "%.0f", totalDistance) + " m"
+        }
         
         cell.score.text = String(route.score)
         
         cell.author.text = route.user.userName
         
         return cell
+    }
+    
+    @objc private func refreshRouteData(_ sender: Any) {
+        print("Refreshing Routes...")
+        self.routes = []
+        self.tableView.reloadData()
+        self.loadRoutes {
+            print("Refreshed Routes.")
+            self.tableView.reloadData()
+            
+            self.tableView.refreshControl!.endRefreshing()
+        }
     }
     
     func loadRoutes(completion : @escaping ()->()) {
@@ -101,6 +123,7 @@ class RouteTableViewController: UITableViewController {
                         let difficulty = res[i]["difficulty"].intValue
                         let upVotes = res[i]["upVotes"].intValue
                         let downVotes = res[i]["downVotes"].intValue
+                        let distance = res[i]["distance"].doubleValue
                         let privateRoute = res[i]["private"].boolValue
                         let routePinsTemp = res[i]["routePins"]
                         let user = User(id: res[i]["user"]["id"].intValue, userName: res[i]["user"]["username"].stringValue, bikeSerialNumber: res[i]["user"]["bikeSerialNumber"].stringValue, bikeBrand: res[i]["user"]["bikeBrand"].stringValue, bikeNotes: res[i]["user"]["bikeNotes"].stringValue, bikeImage: nil)
@@ -123,7 +146,7 @@ class RouteTableViewController: UITableViewController {
                             }
                         }
                         
-                        let tempRoute = Route(id: id, title: title, note: note, routePins: path, difficulty: difficulty, upVotes: upVotes, downVotes: downVotes, privateRoute: privateRoute, user: user, pointPins: points, voted: false)
+                        let tempRoute = Route(id: id, title: title, note: note, routePins: path, difficulty: difficulty, distance: distance, upVotes: upVotes, downVotes: downVotes, privateRoute: privateRoute, user: user, pointPins: points, voted: false)
                         
                         self.routes.append(tempRoute)
                     }
@@ -168,7 +191,11 @@ class RouteTableViewController: UITableViewController {
     // Execute when returning from adding a route.
     @IBAction func unwindToRouteTable(segue:UIStoryboardSegue) {
         if let routeCreateController = segue.source as? RouteCreateViewController {
-            
+            self.routes = []
+            self.tableView.reloadData()
+            self.loadRoutes {
+                self.tableView.reloadData()
+            }
         }
     }
     

@@ -417,6 +417,9 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <refreshControl key="refreshControl" opaque="NO" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" id="QMS-dy-xzG">
+                        <autoresizingMask key="autoresizingMask"/>
+                    </refreshControl>
                     <connections>
                         <outlet property="menuButton" destination="MDd-dX-zw9" id="FhB-hj-wfZ"/>
                     </connections>
@@ -564,7 +567,11 @@
                         <viewLayoutGuide key="safeArea" id="1mq-W5-y92"/>
                     </view>
                     <navigationItem key="navigationItem" id="kqz-As-MaL">
-                        <barButtonItem key="rightBarButtonItem" title="Save" id="94J-R7-wCh"/>
+                        <barButtonItem key="rightBarButtonItem" title="Save" id="94J-R7-wCh">
+                            <connections>
+                                <action selector="saveRoute:" destination="MkD-D0-GsY" id="JDd-JX-RSa"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <size key="freeformSize" width="414" height="736"/>
                     <connections>
@@ -577,6 +584,7 @@
                         <outlet property="navBar" destination="kqz-As-MaL" id="uzW-tT-UtT"/>
                         <outlet property="notesTextView" destination="QF9-fh-cc5" id="tWF-Gu-hnV"/>
                         <outlet property="routePhotosButton" destination="3kp-u1-xpR" id="Nct-4o-VU9"/>
+                        <outlet property="saveButton" destination="94J-R7-wCh" id="g9x-6e-PRD"/>
                         <outlet property="upVoteButton" destination="qcD-g6-gcy" id="3uA-K2-PJC"/>
                     </connections>
                 </viewController>

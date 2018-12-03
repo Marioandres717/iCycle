@@ -134,7 +134,7 @@ class RouteCreateViewController: UIViewController, URLSessionDelegate, URLSessio
         let difficulty = routeDifficulty.selectedSegmentIndex + 1
         let notes = routeNotes.text ?? ""
         let privacy = routeIsPrivate.isOn
-        
+        let totalDistance = routeDistance.reduce(0, +)
         self.user = User.loadUser()
         
         var parameters : [String: Any] = [
@@ -142,6 +142,7 @@ class RouteCreateViewController: UIViewController, URLSessionDelegate, URLSessio
             "note": notes,
             "routePins": [],
             "pointPins": [],
+            "distance": totalDistance,
             "difficulty": difficulty,
             "private": privacy,
             "userId": user?.id ?? -1
@@ -168,6 +169,7 @@ class RouteCreateViewController: UIViewController, URLSessionDelegate, URLSessio
                 let difficulty = res["difficulty"].intValue
                 let upVotes = res["upVotes"].intValue
                 let downVotes = res["downVotes"].intValue
+                let distance = res["distance"].doubleValue
                 let privateRoute = res["private"].boolValue
                 let routePinsTemp = res["routePins"]
                 var path: [Node] = []
@@ -189,7 +191,7 @@ class RouteCreateViewController: UIViewController, URLSessionDelegate, URLSessio
                         points.append(node)
                     }
                 }
-                self.route = Route(id: id, title: title, note: note, routePins: path, difficulty: difficulty, upVotes: upVotes, downVotes: downVotes, privateRoute: privateRoute, user: self.user!, pointPins: points, voted: false)
+                self.route = Route(id: id, title: title, note: note, routePins: path, difficulty: difficulty, distance: distance, upVotes: upVotes, downVotes: downVotes, privateRoute: privateRoute, user: self.user!, pointPins: points, voted: false)
                 break
             case .failure(let error):
                 print(error)

@@ -29,7 +29,9 @@ class Route {
     var user: User // The creator of the route
     var id: Int // The id of the route on the server
     
-    init(id: Int, title: String, note: String, routePins: [Node], difficulty: Int, upVotes: Int, downVotes: Int, privateRoute: Bool, user: User, pointPins: [Node], voted: Bool?) {
+    var distance: Double
+    
+    init(id: Int, title: String, note: String, routePins: [Node], difficulty: Int, distance: Double, upVotes: Int, downVotes: Int, privateRoute: Bool, user: User, pointPins: [Node], voted: Bool?) {
         self.title = title
         self.note = note
         self.routePins = routePins
@@ -42,6 +44,7 @@ class Route {
         self.user = user
         self.id = id
         self.pointPins = pointPins
+        self.distance = distance
     }
 
 }
