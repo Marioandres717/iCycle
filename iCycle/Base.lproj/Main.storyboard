@@ -573,6 +573,7 @@
                         <outlet property="difficultyLabel" destination="9jD-RK-9xi" id="sQb-Ht-mZB"/>
                         <outlet property="distanceLabel" destination="vUF-rY-auw" id="66R-xT-y25"/>
                         <outlet property="downVoteButton" destination="QfD-1c-hRa" id="7dp-bL-SS9"/>
+                        <outlet property="mapView" destination="Ckx-83-sZa" id="JmS-S0-1mj"/>
                         <outlet property="navBar" destination="kqz-As-MaL" id="uzW-tT-UtT"/>
                         <outlet property="notesTextView" destination="QF9-fh-cc5" id="tWF-Gu-hnV"/>
                         <outlet property="routePhotosButton" destination="3kp-u1-xpR" id="Nct-4o-VU9"/>
@@ -1475,7 +1476,7 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="qgT-UH-ObC"/>
-        <segue reference="cm2-r2-fC2"/>
+        <segue reference="HRg-Sz-9x4"/>
         <segue reference="xRi-85-swV"/>
         <segue reference="0pB-Sn-MGZ"/>
         <segue reference="lIw-jN-FJ2"/>
