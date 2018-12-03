@@ -21,6 +21,7 @@ class RouteCreateViewController: UIViewController, URLSessionDelegate, URLSessio
     var routeMarkers: [GMSMarker] = []
     var pointMarkers: [GMSMarker] = []
     var routePoints: [String] = []
+    var routeDistance: [Double] = []
     
     var session: URLSession?
     var user: User?
@@ -34,6 +35,7 @@ class RouteCreateViewController: UIViewController, URLSessionDelegate, URLSessio
     @IBOutlet weak var routeDifficulty: UISegmentedControl!
     @IBOutlet weak var routeNotes: UITextView!
     @IBOutlet weak var routeIsPrivate: UISwitch!
+    @IBOutlet weak var distanceTextLabel: UILabel!
     @IBOutlet weak var mapView: GMSMapView!
     @IBOutlet weak var saveButton: UIBarButtonItem!
     
@@ -41,7 +43,6 @@ class RouteCreateViewController: UIViewController, URLSessionDelegate, URLSessio
         super.viewDidLoad()
         
         // Set Delegates
-        mapView.delegate = self
         routeTitle.delegate = self
         routeNotes.delegate = self
         locationManager.delegate = self
@@ -103,6 +104,7 @@ class RouteCreateViewController: UIViewController, URLSessionDelegate, URLSessio
             selectWaypointViewController.routeMarkers = routeMarkers
             selectWaypointViewController.pointMarkers = pointMarkers
             selectWaypointViewController.routePoints = routePoints
+            selectWaypointViewController.routeDistance = routeDistance
             break
         default:
             fatalError("Unexpected Segue Identifier; \(String(describing: segue.identifier))")
@@ -114,6 +116,7 @@ class RouteCreateViewController: UIViewController, URLSessionDelegate, URLSessio
         if let selectWaypointViewController = segue.source as? SelectWaypointViewController {
             updateMapPins()
             updateSaveState()
+            updateDistance()
         }
     }
     
@@ -258,6 +261,17 @@ class RouteCreateViewController: UIViewController, URLSessionDelegate, URLSessio
         }
     }
     
+    func updateDistance(){
+        var totalDistance = routeDistance.reduce(0, +)
+        if totalDistance > 1000 {
+            totalDistance = totalDistance / 1000
+            distanceTextLabel.text = String(format: "%.1f", totalDistance) + " km"
+        } else {
+            distanceTextLabel.text = String(format: "%.0f", totalDistance) + " m"
+        }
+        print("total distance: \(totalDistance)")
+    }
+    
     @objc func keyboardWillShow(notification: Notification) {
         if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
             let keyboardRectangle = keyboardFrame.cgRectValue
@@ -279,11 +293,6 @@ class RouteCreateViewController: UIViewController, URLSessionDelegate, URLSessio
     @IBAction func userTappedBackground(sender: AnyObject) {
         view.endEditing(true)
     }
-    
-}
-
-// MARK: GMSMapViewDelegate
-extension RouteCreateViewController: GMSMapViewDelegate {
     
 }
 

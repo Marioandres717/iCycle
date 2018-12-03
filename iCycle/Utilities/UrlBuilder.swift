@@ -27,4 +27,8 @@ class UrlBuilder {
     public static func getAllRoutes() -> String {
         return baseURL + "routes"
     }
+    
+    public static func editUser(id: Int) -> String {
+        return baseURL + "/users/\(id)"
+    }
 }
