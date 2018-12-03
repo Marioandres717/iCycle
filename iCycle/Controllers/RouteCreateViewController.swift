@@ -21,7 +21,7 @@ class RouteCreateViewController: UIViewController, URLSessionDelegate, URLSessio
     var routeMarkers: [GMSMarker] = []
     var pointMarkers: [GMSMarker] = []
     var routePoints: [String] = []
-    var routeDistance: [Float] = []
+    var routeDistance: [Double] = []
     
     var session: URLSession?
     var user: User?
@@ -35,6 +35,7 @@ class RouteCreateViewController: UIViewController, URLSessionDelegate, URLSessio
     @IBOutlet weak var routeDifficulty: UISegmentedControl!
     @IBOutlet weak var routeNotes: UITextView!
     @IBOutlet weak var routeIsPrivate: UISwitch!
+    @IBOutlet weak var distanceTextLabel: UILabel!
     @IBOutlet weak var mapView: GMSMapView!
     @IBOutlet weak var saveButton: UIBarButtonItem!
     
@@ -255,7 +256,13 @@ class RouteCreateViewController: UIViewController, URLSessionDelegate, URLSessio
     }
     
     func updateDistance(){
-        let totalDistance = routeDistance.reduce(0, +)
+        var totalDistance = routeDistance.reduce(0, +)
+        if totalDistance > 1000 {
+            totalDistance = totalDistance / 1000
+            distanceTextLabel.text = String(format: "%.1f", totalDistance) + " km"
+        } else {
+            distanceTextLabel.text = String(format: "%.0f", totalDistance) + " m"
+        }
         print("total distance: \(totalDistance)")
     }
     

@@ -22,7 +22,7 @@ class SelectWaypointViewController: UIViewController {
     var marker: GMSMarker? // The currently selected marker
     var newestRoute: GMSPolyline?
     var routePoints: [String]?
-    var routeDistance: [Float] = []
+    var routeDistance: [Double] = []
     
     let path = GMSMutablePath()
     
@@ -127,7 +127,7 @@ class SelectWaypointViewController: UIViewController {
                     let legs = route["legs"].arrayValue
                     for leg in legs {
                         let distance = leg["distance"].dictionary
-                        if let value = distance?["value"]?.floatValue{
+                        if let value = distance?["value"]?.doubleValue{
                             self.routeDistance.append(value)
                         } else{
                             print ("ERROR: distance value is nil")
