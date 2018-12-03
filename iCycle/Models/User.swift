@@ -23,12 +23,12 @@ class User: NSObject, NSCoding {
     var bikeSerialNumber: String?
     var bikeBrand: String?
     var bikeNotes: String?
-    var bikeImage: UIImage?
+    var bikeImage: String?
     
     static let DocumentsDir = FileManager().urls(for: .documentDirectory, in: .userDomainMask).first!
     static let ArchiveURL = DocumentsDir.appendingPathComponent("user")
     
-    init(id: Int, userName: String, bikeSerialNumber: String?, bikeBrand: String?, bikeNotes: String?, bikeImage: UIImage?) {
+    init(id: Int, userName: String, bikeSerialNumber: String?, bikeBrand: String?, bikeNotes: String?, bikeImage: String?) {
         self.id = id
         self.userName = userName
         self.bikeSerialNumber = bikeSerialNumber
@@ -43,7 +43,7 @@ class User: NSObject, NSCoding {
         self.bikeSerialNumber = json["bikeSerialNumber"] as? String ?? ""
         self.bikeBrand = json["bikeBrand"] as? String ?? ""
         self.bikeNotes = json["bikeNotes"] as? String ?? ""
-        self.bikeImage = json["bikeImage"] as? UIImage ?? UIImage(named: "placeholder")!
+        self.bikeImage = json["bikePhoto"] as? String ?? ""
     }
     
     required convenience init?(coder aDecoder: NSCoder) {
@@ -61,11 +61,11 @@ class User: NSObject, NSCoding {
             return nil
         }
         
-        guard let bikeNotes = aDecoder.decodeObject(forKey: PropertyKeyUser.bikeBrand) as? String else {
+        guard let bikeNotes = aDecoder.decodeObject(forKey: PropertyKeyUser.bikeNotes) as? String else {
             return nil
         }
         
-        guard let bikeImage = aDecoder.decodeObject(forKey: PropertyKeyUser.bikeImage) as? UIImage else {
+        guard let bikeImage = aDecoder.decodeObject(forKey: PropertyKeyUser.bikeImage) as? String else {
             return nil
         }
         
@@ -88,8 +88,6 @@ class User: NSObject, NSCoding {
     static func saveUser(user: User) -> Bool {
         let isSucessfulSave = NSKeyedArchiver.archiveRootObject(user, toFile: User.ArchiveURL.path)
         if isSucessfulSave {
-//            let u = loadUser()!
-//            print("UUUUU \(u)")
             return true
         } else {
             return false

@@ -28,6 +28,15 @@ class HttpConfig {
         request.httpBody = httpBody
     }
     
+    static func putRequestConfig(url: String, parameters: [String: Any]) {
+        guard let url = URL(string: url) else {return}
+        self.request = URLRequest(url: url)
+        request.httpMethod = "PUT"
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        guard let httpBody = try? JSONSerialization.data(withJSONObject: parameters, options: []) else {return}
+        request.httpBody = httpBody
+    }
+    
     static func sessionConfig() -> URLSessionConfiguration {
         let sessionConfig = URLSessionConfiguration.default
         sessionConfig.urlCache = nil

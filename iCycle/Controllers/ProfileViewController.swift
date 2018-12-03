@@ -8,6 +8,7 @@
 
 import UIKit
 import ChameleonFramework
+import Firebase
 
 class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, URLSessionDelegate, URLSessionDataDelegate {
     
@@ -15,6 +16,8 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     var bikeChanges: Bool = false
     
     var user: User?
+    var session: URLSession?
+    var firebasePicURL: String? // we need this in the case that the request to the server fails, we use this reference to delete the image in firestorage
 
     @IBOutlet weak var myUsername: UILabel!
     @IBOutlet weak var menuButton: UIBarButtonItem!
@@ -34,7 +37,6 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         user = User.loadUser()!
         addUserInfoToView()
         
-        saveChangesButton.isEnabled = false;
         saveChangesButton.backgroundColor = FlatGray()
         
         // Delegates
@@ -79,10 +81,27 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     
     func addUserInfoToView() {
         myUsername.text = user?.userName ?? ""
-        myBikePhoto.image = user?.bikeImage ?? nil
         myBikeSerialNumber.text = user?.bikeSerialNumber ?? ""
         myBikeBrand.text = user?.bikeBrand ?? ""
         myBikeNotes.text = user?.bikeNotes ?? ""
+        let urlToImage = user?.bikeImage ?? ""
+        print("url to image \(urlToImage)")
+        if urlToImage != "" {
+            let storageRef = Storage.storage().reference(forURL: urlToImage)
+            let maxSize: Int64 = 3 * 1024 * 1024 // 3MB
+            storageRef.getData(maxSize: maxSize) { (data, error) in
+                if let error = error {
+                    print(error)
+                    self.myBikePhoto.image = UIImage(named: "placeholder")
+                } else {
+                    print("Sucessfully fetched image")
+                    self.myBikePhoto.image = UIImage(data: data!)
+                }
+            }
+        } else {
+            self.myBikePhoto.image = UIImage(named: "placeholder")
+        }
+        
     }
     
     @IBAction func addNewImage(_ sender: UITapGestureRecognizer) {
@@ -134,7 +153,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
     
-        if let editImage = info[UIImagePickerController.InfoKey.editedImage] as? UIImage {
+        if let editImage = info[UIImagePickerController.InfoKey.editedImage] as? UIImage  {
             myBikePhoto.image = editImage
         } else if let originalImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
             myBikePhoto.image = originalImage
@@ -142,6 +161,39 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     
         dismiss(animated: true, completion: nil)
     }
+    
+    func uploadImageToFirebaseStorage(completion: @escaping ((_ url: URL?) ->())) {
+        let imageName = NSUUID().uuidString
+        let storageRef = Storage.storage().reference(withPath: "profile/\(imageName).jpg")
+        let uploadMetaData = StorageMetadata()
+        uploadMetaData.contentType = "image/jpeg"
+        
+        let data = myBikePhoto.image?.jpegData(compressionQuality: 0.8)
+        storageRef.putData(data!, metadata: uploadMetaData) { (metadata, error) in
+            if (error != nil){
+                print("ERROR: \(String(describing: error?.localizedDescription))")
+            } else {
+                print("upload complete! metadata: \(String(describing: metadata))")
+                storageRef.downloadURL { (url, error) in
+                  completion(url)
+                }
+            }
+        }
+    }
+    
+    func deleteImageFromFirebaseStorage() {
+        let storage = Storage.storage()
+        let url = self.firebasePicURL
+        let storageRef = storage.reference(forURL: url!)
+        storageRef.delete { error in
+            if let error = error {
+                print("\(error)")
+            } else {
+                print("image sucessfully deleted")
+            }
+        }
+    }
+
     /*
     // MARK: - Navigation
 
@@ -232,10 +284,65 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     }
     
     @IBAction func handleSaveChanges(_ sender: UIButton) {
-        
+        guard let bikeSerial = myBikeSerialNumber.text else {return}
+        guard let bikeBrand = myBikeBrand.text else {return}
+        guard let bikeNotes = myBikeNotes.text else {return}
+    
+        uploadImageToFirebaseStorage() { (url) in
+            self.firebasePicURL = url?.absoluteString
+            let parameters = ["bikeSerialNumber": bikeSerial, "bikeBrand": bikeBrand, "bikeNotes": bikeNotes, "bikePhoto": url!.absoluteString] as [String : Any]
+            
+            HttpConfig.putRequestConfig(url: UrlBuilder.editUser(id: self.user!.id), parameters: parameters)
+            
+            let sessionConfig = HttpConfig.sessionConfig()
+            
+            self.session = URLSession(configuration: sessionConfig, delegate: self, delegateQueue: nil)
+            
+            if let task = self.session?.dataTask(with: HttpConfig.request) {
+                task.resume()
+            }
+        }
     }
     
+    func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, didReceive data: Data) {
+        guard let json = try? JSONSerialization.jsonObject(with: data, options: []) else {return}
+        print(json)
+        
+        if let res = json as? [String: Any] {
+            if let err = res["statusCode"] as? Int, let message = res["message"] as? String {
+                DispatchQueue.main.async {
+                    let alert = ErrorHandler.handleError(title: "Update profile Error",message: message + " \(err)")
+                    self.present(alert, animated: true, completion: nil)
+                }
+            } else {
+                DispatchQueue.main.async {
+                        print("successfully update user!")
+                        let updatedUser = User(json: res)
+                        let sucessfullySaved = User.saveUser(user: updatedUser!)
+                        if sucessfullySaved {
+                            let oldImageURL = self.user?.bikeImage
+                            self.user = User.loadUser()!
+                            // if the user change their bike picture then delete the old picture
+                            if oldImageURL != self.user?.bikeImage {
+                                self.firebasePicURL = oldImageURL
+                                self.deleteImageFromFirebaseStorage()
+                            }
+                        }
+                    }
+                }
+            }
+    }
     
+    func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
+        // request to api fail, deleting the image on fireStorage
+        if error != nil {
+            deleteImageFromFirebaseStorage()
+            DispatchQueue.main.async {
+                let alert = ErrorHandler.handleError(title: "Update profile Error",message: "It wasn't possible to edit user")
+                self.present(alert, animated: true, completion: nil)
+            }
+        }
+    }
 }
 
 // MARK: UITextFieldDelegate
