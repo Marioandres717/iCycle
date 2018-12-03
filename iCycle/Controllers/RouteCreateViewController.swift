@@ -134,23 +134,31 @@ class RouteCreateViewController: UIViewController, URLSessionDelegate, URLSessio
         
         self.user = User.loadUser()
         
-        let path = routePins.map({(pin) -> String in
-            return "{'long': \(pin.long),'lat': \(pin.lat),'type': \(pin.type),'title': \(pin.title!)}"
-        })
+        var parameters : [String: Any] = [
+            "title": title,
+            "note": notes,
+            "routePins": [],
+            "pointPins": [],
+            "difficulty": difficulty,
+            "private": privacy,
+            "userId": user?.id ?? -1
+        ]
         
-        let points = pointPins.map({(pin) -> String in
-            return "{'long': \(pin.long),'lat': \(pin.lat),'type': \(pin.type),'title': \(pin.title!)}"
-        })
+        for i in 0...(routePins.count - 1) {
+            parameters["routePins"] = (parameters["routePins"] as? [[String: Any]] ?? []) + [["long": routePins[i].long, "lat": routePins[i].lat, "type": routePins[i].type, "title": routePins[i].title ?? ""]]
+        }
         
-        
-        let parameters = ["title": title, "note": notes, "routePins": path, "difficulty": difficulty, "private": privacy, "userId": user?.id ?? -1, "pointPins": points] as [String : Any]
+        if (pointPins.count > 0) {
+            for i in 0...(pointPins.count - 1) {
+                parameters["pointPins"] = (parameters["pointPins"] as? [[String: Any]] ?? []) + [["long": pointPins[i].long, "lat": pointPins[i].lat, "type": pointPins[i].type, "title": pointPins[i].title ?? ""]]
+            }
+        }
         
         Alamofire.request(urlString, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: nil).responseJSON {
             response in
             switch response.result {
             case .success(let result):
                 let res = JSON(result)
-                print(res)
                 let id = res["id"].intValue
                 let title = res["title"].stringValue
                 let note = res["note"].stringValue
@@ -158,28 +166,27 @@ class RouteCreateViewController: UIViewController, URLSessionDelegate, URLSessio
                 let upVotes = res["upVotes"].intValue
                 let downVotes = res["downVotes"].intValue
                 let privateRoute = res["private"].boolValue
-                let routePinsTemp = JSON(res["routePins"])
+                let routePinsTemp = res["routePins"]
                 var path: [Node] = []
-                for pin in routePinsTemp {
-                    let obj = JSON(pin)
+                for i in 0...(routePinsTemp.count - 1) {
+                    let obj = JSON(routePinsTemp[i])
                     guard let node = Node(long: obj["long"].doubleValue, lat: obj["lat"].doubleValue, type: obj["type"].stringValue, title: obj["title"].stringValue) else {
                         fatalError("Could not read object from server correctly when creating a node")
                     }
                     path.append(node)
                 }
-                
-                let pointPinsTemp = JSON(res["pointPins"])
+                let pointPinsTemp = res["pointPins"]
                 var points: [Node] = []
-                for pin in pointPinsTemp {
-                    let obj = JSON(pin)
-                    guard let node = Node(long: obj["long"].doubleValue, lat: obj["lat"].doubleValue, type: obj["type"].stringValue, title: obj["title"].stringValue) else {
-                        fatalError("Could not read object from server correctly when creating a node")
+                if (pointPinsTemp.count > 0) {
+                    for i in 0...(pointPinsTemp.count - 1) {
+                        let obj = JSON(pointPinsTemp[i])
+                        guard let node = Node(long: obj["long"].doubleValue, lat: obj["lat"].doubleValue, type: obj["type"].stringValue, title: obj["title"].stringValue) else {
+                            fatalError("Could not read object from server correctly when creating a node")
+                        }
+                        points.append(node)
                     }
-                    points.append(node)
                 }
-                
                 self.route = Route(id: id, title: title, note: note, routePins: path, difficulty: difficulty, upVotes: upVotes, downVotes: downVotes, privateRoute: privateRoute, user: self.user!, pointPins: points, voted: false)
-                
                 break
             case .failure(let error):
                 print(error)
@@ -220,7 +227,6 @@ class RouteCreateViewController: UIViewController, URLSessionDelegate, URLSessio
                 let marker = GMSMarker(position: position)
                 marker.appearAnimation = GMSMarkerAnimation.pop
                 marker.title = pin.title
-                print("pin type: \(pin.type)")
                 switch pin.type {
                 case "Bike Shop":
                     marker.icon = UIImage(named: "bikeShop")

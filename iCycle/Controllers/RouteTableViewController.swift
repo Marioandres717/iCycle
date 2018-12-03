@@ -93,38 +93,40 @@ class RouteTableViewController: UITableViewController {
             switch response.result {
             case .success(let result):
                 let res = JSON(result)
-                for i in 0...res.count {
-                    let id = res[i]["id"].intValue
-                    let title = res[i]["title"].stringValue
-                    let note = res[i]["note"].stringValue
-                    let difficulty = res[i]["difficulty"].intValue
-                    let upVotes = res[i]["upVotes"].intValue
-                    let downVotes = res[i]["downVotes"].intValue
-                    let privateRoute = res[i]["private"].boolValue
-                    let routePinsTemp = res[i]["routePins"]
-                    let user = User(id: res[i]["user"]["id"].intValue, userName: res[i]["user"]["username"].stringValue, bikeSerialNumber: res[i]["user"]["bikeSerialNumber"].stringValue, bikeBrand: res[i]["user"]["bikeBrand"].stringValue, bikeNotes: res[i]["user"]["bikeNotes"].stringValue, bikeImage: nil)
-                    var path: [Node] = []
-                    for pin in routePinsTemp {
-                        let obj = JSON(pin)
-                        guard let node = Node(long: obj["long"].doubleValue, lat: obj["lat"].doubleValue, type: obj["type"].stringValue, title: obj["title"].stringValue) else {
-                            fatalError("Could not read object from server correctly when creating a node")
+                if res.count > 0 {
+                    for i in 0...(res.count - 1) {
+                        let id = res[i]["id"].intValue
+                        let title = res[i]["title"].stringValue
+                        let note = res[i]["note"].stringValue
+                        let difficulty = res[i]["difficulty"].intValue
+                        let upVotes = res[i]["upVotes"].intValue
+                        let downVotes = res[i]["downVotes"].intValue
+                        let privateRoute = res[i]["private"].boolValue
+                        let routePinsTemp = res[i]["routePins"]
+                        let user = User(id: res[i]["user"]["id"].intValue, userName: res[i]["user"]["username"].stringValue, bikeSerialNumber: res[i]["user"]["bikeSerialNumber"].stringValue, bikeBrand: res[i]["user"]["bikeBrand"].stringValue, bikeNotes: res[i]["user"]["bikeNotes"].stringValue, bikeImage: nil)
+                        var path: [Node] = []
+                        for j in 0...(routePinsTemp.count - 1) {
+                            guard let node = Node(long: res[i]["routePins"][j]["long"].doubleValue, lat: res[i]["routePins"][j]["lat"].doubleValue, type: res[i]["routePins"][j]["type"].stringValue, title: res[i]["routePins"][j]["title"].stringValue) else {
+                                fatalError("Could not read object from server correctly when creating a node")
+                            }
+                            path.append(node)
                         }
-                        path.append(node)
-                    }
-                    
-                    let pointPinsTemp = res[i]["pointPins"]
-                    var points: [Node] = []
-                    for pin in pointPinsTemp {
-                        let obj = JSON(pin)
-                        guard let node = Node(long: obj["long"].doubleValue, lat: obj["lat"].doubleValue, type: obj["type"].stringValue, title: obj["title"].stringValue) else {
-                            fatalError("Could not read object from server correctly when creating a node")
+                        
+                        let pointPinsTemp = res[i]["pointPins"]
+                        var points: [Node] = []
+                        if (pointPinsTemp.count > 0) {
+                            for j in 0...(pointPinsTemp.count - 1) {
+                                guard let node = Node(long: res[i]["pointPins"][j]["long"].doubleValue, lat: res[i]["pointPins"][j]["lat"].doubleValue, type: res[i]["pointPins"][j]["type"].stringValue, title: res[i]["pointPins"][j]["title"].stringValue) else {
+                                    fatalError("Could not read object from server correctly when creating a node")
+                                }
+                                points.append(node)
+                            }
                         }
-                        points.append(node)
+                        
+                        let tempRoute = Route(id: id, title: title, note: note, routePins: path, difficulty: difficulty, upVotes: upVotes, downVotes: downVotes, privateRoute: privateRoute, user: user, pointPins: points, voted: false)
+                        
+                        self.routes.append(tempRoute)
                     }
-                    
-                    let tempRoute = Route(id: id, title: title, note: note, routePins: path, difficulty: difficulty, upVotes: upVotes, downVotes: downVotes, privateRoute: privateRoute, user: user, pointPins: points, voted: false)
-                    
-                    self.routes.append(tempRoute)
                 }
                 break
             case .failure(let error):

@@ -114,7 +114,6 @@ class RouteDetailViewController: UIViewController {
     }
     
     func populateMap(routePins: [Node], pointPins: [Node]) {
-        print(route!)
         if routePins.count > 0 {
             for pin in routePins {
                 let position = CLLocationCoordinate2D(latitude: CLLocationDegrees(pin.lat), longitude: CLLocationDegrees(pin.long))
@@ -154,13 +153,18 @@ class RouteDetailViewController: UIViewController {
             }
         }
         
-        for i in 0...(routePins.count - 2) {
-            let p1 = CLLocationCoordinate2D(latitude: CLLocationDegrees(routePins[i].lat), longitude: CLLocationDegrees(routePins[i].long))
-            let p2 = CLLocationCoordinate2D(latitude: CLLocationDegrees(routePins[i+1].lat), longitude: CLLocationDegrees(routePins[i+1].long))
+        for i in 1...(routePins.count - 1) {
+            let p1 = CLLocationCoordinate2D(latitude: CLLocationDegrees(routePins[i-1].lat), longitude: CLLocationDegrees(routePins[i-1].long))
+            let p2 = CLLocationCoordinate2D(latitude: CLLocationDegrees(routePins[i].lat), longitude: CLLocationDegrees(routePins[i].long))
             
-            drawRouteBetweenTwoLastPins(sourceCoordinate: p1, destinationCoordinate: p2, completion: {})
+            drawRouteBetweenTwoLastPins(sourceCoordinate: p1, destinationCoordinate: p2, completion: {
+                let path = GMSPath.init(fromEncodedPath: self.routeLines[self.routeLines.count - 1])
+                let polyline = GMSPolyline.init(path: path)
+                polyline.spans = [GMSStyleSpan(color: .red)]
+                polyline.strokeWidth = 3.0
+                polyline.map = self.mapView
+            })
         }
-        print(self.routeLines.count)
     }
     
     private func drawRouteBetweenTwoLastPins (sourceCoordinate: CLLocationCoordinate2D, destinationCoordinate: CLLocationCoordinate2D, completion : @escaping ()->()) {
