@@ -103,7 +103,7 @@ class SelectWaypointViewController: UIViewController {
         let destination: String = "\(destinationCoordinate.latitude),\(destinationCoordinate.longitude)"
         
         //let urlString = "https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins=\(source)&destinations=\(destination)&key=AIzaSyBUJZaFSeeEgoJktJao7Fh3V02MsHMY2cI"
-        let urlString = "https://maps.googleapis.com/maps/api/directions/json?origin=\(source)&destination=\(destination)&mode=driving&key=AIzaSyBUJZaFSeeEgoJktJao7Fh3V02MsHMY2cI"
+        let urlString = "https://maps.googleapis.com/maps/api/directions/json?origin=\(source)&destination=\(destination)&mode=bicycling&key=AIzaSyBUJZaFSeeEgoJktJao7Fh3V02MsHMY2cI"
 
         
         Alamofire.request(urlString, method: .get).validate().responseJSON { response in
