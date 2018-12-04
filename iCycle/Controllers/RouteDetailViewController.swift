@@ -164,12 +164,12 @@ class RouteDetailViewController: UIViewController {
         Alamofire.request(urlString, method: .get).validate().responseJSON { response in
             switch response.result {
             case .success(let value):
-                let json = JSON(value)
+                let res = JSON(value)
                 self.routePhotos = []
-                if json.count > 0 {
-                    for i in 0...(json.count - 1) {
-                        user = 
-                        routePhotos += [RoutePhoto]
+                if res.count > 0 {
+                    for i in 0...(res.count - 1) {
+                        let user = User(id: res[i]["user"]["id"].intValue, userName: res[i]["user"]["username"].stringValue, bikeSerialNumber: res[i]["user"]["bikeSerialNumber"].stringValue, bikeBrand: res[i]["user"]["bikeBrand"].stringValue, bikeNotes: res[i]["user"]["bikeNotes"].stringValue, bikeImage: nil)
+                        self.routePhotos += [RoutePhoto(photoUrl: res[i]["photo"].stringValue, long: res[i]["coordinates"]["long"].doubleValue, lat: res[i]["coordinates"]["lat"].doubleValue, user: user, routeId: res[i]["rout"]["id"].intValue, title: "", caption: res[i]["caption"].stringValue)]
                     }
                 }
                 completion()
