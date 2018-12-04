@@ -28,27 +28,35 @@ class UrlBuilder {
         return baseURL + "routes"
     }
     
+    public static func getMyRoutes(userId: Int) -> String {
+        return baseURL + "routes/user/\(userId)"
+    }
+    
+    public static func getSavedRoutes(userId: Int) -> String {
+        return baseURL + "routes/user/\(userId)/saved"
+    }
+    
     public static func editUser(id: Int) -> String {
-        return baseURL + "/users/\(id)"
+        return baseURL + "users/\(id)"
     }
     
     public static func saveRoute(id: Int, userId: Int) -> String {
-        return baseURL + "/routes/\(id)/user/\(userId)/save"
+        return baseURL + "routes/\(id)/user/\(userId)/save"
     }
     
     public static func hasVoted(id: Int, userId: Int) -> String {
-        return baseURL + "/routes/\(id)/user/\(userId)/hasVoted"
+        return baseURL + "routes/\(id)/user/\(userId)/hasVoted"
     }
     
     public static func hasSaved(id: Int, userId: Int) -> String {
-        return baseURL + "/routes/\(id)/user/\(userId)/hasSaved"
+        return baseURL + "routes/\(id)/user/\(userId)/hasSaved"
     }
     
     public static func upVoteRoute(id: Int, userId: Int) -> String {
-        return baseURL + "/routes/\(id)/upVote/\(userId)"
+        return baseURL + "routes/\(id)/upVote/\(userId)"
     }
     
     public static func downVoteRoute(id: Int, userId: Int) -> String {
-        return baseURL + "/routes/\(id)/downVote/\(userId)"
+        return baseURL + "routes/\(id)/downVote/\(userId)"
     }
 }

@@ -15,8 +15,15 @@ class RouteTableViewController: UITableViewController {
     
     //MARK: Attributes
     @IBOutlet weak var menuButton: UIBarButtonItem!
+    @IBOutlet weak var navigationBar: UINavigationItem!
+    
     var routes: [Route] = []
     var session: URLSession?
+    
+    var showAllRoutes: Bool = true
+    var showMyRoutes: Bool = false
+    var showSavedRoutes: Bool = false
+    var user: User?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,12 +42,19 @@ class RouteTableViewController: UITableViewController {
         customizeNavBar()
         initChameleonColors()
         
-        // Load table data
-        //print("Loading data")
-        //self.routes = []
-        //loadRoutes {
-        //    self.tableView.reloadData()
-        //}
+        self.user = User.loadUser()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        
+        if self.showMyRoutes == true {
+            self.navigationBar.title = "My Routes"
+        } else if self.showSavedRoutes == true {
+            self.navigationBar.title = "Saved Routes"
+        } else {
+            self.navigationBar.title = "All Routes"
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -119,7 +133,16 @@ class RouteTableViewController: UITableViewController {
     }
     
     func loadRoutes(completion : @escaping ()->()) {
-        let urlString = UrlBuilder.getAllRoutes()
+        var urlString: String = ""
+        self.user = User.loadUser()
+
+        if self.showMyRoutes == true {
+            urlString = UrlBuilder.getMyRoutes(userId: self.user!.id)
+        } else if self.showSavedRoutes == true {
+            urlString = UrlBuilder.getSavedRoutes(userId: self.user!.id)
+        } else {
+            urlString = UrlBuilder.getAllRoutes()
+        }
         
         Alamofire.request(urlString, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: nil).responseJSON {
             response in
@@ -203,9 +226,11 @@ class RouteTableViewController: UITableViewController {
     @IBAction func unwindToRouteTable(segue:UIStoryboardSegue) {
         if let routeCreateController = segue.source as? RouteCreateViewController {
             print("Unwinding")
-            //loadRoutes(completion: {
-               // print("Loaded new routes")
-            //})
+            self.showMyRoutes = true
+            self.showAllRoutes = false
+            self.showSavedRoutes = false
+            
+            self.navigationItem.title = "My Routes"
         }
     }
     

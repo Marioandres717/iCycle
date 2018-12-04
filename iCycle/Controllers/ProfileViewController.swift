@@ -194,15 +194,33 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         }
     }
 
-    /*
+    
     // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+        super.prepare(for: segue, sender: sender)
+        
+        switch(segue.identifier) {
+        case "viewSavedRoutes":
+            guard let routeTableViewController = segue.destination as? RouteTableViewController else {
+                fatalError("Unexpected destination: \(segue.destination)")
+            }
+            routeTableViewController.showSavedRoutes = true
+            routeTableViewController.showAllRoutes = false
+            routeTableViewController.showMyRoutes = false
+            break
+        case "viewMyRoutes":
+            guard let routeTableViewController = segue.destination as? RouteTableViewController else {
+                fatalError("Unexpected destination: \(segue.destination)")
+            }
+            routeTableViewController.showSavedRoutes = false
+            routeTableViewController.showAllRoutes = false
+            routeTableViewController.showMyRoutes = true
+            break
+        default:
+            fatalError("Unexpected segue: \(segue.identifier)")
+            break
+        }
     }
-    */
     
     // MARK: Customization
     
