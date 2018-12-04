@@ -159,20 +159,24 @@ class RouteImageViewController: UIViewController {
             selectPictureCoordinatesVC.route = self.route
             break
             
-        case "savePhoto":
+        case "unwindToAddPictureToCollection":
             guard let routePictureCollectionViewController = segue.destination as? RoutePictureCollectionViewController else {
                 fatalError("Unexpected destination: \(segue.destination)")
             }
             print("HERE")
-            self.saveRoutePhoto(completion: { res in
-                routePictureCollectionViewController.photos.append(res)
-            })
-            
+            routePictureCollectionViewController.photos.append(self.routePictures[self.routePictures.count - 1])
         default:
             fatalError("Unexpected Segue Identifier; \(segue.identifier)")
         }
     }
 
+    @IBAction func saveRoutePhoto(_ sender: Any) {
+        print("SAVING PHOTO")
+        saveRoutePhoto(completion: { res in
+            self.routePictures.append(res)
+            self.performSegue(withIdentifier: "unwindToAddPictureToCollection", sender: self)
+        })
+    }
     
     @IBAction func unwidToAddPictureToRoute(segue: UIStoryboardSegue) {
         if let selectPictureCoordinatesViewController = segue.source as? SelectPictureCoordinatesViewController {

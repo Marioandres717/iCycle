@@ -58,7 +58,7 @@ class RoutePictureCollectionViewController: UICollectionViewController {
         }
     }
     
-    @IBAction func unwidToAddPictureToCollection(segue: UIStoryboardSegue) {
+    @IBAction func unwindToAddPictureToCollection(segue: UIStoryboardSegue) {
         if let routeImageviewController = segue.source as? RouteImageViewController {
             print("UNWIND SUCES")
            // updatePicturePins()
