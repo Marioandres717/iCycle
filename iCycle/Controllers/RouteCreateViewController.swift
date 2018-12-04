@@ -91,6 +91,8 @@ class RouteCreateViewController: UIViewController, URLSessionDelegate, URLSessio
             guard let routeTableViewController = segue.destination as? RouteTableViewController else {
                 fatalError("Unexpected destination: \(segue.destination)")
             }
+            routeTableViewController.routes = []
+            routeTableViewController.tableView.reloadData()
             // SEND ROUTE TO BACKEND-------
             saveRoute(completion: {
                 print("Created route \(self.route!.title)")

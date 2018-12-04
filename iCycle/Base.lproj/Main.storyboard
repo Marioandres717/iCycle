@@ -418,6 +418,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <refreshControl key="refreshControl" opaque="NO" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" id="QMS-dy-xzG">
+                        <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </refreshControl>
                     <connections>
@@ -1528,10 +1529,10 @@
         <image name="MenuIcon" width="60" height="60"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="qgT-UH-ObC"/>
+        <segue reference="HS9-3l-5Or"/>
         <segue reference="HRg-Sz-9x4"/>
         <segue reference="xRi-85-swV"/>
         <segue reference="0pB-Sn-MGZ"/>
-        <segue reference="lIw-jN-FJ2"/>
+        <segue reference="WgZ-wi-GnL"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -21,6 +21,7 @@ class RouteTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // Set Delegates
         self.tableView.delegate = self
         self.tableView.dataSource = self
         
@@ -28,17 +29,28 @@ class RouteTableViewController: UITableViewController {
         self.tableView.refreshControl!.tintColor = FlatGreenDark()
         self.tableView.refreshControl!.attributedTitle = NSAttributedString(string: "Fetching Routes ...", attributes: nil)
         self.tableView.refreshControl!.addTarget(self, action: #selector(refreshRouteData(_:)), for: .valueChanged)
+        
+        // Customize
         sideMenu()
         customizeNavBar()
         initChameleonColors()
+        
+        // Load table data
+        //print("Loading data")
+        //self.routes = []
+        //loadRoutes {
+        //    self.tableView.reloadData()
+        //}
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(true)
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(true)
+        print("View appeared")
         self.routes = []
-        loadRoutes {
+        self.tableView.reloadData()
+        loadRoutes(completion: {
             self.tableView.reloadData()
-        }
+        })
     }
 
     // MARK: - Table view data source
@@ -102,7 +114,6 @@ class RouteTableViewController: UITableViewController {
         self.loadRoutes {
             print("Refreshed Routes.")
             self.tableView.reloadData()
-            
             self.tableView.refreshControl!.endRefreshing()
         }
     }
@@ -191,11 +202,10 @@ class RouteTableViewController: UITableViewController {
     // Execute when returning from adding a route.
     @IBAction func unwindToRouteTable(segue:UIStoryboardSegue) {
         if let routeCreateController = segue.source as? RouteCreateViewController {
-            self.routes = []
-            self.tableView.reloadData()
-            self.loadRoutes {
-                self.tableView.reloadData()
-            }
+            print("Unwinding")
+            //loadRoutes(completion: {
+               // print("Loaded new routes")
+            //})
         }
     }
     
