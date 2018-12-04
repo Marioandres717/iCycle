@@ -10,7 +10,6 @@ import UIKit
 
 class SignUpViewController: UIViewController, URLSessionDelegate, URLSessionDataDelegate {
 
-    @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var usernameTextField: UITextField!
     @IBOutlet weak var passTextField: UITextField!
     @IBOutlet weak var confirmPassTextField: UITextField!
@@ -32,11 +31,10 @@ class SignUpViewController: UIViewController, URLSessionDelegate, URLSessionData
     // MARK: ACTIONS
     
     @IBAction func handleSubmit(_ sender: UIButton) {
-        guard let email = emailTextField.text else { return }
         guard let username = usernameTextField.text else { return }
         guard let password = passTextField.text else { return }
         
-        let parameters = ["email": email, "username": username, "password": password]
+        let parameters = ["username": username, "password": password]
         
         HttpConfig.postRequestConfig(url: UrlBuilder.createUser(), parameters: parameters)
         
@@ -68,11 +66,6 @@ class SignUpViewController: UIViewController, URLSessionDelegate, URLSessionData
     }
     
     func setupTextFields() {
-        
-        emailTextField.backgroundColor = UIColor(red: 216/255, green: 216/255, blue: 216/255, alpha: 0.2)
-        var emailPlaceholder = NSMutableAttributedString()
-        emailPlaceholder = NSMutableAttributedString(attributedString: NSAttributedString(string: "Email", attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 18), .foregroundColor: UIColor(white: 1, alpha: 0.7)]))
-        emailTextField.attributedPlaceholder = emailPlaceholder
         
         usernameTextField.backgroundColor = UIColor(red: 216/255, green: 216/255, blue: 216/255, alpha: 0.2)
         var usernamePlaceholder = NSMutableAttributedString()
