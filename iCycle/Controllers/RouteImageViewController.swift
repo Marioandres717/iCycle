@@ -47,6 +47,14 @@ class RouteImageViewController: UIViewController {
         self.populateMap(routePins: route.routePins, pointPins: route.pointPins)
     }
     
+    func updatePicturePins() {
+        
+    }
+    
+    func updateSaveState() {
+    
+    }
+    
     func populateMap(routePins: [Node], pointPins: [Node]) {
         if routePins.count > 0 {
             for pin in routePins {
@@ -150,5 +158,20 @@ class RouteImageViewController: UIViewController {
         }
     }
     
+    // Execute when returning from adding a pin.
+//    @IBAction func unwindToCreateRoute(segue:UIStoryboardSegue) {
+//        if let selectWaypointViewController = segue.source as? SelectWaypointViewController {
+//            updateMapPins()
+//            updateSaveState()
+//            updateDistance()
+//        }
+//    }
+    
+    @IBAction func unwidToAddPictureToRoute(segue: UIStoryboardSegue) {
+        if let selectPictureCoordinatesViewController = segue.source as? SelectPictureCoordinatesViewController {
+            updatePicturePins()
+            updateSaveState()
+        }
+    }
 
 }
