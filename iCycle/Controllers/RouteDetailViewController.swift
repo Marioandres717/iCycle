@@ -397,13 +397,13 @@ class RouteDetailViewController: UIViewController {
         
         switch(segue.identifier ?? "") {
             
-        case "addPicture":
-            guard let routeImageViewController = segue.destination as? RouteImageViewController else {
+        case "showPhotos":
+            guard let routePictureCollectionViewController = segue.destination as? RoutePictureCollectionViewController else {
                 fatalError("Unexpected destination: \(segue.destination)")
             }
             
-            routeImageViewController.route = self.route
-            
+            routePictureCollectionViewController.photos = self.routePhotos
+            break
         default:
             fatalError("Unexpected Segue Identifier; \(segue.identifier)")
         }

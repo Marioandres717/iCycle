@@ -9,14 +9,27 @@
 import UIKit
 
 class RoutePictureCollectionViewController: UICollectionViewController {
-
+    
+    var photos: [RoutePhoto] = []
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
     }
     
-
+    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return photos.count
+    }
+    
+    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "photoCell", for: indexPath) as! routePhotoCollectionViewCell
+        
+        let photo = photos[indexPath.item]
+        cell.routeImage.image = photo.photoImage
+        return cell
+    }
+    
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        print(indexPath.item)
+    }
     /*
     // MARK: - Navigation
 
