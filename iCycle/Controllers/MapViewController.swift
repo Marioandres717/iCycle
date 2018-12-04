@@ -40,6 +40,30 @@ class MapViewController: UIViewController, GMSMapViewDelegate {
         
     }
     
+    // MARK: Chameleon related
+    func initChameleonColors() {
+        view.backgroundColor = FlatBlack()
+    }
+    
+    // MARK: Navigation
+    func sideMenu() {
+        if revealViewController() != nil {
+            menuButton.target = revealViewController()
+            menuButton.action = #selector(SWRevealViewController.revealToggle(_:))
+            revealViewController()?.rearViewRevealWidth = 275
+            
+            view.addGestureRecognizer((self.revealViewController()?.panGestureRecognizer())!)
+        }
+    }
+    
+    func customizeNavBar() {
+        navigationController?.navigationBar.tintColor = FlatGreen()
+        navigationController?.navigationBar.barTintColor = FlatBlack()
+        
+        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: FlatWhite()]
+    }
+    
+    //MARK: Display Pins
     func getAllRoutePins (completion : @escaping ()->()) {
         var urlString = UrlBuilder.getAllRoutes()
         
