@@ -164,7 +164,10 @@ class RouteImageViewController: UIViewController {
                 fatalError("Unexpected destination: \(segue.destination)")
             }
             print("HERE")
-            self.saveRoutePhoto()
+            self.saveRoutePhoto(completion: { res in
+                routePictureCollectionViewController.photos.append(res)
+            })
+            
         default:
             fatalError("Unexpected Segue Identifier; \(segue.identifier)")
         }
@@ -178,22 +181,22 @@ class RouteImageViewController: UIViewController {
         }
     }
     
-    func saveRoutePhoto() {
+    func saveRoutePhoto(completion: @escaping (_ res: RoutePhoto)->()) {
         let title = titleTextField.text ?? ""
         let caption = captionTextField.text ?? ""
         self.user = User.loadUser()
         let urlString = UrlBuilder.addPhotoToRoute(routeId: route!.id, userId: self.user!.id)
         let temp = routePictureMarkers[routePictureMarkers.endIndex - 1]
-        let coordinates = "{long: \(temp.position.longitude), lat: \(temp.position.latitude)}"
+        let coordinates = ["long": temp.position.longitude, "lat": temp.position.latitude]
         
         self.uploadImageToFirebaseStorage(completion: { (url) in
-            var parameters : [String: Any] = [
+            let parameters : [String: Any] = [
                 "title": title,
                 "caption": caption,
                 "coordinates": coordinates,
-                "photo": url!,
+                "photo": url!.absoluteString,
                 ]
-            
+            print("URL \(url!.absoluteString)")
             Alamofire.request(urlString, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: nil).responseJSON {(response) in
                 switch response.result {
                     case .success(let result):
@@ -202,7 +205,10 @@ class RouteImageViewController: UIViewController {
                         let title = res["title"].stringValue
                         let caption = res["caption"].stringValue
                         let photo = res["photo"].stringValue
-                       // let coordinates = res["coordinates"].StringValue
+                        let lat = res["coordinates"]["lat"].doubleValue
+                        let long = res["coordinates"]["long"].doubleValue
+                    
+                        completion(RoutePhoto(photoUrl: url!.absoluteString, long: long, lat: lat, user: self.user!, routeId: self.route!.id, title: title, caption: caption))
                 default:
                     print("ERRORRRR")
                 }
@@ -223,6 +229,7 @@ class RouteImageViewController: UIViewController {
             } else {
                 print("upload complete! metadata: \(String(describing: metadata))")
                 storageRef.downloadURL { (url, error) in
+                    print("calling Completion \(url!.absoluteString)")
                     completion(url)
                 }
             }
