@@ -713,7 +713,7 @@
                     <navigationItem key="navigationItem" title="Add Picture To Route" id="i2V-jJ-uJ4">
                         <barButtonItem key="rightBarButtonItem" title="Save" id="Qur-2E-WdQ">
                             <connections>
-                                <segue destination="9h5-g9-HN2" kind="unwind" unwindAction="unwidToAddPictureToCollectionWithSegue:" id="y8H-2H-S8l"/>
+                                <segue destination="9h5-g9-HN2" kind="unwind" identifier="savePhoto" unwindAction="unwidToAddPictureToCollectionWithSegue:" id="KhQ-Un-nLt"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -1691,7 +1691,7 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <state key="normal" title="Save"/>
                                 <connections>
-                                    <segue destination="WgH-gQ-ZMj" kind="unwind" unwindAction="unwidToAddPictureToRouteWithSegue:" id="clE-7B-bjZ"/>
+                                    <segue destination="WgH-gQ-ZMj" kind="unwind" identifier="savePictureCoordinates" unwindAction="unwidToAddPictureToRouteWithSegue:" id="clE-7B-bjZ"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9wl-Lk-7ME">
