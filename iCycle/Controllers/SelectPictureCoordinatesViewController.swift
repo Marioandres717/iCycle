@@ -19,7 +19,6 @@ class SelectPictureCoordinatesViewController: UIViewController {
     @IBOutlet weak var saveBtn: UIButton!
     @IBOutlet weak var cancelBtn: UIButton!
     
-    
     var routeMarkers: [GMSMarker] = []
     var pointMarkers: [GMSMarker] = []
     var routeLines: [String] = []

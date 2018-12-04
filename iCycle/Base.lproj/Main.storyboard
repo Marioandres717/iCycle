@@ -310,13 +310,10 @@
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dJa-i4-Hdm">
                                             <rect key="frame" x="20" y="10.666666666666666" width="345" height="20.333333333333336"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="U2p-Fu-P3E">
-                                            <rect key="frame" x="393" y="0.0" width="21" height="21"/>
-                                        </imageView>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Difficulty:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DCY-1H-Ffb">
                                             <rect key="frame" x="20" y="39" width="73" height="21"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -365,9 +362,12 @@
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
+                                        <imageView opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="U2p-Fu-P3E">
+                                            <rect key="frame" x="373" y="10" width="21" height="21"/>
+                                        </imageView>
                                     </subviews>
                                     <constraints>
-                                        <constraint firstAttribute="trailing" secondItem="U2p-Fu-P3E" secondAttribute="trailing" id="0EX-wh-N6n"/>
+                                        <constraint firstAttribute="trailing" secondItem="U2p-Fu-P3E" secondAttribute="trailing" constant="20" id="0EX-wh-N6n"/>
                                         <constraint firstItem="wq8-H4-GHK" firstAttribute="top" secondItem="ixf-KB-HZN" secondAttribute="bottom" constant="8" id="0bU-K7-cIx"/>
                                         <constraint firstItem="wq8-H4-GHK" firstAttribute="leading" secondItem="fxW-rB-vKB" secondAttribute="trailing" constant="9" id="2t3-5E-W8m"/>
                                         <constraint firstItem="b1D-8G-vGX" firstAttribute="leading" secondItem="m4z-bp-B0c" secondAttribute="trailing" constant="8" id="CwC-gx-sN2"/>
@@ -379,15 +379,15 @@
                                         <constraint firstItem="DCY-1H-Ffb" firstAttribute="top" secondItem="dJa-i4-Hdm" secondAttribute="bottom" constant="8" id="XqF-Iu-X5t"/>
                                         <constraint firstItem="wuU-4c-5K4" firstAttribute="leading" secondItem="WGQ-OQ-Q6w" secondAttribute="trailing" constant="8" id="Yar-A5-gcF"/>
                                         <constraint firstItem="ixf-KB-HZN" firstAttribute="top" secondItem="dJa-i4-Hdm" secondAttribute="bottom" constant="8" id="Ygc-f0-Bxu"/>
-                                        <constraint firstAttribute="bottom" secondItem="U2p-Fu-P3E" secondAttribute="bottom" constant="78.666666666666671" id="bq8-u9-IAi"/>
+                                        <constraint firstAttribute="bottom" secondItem="U2p-Fu-P3E" secondAttribute="bottom" constant="68.666666666666671" id="bq8-u9-IAi"/>
                                         <constraint firstItem="dJa-i4-Hdm" firstAttribute="leading" secondItem="GvI-p2-t9E" secondAttribute="leading" constant="20" id="btz-xZ-ERx"/>
                                         <constraint firstItem="WGQ-OQ-Q6w" firstAttribute="top" secondItem="dJa-i4-Hdm" secondAttribute="bottom" constant="8" id="cLW-Ud-RYe"/>
-                                        <constraint firstItem="U2p-Fu-P3E" firstAttribute="top" secondItem="GvI-p2-t9E" secondAttribute="top" id="ccY-T2-eLX"/>
+                                        <constraint firstItem="U2p-Fu-P3E" firstAttribute="top" secondItem="GvI-p2-t9E" secondAttribute="top" constant="10" id="ccY-T2-eLX"/>
                                         <constraint firstItem="fxW-rB-vKB" firstAttribute="bottom" secondItem="GvI-p2-t9E" secondAttribute="bottomMargin" id="dJB-dK-dsK"/>
                                         <constraint firstItem="DCY-1H-Ffb" firstAttribute="leading" secondItem="GvI-p2-t9E" secondAttribute="leading" constant="20" id="eCs-NS-Zmn"/>
                                         <constraint firstItem="WGQ-OQ-Q6w" firstAttribute="leading" secondItem="ixf-KB-HZN" secondAttribute="trailing" constant="89.329999999999998" id="hcu-BM-iux"/>
                                         <constraint firstAttribute="trailing" secondItem="dJa-i4-Hdm" secondAttribute="trailing" constant="49" id="lUr-6A-yvD"/>
-                                        <constraint firstItem="U2p-Fu-P3E" firstAttribute="leading" secondItem="GvI-p2-t9E" secondAttribute="leading" constant="393" id="nRk-VO-OfB"/>
+                                        <constraint firstItem="U2p-Fu-P3E" firstAttribute="leading" secondItem="GvI-p2-t9E" secondAttribute="leading" constant="373" id="nRk-VO-OfB"/>
                                         <constraint firstItem="b1D-8G-vGX" firstAttribute="bottom" secondItem="GvI-p2-t9E" secondAttribute="bottomMargin" id="ndo-80-JL0"/>
                                         <constraint firstItem="fxW-rB-vKB" firstAttribute="leading" secondItem="GvI-p2-t9E" secondAttribute="leading" constant="20" id="vB5-wv-uFx"/>
                                         <constraint firstItem="b1D-8G-vGX" firstAttribute="top" secondItem="wuU-4c-5K4" secondAttribute="bottom" constant="8" id="wJH-H4-8RN"/>

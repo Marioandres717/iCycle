@@ -20,6 +20,7 @@
 		211A4F2321B21DF500BCB856 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 211A4F2221B21DF500BCB856 /* User.swift */; };
 		21610C9621AE410200275419 /* SelectWaypointViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21610C9521AE410200275419 /* SelectWaypointViewController.swift */; };
 		21610C9C21AE4B6C00275419 /* Node.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21610C9B21AE4B6C00275419 /* Node.swift */; };
+		217E997021B624460085DF15 /* RoutePhoto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 217E996F21B624460085DF15 /* RoutePhoto.swift */; };
 		2182BD62219A5BCB0024119C /* RouteTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2182BD61219A5BCB0024119C /* RouteTableViewCell.swift */; };
 		2182BD68219A71080024119C /* Route.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2182BD67219A71080024119C /* Route.swift */; };
 		2188323A21955D4600F7E9C5 /* ChameleonShorthand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2188323921955D4600F7E9C5 /* ChameleonShorthand.swift */; };
@@ -86,6 +87,7 @@
 		211A4F2221B21DF500BCB856 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		21610C9521AE410200275419 /* SelectWaypointViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectWaypointViewController.swift; sourceTree = "<group>"; };
 		21610C9B21AE4B6C00275419 /* Node.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Node.swift; sourceTree = "<group>"; };
+		217E996F21B624460085DF15 /* RoutePhoto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoutePhoto.swift; sourceTree = "<group>"; };
 		2182BD61219A5BCB0024119C /* RouteTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = RouteTableViewCell.swift; path = iCycle/Views/RouteTableViewCell.swift; sourceTree = SOURCE_ROOT; };
 		2182BD67219A71080024119C /* Route.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Route.swift; path = iCycle/Models/Route.swift; sourceTree = SOURCE_ROOT; };
 		2188323921955D4600F7E9C5 /* ChameleonShorthand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ChameleonShorthand.swift; path = iCycle/Theme/ChameleonShorthand.swift; sourceTree = SOURCE_ROOT; };
@@ -187,6 +189,7 @@
 				2182BD67219A71080024119C /* Route.swift */,
 				21610C9B21AE4B6C00275419 /* Node.swift */,
 				211A4F2221B21DF500BCB856 /* User.swift */,
+				217E996F21B624460085DF15 /* RoutePhoto.swift */,
 			);
 			name = Models;
 			path = iCycle/Models;
@@ -478,6 +481,7 @@
 				21F416DA2197C6F100232FAD /* NavMenuTableViewController.swift in Sources */,
 				211A4F2321B21DF500BCB856 /* User.swift in Sources */,
 				21F416C221977D6700232FAD /* RouteDetailViewController.swift in Sources */,
+				217E997021B624460085DF15 /* RoutePhoto.swift in Sources */,
 				21610C9C21AE4B6C00275419 /* Node.swift in Sources */,
 				11683AE321B513EF00246F41 /* RouteImagePreviewView.swift in Sources */,
 				11EAF8A621B1FA8D004B9AF0 /* UrlBuilder.swift in Sources */,
