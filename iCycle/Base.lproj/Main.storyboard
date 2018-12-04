@@ -1529,10 +1529,10 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Login" translatesAutoresizingMaskIntoConstraints="NO" id="cbV-yG-zfw">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="674"/>
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                             </imageView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="Yxy-bA-LwQ">
-                                <rect key="frame" x="24" y="255" width="366" height="238"/>
+                                <rect key="frame" x="24" y="255" width="366" height="252"/>
                                 <subviews>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="azr-2e-kvA">
                                         <rect key="frame" x="0.0" y="0.0" width="366" height="40"/>
@@ -1576,7 +1576,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ivw-ub-oQA">
-                                        <rect key="frame" x="0.0" y="202" width="366" height="36"/>
+                                        <rect key="frame" x="0.0" y="202" width="366" height="50"/>
                                         <gestureRecognizers/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="50" id="DhD-Iu-J4B"/>
@@ -1604,14 +1604,13 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="Yxy-bA-LwQ" firstAttribute="leading" secondItem="I6S-7C-plB" secondAttribute="leading" constant="24" id="0mh-Sk-7Vl"/>
-                            <constraint firstItem="Yxy-bA-LwQ" firstAttribute="centerX" secondItem="cbV-yG-zfw" secondAttribute="centerX" id="2cd-Sj-gOE"/>
-                            <constraint firstItem="cbV-yG-zfw" firstAttribute="leading" secondItem="I6S-7C-plB" secondAttribute="leading" id="6aj-Lf-MdY"/>
-                            <constraint firstItem="cbV-yG-zfw" firstAttribute="trailing" secondItem="I6S-7C-plB" secondAttribute="trailing" id="CQ8-rx-muc"/>
-                            <constraint firstItem="cbV-yG-zfw" firstAttribute="top" secondItem="fxD-Yf-XV5" secondAttribute="top" id="Jw7-dN-Fa0"/>
-                            <constraint firstItem="cbV-yG-zfw" firstAttribute="bottom" secondItem="I6S-7C-plB" secondAttribute="bottom" id="NcX-D3-oWj"/>
-                            <constraint firstItem="Yxy-bA-LwQ" firstAttribute="top" secondItem="I6S-7C-plB" secondAttribute="top" constant="235" id="R5U-E7-SCd"/>
-                            <constraint firstItem="I6S-7C-plB" firstAttribute="bottom" secondItem="Yxy-bA-LwQ" secondAttribute="bottom" constant="181" id="l98-pV-Ayx"/>
+                            <constraint firstItem="Yxy-bA-LwQ" firstAttribute="top" secondItem="I6S-7C-plB" secondAttribute="top" constant="235" id="4Oa-dB-2Oq"/>
+                            <constraint firstAttribute="trailing" secondItem="cbV-yG-zfw" secondAttribute="trailing" id="BB8-Xb-Q3t"/>
+                            <constraint firstItem="Yxy-bA-LwQ" firstAttribute="leading" secondItem="I6S-7C-plB" secondAttribute="leading" constant="24" id="MZ9-qJ-547"/>
+                            <constraint firstItem="cbV-yG-zfw" firstAttribute="leading" secondItem="fxD-Yf-XV5" secondAttribute="leading" id="RW7-tP-WPH"/>
+                            <constraint firstItem="Yxy-bA-LwQ" firstAttribute="centerX" secondItem="cbV-yG-zfw" secondAttribute="centerX" id="Uy4-LJ-Np1"/>
+                            <constraint firstItem="cbV-yG-zfw" firstAttribute="top" secondItem="fxD-Yf-XV5" secondAttribute="top" id="xIH-dH-te2"/>
+                            <constraint firstItem="cbV-yG-zfw" firstAttribute="bottom" secondItem="I6S-7C-plB" secondAttribute="bottom" id="y3Q-di-ZSB"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="I6S-7C-plB"/>
                     </view>
@@ -1625,7 +1624,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8V3-Xu-hTo" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2791" y="-855"/>
+            <point key="canvasLocation" x="-2791.304347826087" y="-855.16304347826099"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="Kq5-Sq-Dfj">
