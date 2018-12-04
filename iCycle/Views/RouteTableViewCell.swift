@@ -17,6 +17,7 @@ class RouteTableViewCell: UITableViewCell {
     @IBOutlet weak var distance: UILabel!
     @IBOutlet weak var score: UILabel!
     @IBOutlet weak var author: UILabel!
+    @IBOutlet weak var savedImage: UIImageView!
     
     override func awakeFromNib() {
         super.awakeFromNib()

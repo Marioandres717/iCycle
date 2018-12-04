@@ -80,6 +80,8 @@ class RouteTableViewController: UITableViewController {
 
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        self.user = User.loadUser()
+        
         let cellIdentifier = "RouteTableViewCell"
         
         guard let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as? RouteTableViewCell  else {
@@ -114,6 +116,19 @@ class RouteTableViewController: UITableViewController {
             cell.distance.text = String(format: "%.0f", totalDistance) + " m"
         }
         
+        self.getHasSaved(routeId: route.id, userId: self.user!.id, completion: {res in
+            if res == true {
+                cell.savedImage.image = UIImage(named: "savedRoute")
+                cell.savedImage.backgroundColor = ClearColor()
+                cell.savedImage.isOpaque = true
+                cell.savedImage.contentMode = .scaleAspectFit
+            } else {
+                cell.savedImage.image = nil
+                cell.savedImage.backgroundColor = ClearColor()
+                cell.savedImage.isOpaque = true
+            }
+        })
+        
         cell.score.text = String(route.score)
         
         cell.author.text = route.user.userName
@@ -129,6 +144,21 @@ class RouteTableViewController: UITableViewController {
             print("Refreshed Routes.")
             self.tableView.reloadData()
             self.tableView.refreshControl!.endRefreshing()
+        }
+    }
+    
+    func getHasSaved(routeId: Int, userId: Int, completion: @escaping (_ res: Bool)->()) {
+        let urlString = UrlBuilder.hasSaved(id: routeId, userId: userId)
+        
+        Alamofire.request(urlString, method: .get).validate().responseJSON { response in
+            switch response.result {
+            case .success(let value):
+                let json = JSON(value)
+                let res = json["saved"].boolValue
+                completion(res)
+            case .failure(let error):
+                print("ERROR: \(error)")
+            }
         }
     }
     

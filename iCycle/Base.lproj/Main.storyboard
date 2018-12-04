@@ -401,6 +401,7 @@
                                     <outlet property="author" destination="b1D-8G-vGX" id="Hbq-N6-Vs1"/>
                                     <outlet property="difficulty" destination="ixf-KB-HZN" id="e1l-zz-P7z"/>
                                     <outlet property="distance" destination="wq8-H4-GHK" id="mzP-Ky-mjh"/>
+                                    <outlet property="savedImage" destination="U2p-Fu-P3E" id="gFd-4Z-gU6"/>
                                     <outlet property="score" destination="wuU-4c-5K4" id="sPH-dm-Q48"/>
                                     <outlet property="title" destination="dJa-i4-Hdm" id="0yP-hS-cx9"/>
                                     <segue destination="MkD-D0-GsY" kind="show" identifier="ShowRouteDetail" id="xRi-85-swV"/>
@@ -1662,7 +1663,7 @@
         <image name="MenuIcon" width="60" height="60"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="ksZ-Nv-4Rk"/>
+        <segue reference="qgT-UH-ObC"/>
         <segue reference="HRg-Sz-9x4"/>
         <segue reference="xRi-85-swV"/>
         <segue reference="iJA-xi-O8f"/>

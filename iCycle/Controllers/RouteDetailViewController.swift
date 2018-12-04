@@ -210,7 +210,7 @@ class RouteDetailViewController: UIViewController {
                 
                 routeMarkers += [marker]
             }
-            mapView.camera = GMSCameraPosition(target: routeMarkers[routeMarkers.count-1].position , zoom: zoomLevel, bearing: 0, viewingAngle: 0)
+            mapView.camera = GMSCameraPosition(target: routeMarkers[0].position , zoom: zoomLevel, bearing: 0, viewingAngle: 0)
         }
         
         if pointPins.count > 0 {
