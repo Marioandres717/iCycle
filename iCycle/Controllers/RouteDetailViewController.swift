@@ -29,7 +29,7 @@ class RouteDetailViewController: UIViewController {
     @IBOutlet weak var saveButton: UIBarButtonItem!
     
     @IBOutlet weak var navBar: UINavigationItem!
-    
+    var routePhotos: [RoutePhoto] = []
     var routeMarkers: [GMSMarker] = []
     var pointMarkers: [GMSMarker] = []
     var routeLines: [String] = []
@@ -150,9 +150,33 @@ class RouteDetailViewController: UIViewController {
                     self.hasSaved = false
                     self.saveButton.title = "Save"
                 }
-                self.populateMap(routePins: route.routePins, pointPins: route.pointPins)
+                
+                self.getRoutePhotos(routeId: route.id, completion: {
+                    self.populateMap(routePins: route.routePins, pointPins: route.pointPins)
+                })
             })
         })
+    }
+    
+    func getRoutePhotos(routeId: Int, completion: @escaping ()->()) {
+        let urlString = UrlBuilder.getAllRoutePhotos(routeId: routeId)
+        
+        Alamofire.request(urlString, method: .get).validate().responseJSON { response in
+            switch response.result {
+            case .success(let value):
+                let json = JSON(value)
+                self.routePhotos = []
+                if json.count > 0 {
+                    for i in 0...(json.count - 1) {
+                        user = 
+                        routePhotos += [RoutePhoto]
+                    }
+                }
+                completion()
+            case .failure(let error):
+                print("ERROR: \(error)")
+            }
+        }
     }
     
     func getVote(completion: @escaping (_ res: String)->()) {

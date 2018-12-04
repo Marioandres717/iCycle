@@ -28,6 +28,18 @@ class UrlBuilder {
         return baseURL + "routes"
     }
     
+    public static func getAllRoutePhotos(routeId: Int) -> String {
+        return baseURL + "routes/\(routeId)/photo"
+    }
+
+    public static func addPhotoToRoute(routeId: Int, userId: Int) -> String {
+        return baseURL + "routes/\(routeId)/user/\(userId)/photo"
+    }
+    
+    public static func getAllUserPhotos(userId: Int) -> String {
+        return baseURL + "user/\(userId)/photo"
+    }
+    
     public static func getMyRoutes(userId: Int) -> String {
         return baseURL + "routes/user/\(userId)"
     }
