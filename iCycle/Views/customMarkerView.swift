@@ -8,16 +8,15 @@
 
 import UIKit
 
-class customMarkerView: UIView {
+class CustomMarkerView: UIView {
 
     var img: UIImage!
     var borderColor: UIColor!
     
-    init(frame: CGRect, image: UIImage, borderColor: UIColor, tag: Int) {
+    init(frame: CGRect, image: UIImage, borderColor: UIColor) {
         super.init(frame: frame)
         self.img=image
         self.borderColor=borderColor
-        self.tag = tag
         setupViews()
     }
     

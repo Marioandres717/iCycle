@@ -8,7 +8,7 @@
 
 import Foundation
 
-class Node: Codable {
+class Node {
     var title: String?
     var type: String
     var long: Double

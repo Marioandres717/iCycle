@@ -19,7 +19,6 @@ class SelectPictureCoordinatesViewController: UIViewController {
     @IBOutlet weak var saveBtn: UIButton!
     @IBOutlet weak var cancelBtn: UIButton!
     
-    
     var routeMarkers: [GMSMarker] = []
     var pointMarkers: [GMSMarker] = []
     var routeLines: [String] = []
@@ -30,6 +29,7 @@ class SelectPictureCoordinatesViewController: UIViewController {
 
     var route: Route?
     var user: User?
+    var routeImage: UIImage?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,7 +39,7 @@ class SelectPictureCoordinatesViewController: UIViewController {
         if let route = route {
             setUpRoute(route: route)
         }
-        
+        saveBtn.isEnabled = false
         mapView.delegate = self
         locationManager.delegate = self
         locationManager.requestWhenInUseAuthorization()
@@ -153,32 +153,96 @@ class SelectPictureCoordinatesViewController: UIViewController {
             }
         }
     }
+    
+    @IBAction func addNewImage(_ sender: UIButton) {
+        let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        
+        let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        
+        let displayCamera = UIAlertAction(title: "Camera", style: .default) { action in
+            self.addImageToRoute(optionSelected: "camera")
+        }
+        
+        let displayPhotoLib = UIAlertAction(title: "Photo Library", style: .default) { action in
+            self.addImageToRoute(optionSelected: "library")
+        }
+        
+        actionSheet.addAction(displayCamera)
+        actionSheet.addAction(displayPhotoLib)
+        actionSheet.addAction(cancel)
+        
+        present(actionSheet, animated: true, completion: nil)
+    }
+    
+    @IBAction func cancelButtonClick(_ sender: UIButton) {
+        dismiss(animated: true, completion: nil)
+    }
+    
+    
+    func addImageToRoute(optionSelected: String) {
+        let imgPickerController = UIImagePickerController()
+        imgPickerController.delegate = self
+        imgPickerController.allowsEditing = true
+        
+        if optionSelected == "camera" {
+            imgPickerController.sourceType = .camera
+            
+        } else if optionSelected == "library" {
+            imgPickerController.sourceType = .photoLibrary
+            
+        } else {
+            fatalError("Invalid action")
+        }
+        imgPickerController.mediaTypes = UIImagePickerController.availableMediaTypes(for: imgPickerController.sourceType)!
+        
+        present(imgPickerController, animated: true, completion: nil)
+    }
 
-    /*
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+       
     }
-    */
+
+}
+
+extension SelectPictureCoordinatesViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        dismiss(animated: true, completion: nil)
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        
+        if let editImage = info[UIImagePickerController.InfoKey.editedImage] as? UIImage  {
+           self.routeImage = editImage
+        } else if let originalImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
+            self.routeImage = originalImage
+        }
+        
+        dismiss(animated: true, completion: nil)
+    }
 }
 
 extension SelectPictureCoordinatesViewController: GMSMapViewDelegate {
     
     // user placed a marker
     func mapView(_ mapView: GMSMapView, didTapAt coordinate: CLLocationCoordinate2D) {
-        print("here")
-        print(coordinate)
-        marker = GMSMarker(position: coordinate)
-        marker!.appearAnimation = GMSMarkerAnimation.pop
-        marker!.map = mapView
-        //marker!.title = pinTitle.text ?? ""
-        marker!.icon = GMSMarker.markerImage(with: .black)
-        
-        // updateSaveButtonState()
-        reverseGeocodeCoordinate(coordinate)
+        if self.routeImage != nil {
+            marker = GMSMarker(position: coordinate)
+            marker!.appearAnimation = GMSMarkerAnimation.pop
+            marker!.map = mapView
+            //marker!.title = pinTitle.text ??
+            let customMarker = CustomMarkerView(frame: CGRect(x: 0, y: 0, width: 50, height: 50), image: self.routeImage!, borderColor: UIColor.darkGray)
+            marker!.iconView = customMarker
+            // updateSaveButtonState()
+            reverseGeocodeCoordinate(coordinate)
+            mapView.isUserInteractionEnabled = false
+            selectImageBtn.isEnabled = false
+            saveBtn.isEnabled = true
+        }
     }
 }
 
