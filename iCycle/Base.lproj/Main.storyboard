@@ -18,10 +18,10 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Login" translatesAutoresizingMaskIntoConstraints="NO" id="RRP-YV-KJx">
-                                <rect key="frame" x="0.0" y="64" width="414" height="672"/>
+                                <rect key="frame" x="0.0" y="20" width="414" height="716"/>
                             </imageView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="AAj-pC-riy">
-                                <rect key="frame" x="24" y="303" width="366" height="204"/>
+                                <rect key="frame" x="24" y="259" width="366" height="204"/>
                                 <subviews>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="tua-2O-mud">
                                         <rect key="frame" x="0.0" y="0.0" width="366" height="40"/>
@@ -226,6 +226,9 @@
                                             </subviews>
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <connections>
+                                            <segue destination="K2j-ww-Hde" kind="showDetail" id="xMF-L5-uq1"/>
+                                        </connections>
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
@@ -1117,6 +1120,9 @@
                                             </subviews>
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <connections>
+                                            <segue destination="K2j-ww-Hde" kind="showDetail" id="WMS-hE-gHe"/>
+                                        </connections>
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
@@ -1452,6 +1458,9 @@
                                             </subviews>
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <connections>
+                                            <segue destination="K2j-ww-Hde" kind="showDetail" id="6u6-OS-31I"/>
+                                        </connections>
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
@@ -1725,12 +1734,13 @@
         <image name="MenuIcon" width="60" height="60"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="qgT-UH-ObC"/>
+        <segue reference="ksZ-Nv-4Rk"/>
         <segue reference="HRg-Sz-9x4"/>
-        <segue reference="sBn-bn-U4X"/>
+        <segue reference="Frc-Cc-oLT"/>
         <segue reference="xRi-85-swV"/>
         <segue reference="iJA-xi-O8f"/>
         <segue reference="Sdu-Wm-cQL"/>
         <segue reference="kKr-qu-2oQ"/>
+        <segue reference="xMF-L5-uq1"/>
     </inferredMetricsTieBreakers>
 </document>
