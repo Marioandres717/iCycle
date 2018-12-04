@@ -77,9 +77,9 @@ class MapViewController: UIViewController, GMSMapViewDelegate {
             if res.count > 0 {
                 for i in 0...(res.count - 1) {
                     
-                    let routePinsTemp = res[i]["routePins"]
+                    //let routePinsTemp = res[i]["routePins"]
                     //for j in 0...(routePinsTemp.count - 1) {
-                        guard let node = Node(long: res[i]["routePins"][0]["long"].doubleValue, lat: res[i]["routePins"][0]["lat"].doubleValue, type: res[i]["routePins"][0]["type"].stringValue, title: res[i]["routePins"][0]["title"].stringValue) else {
+                        guard let node = Node(long: res[i]["routePins"][0]["long"].doubleValue, lat: res[i]["routePins"][0]["lat"].doubleValue, type: res[i]["routePins"][0]["type"].stringValue, title: res[i]["title"].stringValue) else {
                             fatalError("Could not read object from server correctly when creating a node")
                         }
                         self.firstRoutePins.append(node)
