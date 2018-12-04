@@ -16,14 +16,16 @@ class RoutePhoto {
     var long: Double
     var lat: Double
     var user: User
+    var routeId: Int
     var caption: String?
     var title: String
     
-    init(photoUrl: String, long: Double, lat: Double, user: User, title: String, caption: String?) {
+    init(photoUrl: String, long: Double, lat: Double, user: User, routeId: Int, title: String, caption: String?) {
         self.photoUrl = photoUrl
         self.long = long
         self.lat = lat
         self.user = user
+        self.routeId = routeId
         self.title = title
         self.caption = caption
         self.photoImage = UIImage(named: "placeholder")!
