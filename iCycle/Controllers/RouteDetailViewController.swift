@@ -403,6 +403,7 @@ class RouteDetailViewController: UIViewController {
             }
             
             routePictureCollectionViewController.photos = self.routePhotos
+            routePictureCollectionViewController.route = self.route
             break
         default:
             fatalError("Unexpected Segue Identifier; \(segue.identifier)")

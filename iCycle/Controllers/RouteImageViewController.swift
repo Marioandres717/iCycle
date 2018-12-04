@@ -163,7 +163,7 @@ class RouteImageViewController: UIViewController {
             guard let routePictureCollectionViewController = segue.destination as? RoutePictureCollectionViewController else {
                 fatalError("Unexpected destination: \(segue.destination)")
             }
-            
+            print("HERE")
             self.saveRoutePhoto()
         default:
             fatalError("Unexpected Segue Identifier; \(segue.identifier)")
