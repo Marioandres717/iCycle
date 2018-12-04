@@ -29,7 +29,7 @@ class SelectPictureCoordinatesViewController: UIViewController {
 
     var route: Route?
     var user: User?
-    var routeImage: UIImage?
+    var image: UIImage?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -203,7 +203,24 @@ class SelectPictureCoordinatesViewController: UIViewController {
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-       
+        super.prepare(for: segue, sender: sender)
+        
+        switch(segue.identifier) {
+        case "savePictureCoordinates":
+            guard let routeImageViewController = segue.destination as? RouteImageViewController else {
+                fatalError("Unexpected destination: \(segue.destination)")
+            }
+            
+            if let img = self.image {
+                routeImageViewController.pictureSelected = img
+                routeImageViewController.routePictureMarkers.append(marker!)
+            }
+            
+            break
+        default:
+            fatalError("Unexpected segue: \(segue.identifier)")
+            break
+        }
     }
 
 }
@@ -217,9 +234,9 @@ extension SelectPictureCoordinatesViewController: UIImagePickerControllerDelegat
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         
         if let editImage = info[UIImagePickerController.InfoKey.editedImage] as? UIImage  {
-           self.routeImage = editImage
+           self.image = editImage
         } else if let originalImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
-            self.routeImage = originalImage
+            self.image = originalImage
         }
         
         dismiss(animated: true, completion: nil)
@@ -230,12 +247,12 @@ extension SelectPictureCoordinatesViewController: GMSMapViewDelegate {
     
     // user placed a marker
     func mapView(_ mapView: GMSMapView, didTapAt coordinate: CLLocationCoordinate2D) {
-        if self.routeImage != nil {
+        if self.image != nil {
             marker = GMSMarker(position: coordinate)
             marker!.appearAnimation = GMSMarkerAnimation.pop
             marker!.map = mapView
             //marker!.title = pinTitle.text ??
-            let customMarker = CustomMarkerView(frame: CGRect(x: 0, y: 0, width: 50, height: 50), image: self.routeImage!, borderColor: UIColor.darkGray)
+            let customMarker = CustomMarkerView(frame: CGRect(x: 0, y: 0, width: 50, height: 50), image: self.image!, borderColor: UIColor.darkGray)
             marker!.iconView = customMarker
             // updateSaveButtonState()
             reverseGeocodeCoordinate(coordinate)

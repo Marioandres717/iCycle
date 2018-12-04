@@ -647,7 +647,7 @@
                     <navigationItem key="navigationItem" id="YbE-io-6GX">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="hf0-0L-Um1">
                             <connections>
-                                <segue destination="574-JF-2EU" kind="show" id="8u9-4h-Dqq"/>
+                                <segue destination="574-JF-2EU" kind="show" identifier="addPicture" id="8u9-4h-Dqq"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -710,7 +710,13 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="Mda-hh-6Tj"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Add Picture To Route" id="i2V-jJ-uJ4"/>
+                    <navigationItem key="navigationItem" title="Add Picture To Route" id="i2V-jJ-uJ4">
+                        <barButtonItem key="rightBarButtonItem" title="Save" id="Qur-2E-WdQ">
+                            <connections>
+                                <segue destination="9h5-g9-HN2" kind="unwind" unwindAction="unwidToAddPictureToCollectionWithSegue:" id="y8H-2H-S8l"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="addPictureBtn" destination="WHp-fx-dtS" id="n8a-4i-Wnq"/>
                         <outlet property="captionTextField" destination="IBX-cu-47S" id="LvA-ij-En1"/>
@@ -720,6 +726,7 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="KIH-ez-wZK" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="9h5-g9-HN2" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="1768.1159420289857" y="1347.554347826087"/>
         </scene>
