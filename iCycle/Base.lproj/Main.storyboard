@@ -270,6 +270,10 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="MoU-ky-IOY">
+                                <rect key="frame" x="197" y="358" width="20" height="20"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </activityIndicatorView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KzW-Y0-Ian" customClass="GMSMapView">
                                 <rect key="frame" x="0.0" y="64" width="414" height="672"/>
                             </view>
@@ -287,6 +291,7 @@
                         <barButtonItem key="leftBarButtonItem" title="Item" image="MenuIcon" id="ytO-Vk-uer"/>
                     </navigationItem>
                     <connections>
+                        <outlet property="activityIndicator" destination="MoU-ky-IOY" id="9Vg-Hi-GJv"/>
                         <outlet property="mapView" destination="KzW-Y0-Ian" id="hwY-HT-sIL"/>
                         <outlet property="menuButton" destination="ytO-Vk-uer" id="Sep-oF-0lw"/>
                         <segue destination="MkD-D0-GsY" kind="showDetail" identifier="GoToTheRouteDetails" id="A3g-tA-zFj"/>
@@ -447,7 +452,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ckx-83-sZa" customClass="GMSMapView">
-                                <rect key="frame" x="0.0" y="20" width="414" height="333"/>
+                                <rect key="frame" x="0.0" y="64" width="414" height="289"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1Jz-MS-Uzf">
@@ -1739,7 +1744,7 @@
         <segue reference="HS9-3l-5Or"/>
         <segue reference="HRg-Sz-9x4"/>
         <segue reference="sBn-bn-U4X"/>
-        <segue reference="A3g-tA-zFj"/>
+        <segue reference="xRi-85-swV"/>
         <segue reference="iJA-xi-O8f"/>
         <segue reference="0pB-Sn-MGZ"/>
         <segue reference="rgl-Ld-E50"/>
