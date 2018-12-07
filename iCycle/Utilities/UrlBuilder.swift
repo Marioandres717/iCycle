@@ -24,6 +24,10 @@ class UrlBuilder {
         return baseURL + "routes"
     }
     
+    public static func getRouteById(routeId: Int) -> String {
+        return baseURL + "routes/\(routeId)"
+    }
+    
     public static func getAllRoutes() -> String {
         return baseURL + "routes"
     }

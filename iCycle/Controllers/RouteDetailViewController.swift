@@ -42,6 +42,8 @@ class RouteDetailViewController: UIViewController {
     
     var route: Route?
     var user: User?
+    var routeId: Int?   // route id passed on from the main map when user clicks on the pin's info window
+    var routeWithId: Route?  // the route object retrieved by using routeId in the service call
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -51,6 +53,13 @@ class RouteDetailViewController: UIViewController {
         hasDownvoted = false
         
         self.user = User.loadUser()
+        
+        if let routeId = routeId {
+
+            getRouteInfoById (id: routeId, completion: {
+                self.setUpRoute(route: self.routeWithId!)
+            })
+        }
         
         if let route = route {
             setUpRoute(route: route)
@@ -304,6 +313,75 @@ class RouteDetailViewController: UIViewController {
         }
     }
     
+    private func getRouteInfoById (id: Int, completion : @escaping ()->()) {
+        
+        let urlString = UrlBuilder.getRouteById(routeId: id)
+        
+        Alamofire.request(urlString, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: nil).responseJSON {
+            response in
+            
+            switch response.result {
+                
+            case .success(let result):
+                
+                let res = JSON(result)
+                var routePins: [Node] = []
+                var pointPins: [Node] = []
+                
+                if res.count > 0 {
+                    
+                    print("json: \(res)")
+                    
+                    if (res["routePins"].count > 0){
+                        for i in 0...(res["routePins"].count - 1){
+                            guard let node = Node(long: res["long"][i].doubleValue,
+                                                  lat: res["lat"][i].doubleValue,
+                                                  type: res["type"][i].stringValue,
+                                                  title: res["title"][i].stringValue) else {
+                                                    fatalError("Could not read object from server correctly when creating a node")
+                            }
+                            routePins.append(node)
+                        }
+                    }
+                    if (res["pointPins"].count > 0){
+                        for i in 0...(res["pointPins"].count - 1){
+                            guard let node = Node(long: res["long"][i].doubleValue,
+                                                  lat: res["lat"][i].doubleValue,
+                                                  type: res["type"][i].stringValue,
+                                                  title: res["title"][i].stringValue) else {
+                                                    fatalError("Could not read object from server correctly when creating a node")
+                            }
+                            pointPins.append(node)
+                        }
+                    }
+                    
+                    // TODO: the user needs to be retrieved correctly
+                    guard let user = User.loadUser() else {
+                        fatalError("Error loading user")
+                    }
+                    
+                    self.routeWithId = Route(id: res["id"].intValue,
+                                             title: res["title"].stringValue,
+                                             note: res["note"].stringValue,
+                                             routePins: routePins,
+                                             difficulty: res["difficulty"].intValue,
+                                             distance: res["distance"].doubleValue,
+                                             upVotes: res["upVotes"].intValue,
+                                             downVotes: res["downVotes"].intValue,
+                                             privateRoute: res["private"].boolValue,
+                                             user: user,
+                                             pointPins: pointPins,
+                                             voted: false)   //TODO: this shouldn't be false, need to get user's id
+                }
+                break
+            case .failure(let error):
+                print(error)
+                break
+            }
+            completion()
+        }
+    }
+    
     // MARK: Actions
     @IBAction func upVote(_ sender: Any) {
         
@@ -409,4 +487,6 @@ class RouteDetailViewController: UIViewController {
             fatalError("Unexpected Segue Identifier; \(segue.identifier)")
         }
     }
+    
+    
 }

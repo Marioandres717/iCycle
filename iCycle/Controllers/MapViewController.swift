@@ -23,29 +23,23 @@ class MapViewController: UIViewController, GMSMapViewDelegate {
     var zoomLevel: Float = 12.0
     var allPoints: [Node] = []
     
-    // the array of route pins with coordinates, type, title, and id
-    //var firstRoutePins: [MainMapRoutePin] = []
     var firstRoutePins: [Node] = []
     var routeIds: [Int] = []
+    var selectedRouteIndex: Int = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         locationManager.requestWhenInUseAuthorization()
         locationManager.delegate = self
+        mapView.delegate = self
         
         sideMenu()
         customizeNavBar()
         initChameleonColors()
         
         getAllRoutePins(completion: {
-            
-            //get each pin's coordinates, type, and title
-            //var routePins: [Node] = []
-            //for i in 0...(self.firstRoutePins.count - 1){
-            //    routePins.append(self.firstRoutePins[i].node)
-            //}
-            self.displayPins(pointPins: self.allPoints, routePins: self.firstRoutePins/*routePins*/)
+            self.displayPins(pointPins: self.allPoints, routePins: self.firstRoutePins)
         })
         
     }
@@ -91,7 +85,6 @@ class MapViewController: UIViewController, GMSMapViewDelegate {
                         fatalError("Could not read object from server correctly when creating a node")
                     }
                     let id = res[i]["id"].intValue
-                    //self.firstRoutePins.append(MainMapRoutePin(node: node, id: id))
                     self.firstRoutePins.append(node)
                     self.routeIds.append(id)
                     
@@ -185,7 +178,22 @@ class MapViewController: UIViewController, GMSMapViewDelegate {
         if let i = firstRoutePins.firstIndex(where: {($0.long == marker.position.longitude) && ($0.lat == marker.position.latitude)}){
             
             // get the id of the pin that was tapped
-            //let id = routeIds[i]
+            selectedRouteIndex = i
+            performSegue(withIdentifier: "GoToTheRouteDetails", sender: marker.title)
+        }
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        super.prepare(for: segue, sender: sender)
+        
+        if segue.identifier == "GoToTheRouteDetails" {
+            
+            guard let routeDetailViewController = segue.destination as? RouteDetailViewController else {
+                fatalError("Unexpected destination: \(segue.destination)")
+            }
+            
+            // pass route id to the route detail view controller
+            routeDetailViewController.routeId = selectedRouteIndex
         }
     }
     
