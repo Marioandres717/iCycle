@@ -40,6 +40,7 @@
 		B9675F2321B621DD00D7B502 /* RoutePictureCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9675F2221B621DD00D7B502 /* RoutePictureCollectionViewController.swift */; };
 		B9912FEC21ACEE85001AEAD5 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9912FEB21ACEE85001AEAD5 /* LoginViewController.swift */; };
 		B9912FF221ACEEA8001AEAD5 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9912FF121ACEEA8001AEAD5 /* SignUpViewController.swift */; };
+		F682B89221BA1F6C00FD08F2 /* MainMapRoutePin.swift in Sources */ = {isa = PBXBuildFile; fileRef = F682B89121BA1F6C00FD08F2 /* MainMapRoutePin.swift */; };
 		F68BC86421950F930073125F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F68BC86321950F930073125F /* AppDelegate.swift */; };
 		F68BC86621950F930073125F /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F68BC86521950F930073125F /* MapViewController.swift */; };
 		F68BC86921950F940073125F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F68BC86721950F940073125F /* Main.storyboard */; };
@@ -113,6 +114,7 @@
 		B9675F2221B621DD00D7B502 /* RoutePictureCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoutePictureCollectionViewController.swift; sourceTree = "<group>"; };
 		B9912FEB21ACEE85001AEAD5 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		B9912FF121ACEEA8001AEAD5 /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
+		F682B89121BA1F6C00FD08F2 /* MainMapRoutePin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainMapRoutePin.swift; sourceTree = "<group>"; };
 		F68BC86021950F930073125F /* iCycle.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iCycle.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F68BC86321950F930073125F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F68BC86521950F930073125F /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MapViewController.swift; path = iCycle/Controllers/MapViewController.swift; sourceTree = SOURCE_ROOT; };
@@ -194,6 +196,7 @@
 				21610C9B21AE4B6C00275419 /* Node.swift */,
 				211A4F2221B21DF500BCB856 /* User.swift */,
 				217E996F21B624460085DF15 /* RoutePhoto.swift */,
+				F682B89121BA1F6C00FD08F2 /* MainMapRoutePin.swift */,
 			);
 			name = Models;
 			path = iCycle/Models;
@@ -506,6 +509,7 @@
 				11F8E41E21B273C900505E0E /* LogoutViewController.swift in Sources */,
 				2188323E21955FEA00F7E9C5 /* RouteCreateViewController.swift in Sources */,
 				11683AE121B5135200246F41 /* customMarkerView.swift in Sources */,
+				F682B89221BA1F6C00FD08F2 /* MainMapRoutePin.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

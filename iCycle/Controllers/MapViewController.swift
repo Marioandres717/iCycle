@@ -22,7 +22,11 @@ class MapViewController: UIViewController, GMSMapViewDelegate {
     var locationManager = CLLocationManager()
     var zoomLevel: Float = 12.0
     var allPoints: [Node] = []
+    
+    // the array of route pins with coordinates, type, title, and id
+    //var firstRoutePins: [MainMapRoutePin] = []
     var firstRoutePins: [Node] = []
+    var routeIds: [Int] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,7 +39,13 @@ class MapViewController: UIViewController, GMSMapViewDelegate {
         initChameleonColors()
         
         getAllRoutePins(completion: {
-            self.displayPins(pointPins: self.allPoints, routePins: self.firstRoutePins)
+            
+            //get each pin's coordinates, type, and title
+            //var routePins: [Node] = []
+            //for i in 0...(self.firstRoutePins.count - 1){
+            //    routePins.append(self.firstRoutePins[i].node)
+            //}
+            self.displayPins(pointPins: self.allPoints, routePins: self.firstRoutePins/*routePins*/)
         })
         
     }
@@ -65,7 +75,7 @@ class MapViewController: UIViewController, GMSMapViewDelegate {
     
     //MARK: Display Pins
     func getAllRoutePins (completion : @escaping ()->()) {
-        var urlString = UrlBuilder.getAllRoutes()
+        let urlString = UrlBuilder.getAllRoutes()
         
         Alamofire.request(urlString, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: nil).responseJSON {
         response in
@@ -76,14 +86,14 @@ class MapViewController: UIViewController, GMSMapViewDelegate {
             let res = JSON(result)
             if res.count > 0 {
                 for i in 0...(res.count - 1) {
-                    
-                    //let routePinsTemp = res[i]["routePins"]
-                    //for j in 0...(routePinsTemp.count - 1) {
-                        guard let node = Node(long: res[i]["routePins"][0]["long"].doubleValue, lat: res[i]["routePins"][0]["lat"].doubleValue, type: res[i]["routePins"][0]["type"].stringValue, title: res[i]["title"].stringValue) else {
-                            fatalError("Could not read object from server correctly when creating a node")
-                        }
-                        self.firstRoutePins.append(node)
-                   // }
+                
+                    guard let node = Node(long: res[i]["routePins"][0]["long"].doubleValue, lat: res[i]["routePins"][0]["lat"].doubleValue, type: res[i]["routePins"][0]["type"].stringValue, title: res[i]["title"].stringValue) else {
+                        fatalError("Could not read object from server correctly when creating a node")
+                    }
+                    let id = res[i]["id"].intValue
+                    //self.firstRoutePins.append(MainMapRoutePin(node: node, id: id))
+                    self.firstRoutePins.append(node)
+                    self.routeIds.append(id)
                     
                     let pointPinsTemp = res[i]["pointPins"]
                     if (pointPinsTemp.count > 0) {
@@ -168,6 +178,17 @@ class MapViewController: UIViewController, GMSMapViewDelegate {
     }
 
 }
+    
+    // MARK: GMSMapViewDelegate
+    func mapView(_ mapView: GMSMapView, didTapInfoWindowOf marker: GMSMarker) {
+        
+        if let i = firstRoutePins.firstIndex(where: {($0.long == marker.position.longitude) && ($0.lat == marker.position.latitude)}){
+            
+            // get the id of the pin that was tapped
+            //let id = routeIds[i]
+        }
+    }
+    
 }
 
 // MARK: CLLocationManagerDelegate
@@ -204,4 +225,5 @@ extension MapViewController: CLLocationManagerDelegate {
         locationManager.stopUpdatingLocation()
     }
 }
+
 
