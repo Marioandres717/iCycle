@@ -267,7 +267,7 @@ class RouteDetailViewController: UIViewController {
             }
         }
         
-        for i in 0...(routePins.count - 1) {
+        for i in 1..<(routePins.count) {
             let p1 = CLLocationCoordinate2D(latitude: CLLocationDegrees(routePins[i-1].lat), longitude: CLLocationDegrees(routePins[i-1].long))
             let p2 = CLLocationCoordinate2D(latitude: CLLocationDegrees(routePins[i].lat), longitude: CLLocationDegrees(routePins[i].long))
             

@@ -22,11 +22,9 @@ class MapViewController: UIViewController, GMSMapViewDelegate {
     
     var locationManager = CLLocationManager()
     var zoomLevel: Float = 12.0
-    var allPoints: [Node] = []
     
-    var firstRoutePins: [Node] = []
-    var routeIds: [Int] = []
-    var selectedRouteIndex: Int = 0
+    var routeMarkers: [GMSMarker] = []
+    var allPoints: [Node] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,7 +38,7 @@ class MapViewController: UIViewController, GMSMapViewDelegate {
         initChameleonColors()
         
         getAllRoutePins(completion: {
-            self.displayPins(pointPins: self.allPoints, routePins: self.firstRoutePins)
+            self.displayPins(pointPins: self.allPoints)
         })
         
     }
@@ -86,8 +84,17 @@ class MapViewController: UIViewController, GMSMapViewDelegate {
                             fatalError("Could not read object from server correctly when creating a node")
                         }
                         let id = res[i]["id"].intValue
-                        self.firstRoutePins.append(node)
-                        self.routeIds.append(id)
+                        
+                        let position = CLLocationCoordinate2D(latitude: CLLocationDegrees(node.lat), longitude: CLLocationDegrees(node.long))
+                        let marker = GMSMarker(position: position)
+                        marker.appearAnimation = GMSMarkerAnimation.pop
+                        marker.title = node.title
+                        marker.icon = UIImage(named: "routePin")
+                        marker.map = self.mapView
+                        marker.userData =  ["routeId" : id] as [String : Any]
+                        
+                        self.routeMarkers.append(marker)
+                        
                         
                         let pointPinsTemp = res[i]["pointPins"]
                         if (pointPinsTemp.count > 0) {
@@ -160,18 +167,7 @@ class MapViewController: UIViewController, GMSMapViewDelegate {
         }
     }
     
-    func displayPins(pointPins: [Node], routePins: [Node]){
-        if routePins != nil && routePins.count > 0 {
-            for i in 0..<(routePins.count) {
-                let position = CLLocationCoordinate2D(latitude: CLLocationDegrees(routePins[i].lat), longitude: CLLocationDegrees(routePins[i].long))
-                let marker = GMSMarker(position: position)
-                marker.appearAnimation = GMSMarkerAnimation.pop
-                marker.title = routePins[i].title
-                marker.icon = UIImage(named: "routePin")
-                marker.map = self.mapView
-            }
-        }
-        
+    func displayPins(pointPins: [Node]){
         if pointPins != nil && pointPins.count > 0 {
             for pin in pointPins {
                 let position = CLLocationCoordinate2D(latitude: CLLocationDegrees(pin.lat), longitude: CLLocationDegrees(pin.long))
@@ -200,16 +196,14 @@ class MapViewController: UIViewController, GMSMapViewDelegate {
     // MARK: GMSMapViewDelegate
     func mapView(_ mapView: GMSMapView, didTapInfoWindowOf marker: GMSMarker) {
         self.activityIndicator.startAnimating()
-        if let i = firstRoutePins.firstIndex(where: {($0.long == marker.position.longitude) && ($0.lat == marker.position.latitude)}){
-            
-            // get the id of the pin that was tapped
-            selectedRouteIndex = i
-            
-            getRouteInfoById(id: i, completion: { route in
-                self.activityIndicator.stopAnimating()
-                self.performSegue(withIdentifier: "GoToTheRouteDetails", sender: route)
-            })
-        }
+        
+        let data = marker.userData! as! [String : Any] // get the id of the pin that was tapped
+        let id = data["routeId"] as! Int
+        print("ROUTE ID: \(id)")
+        getRouteInfoById(id: id, completion: { route in
+            self.activityIndicator.stopAnimating()
+            self.performSegue(withIdentifier: "GoToTheRouteDetails", sender: route)
+        })
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -262,3 +256,4 @@ extension MapViewController: CLLocationManagerDelegate {
         locationManager.stopUpdatingLocation()
     }
 }
+
