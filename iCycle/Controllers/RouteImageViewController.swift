@@ -41,6 +41,36 @@ class RouteImageViewController: UIViewController {
         if let route = route {
             setUpRoute(route: route)
         }
+        
+        // Listen for Keyboard Events
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(keyboardWillShow),
+            name: UIResponder.keyboardWillShowNotification,
+            object: nil
+        )
+        
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(keyboardWillHide),
+            name: UIResponder.keyboardWillHideNotification,
+            object: nil
+        )
+    }
+    
+    deinit {
+        // Stop Listening for Keyboard Events
+        NotificationCenter.default.removeObserver(
+            self,
+            name: UIResponder.keyboardWillShowNotification,
+            object: nil
+        )
+        
+        NotificationCenter.default.removeObserver(
+            self,
+            name: UIResponder.keyboardWillHideNotification,
+            object: nil
+        )
     }
     
     // MARK: Methods
@@ -51,9 +81,20 @@ class RouteImageViewController: UIViewController {
     }
     
     func updatePicturePins() {
-//        if routePictures.isEmpty == false {
-//            for
-//        }
+        if self.pictureSelected != nil {
+                let pictureMarker = routePictureMarkers[routePictureMarkers.endIndex - 1]
+                let position = CLLocationCoordinate2D(latitude: CLLocationDegrees(pictureMarker.position.latitude), longitude: CLLocationDegrees(pictureMarker.position.longitude))
+                let marker = GMSMarker(position: position)
+                marker.appearAnimation = GMSMarkerAnimation.pop
+                //marker.title = pin.title
+                let customMarker = CustomMarkerView(frame: CGRect(x: 0, y: 0, width: 50, height: 50), image: self.pictureSelected!, borderColor: UIColor.darkGray)
+                marker.iconView = customMarker
+                marker.map = self.mapView
+                
+                routePictureMarkers += [marker]
+        }
+    
+            mapView.camera = GMSCameraPosition(target: routeMarkers[routeMarkers.count-1].position , zoom: zoomLevel, bearing: 0, viewingAngle: 0)
     }
     
     func updateSaveState() {
@@ -252,4 +293,43 @@ class RouteImageViewController: UIViewController {
 //            }
 //        }
 //    }
+    
+    @objc func keyboardWillShow(notification: Notification) {
+        if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
+            let keyboardRectangle = keyboardFrame.cgRectValue
+            let keyboardHeight = keyboardRectangle.height
+            
+            view.frame.origin.y = -keyboardHeight
+        }
+    }
+    
+    @objc func keyboardWillHide(notification: Notification) {
+        if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
+            let keyboardRectangle = keyboardFrame.cgRectValue
+            let keyboardHeight = keyboardRectangle.height
+            
+            view.frame.origin.y += keyboardHeight
+        }
+    }
 }
+
+// MARK: UITextFieldDelegate
+extension RouteImageViewController: UITextFieldDelegate {
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        textField.becomeFirstResponder()
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        // Hide Keyboard
+        textField.resignFirstResponder()
+        return true
+    }
+}
+
+// MARK: UITextViewDelegate
+extension RouteImageViewController: UITextViewDelegate {
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        textView.becomeFirstResponder()
+    }
+}
+
