@@ -341,7 +341,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
                             let oldImageURL = self.user?.bikeImage
                             self.user = User.loadUser()!
                             // if the user change their bike picture then delete the old picture
-                            if oldImageURL != self.user?.bikeImage {
+                            if oldImageURL != self.user?.bikeImage && oldImageURL != "" {
                                 self.firebasePicURL = oldImageURL
                                 self.deleteImageFromFirebaseStorage()
                             }
