@@ -88,7 +88,7 @@ class MapViewController: UIViewController, GMSMapViewDelegate {
                         let position = CLLocationCoordinate2D(latitude: CLLocationDegrees(node.lat), longitude: CLLocationDegrees(node.long))
                         let marker = GMSMarker(position: position)
                         marker.appearAnimation = GMSMarkerAnimation.pop
-                        marker.title = node.title
+                        marker.title = "Route: \(node.title) (Press to view)"
                         marker.icon = UIImage(named: "routePin")
                         marker.map = self.mapView
                         marker.userData =  ["routeId" : id] as [String : Any]

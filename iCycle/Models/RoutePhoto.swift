@@ -39,7 +39,6 @@ class RoutePhoto {
                     print(error)
                     self.photoImage = UIImage(named: "placeholder")!
                 } else {
-                    print("Sucessfully fetched image")
                     self.photoImage = UIImage(data: data!)!
                 }
             }

@@ -294,7 +294,7 @@
                         <outlet property="activityIndicator" destination="MoU-ky-IOY" id="9Vg-Hi-GJv"/>
                         <outlet property="mapView" destination="KzW-Y0-Ian" id="hwY-HT-sIL"/>
                         <outlet property="menuButton" destination="ytO-Vk-uer" id="Sep-oF-0lw"/>
-                        <segue destination="MkD-D0-GsY" kind="showDetail" identifier="GoToTheRouteDetails" id="A3g-tA-zFj"/>
+                        <segue destination="MkD-D0-GsY" kind="show" identifier="GoToTheRouteDetails" id="A3g-tA-zFj"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8PY-Zh-3lm" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1744,7 +1744,7 @@
         <segue reference="HS9-3l-5Or"/>
         <segue reference="HRg-Sz-9x4"/>
         <segue reference="sBn-bn-U4X"/>
-        <segue reference="xRi-85-swV"/>
+        <segue reference="A3g-tA-zFj"/>
         <segue reference="iJA-xi-O8f"/>
         <segue reference="0pB-Sn-MGZ"/>
         <segue reference="rgl-Ld-E50"/>
