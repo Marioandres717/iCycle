@@ -11,6 +11,7 @@
 		110FDA0221B5E66B002D52FE /* SelectPictureCoordinatesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 110FDA0121B5E66B002D52FE /* SelectPictureCoordinatesViewController.swift */; };
 		1160DB6621B21FA0003AB7A3 /* ErrorHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1160DB6521B21FA0003AB7A3 /* ErrorHandler.swift */; };
 		11683AE121B5135200246F41 /* customMarkerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11683AE021B5135200246F41 /* customMarkerView.swift */; };
+		119A841121BB882F000479E2 /* CustomMarkerView2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 119A841021BB882F000479E2 /* CustomMarkerView2.swift */; };
 		11C0F4A821B4A5490049B487 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 11C0F4A721B4A5490049B487 /* GoogleService-Info.plist */; };
 		11EAF8A621B1FA8D004B9AF0 /* UrlBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11EAF8A521B1FA8D004B9AF0 /* UrlBuilder.swift */; };
 		11F8E42421B2830400505E0E /* Http.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11F8E42321B2830400505E0E /* Http.swift */; };
@@ -73,6 +74,7 @@
 		110FDA0121B5E66B002D52FE /* SelectPictureCoordinatesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectPictureCoordinatesViewController.swift; sourceTree = "<group>"; };
 		1160DB6521B21FA0003AB7A3 /* ErrorHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ErrorHandler.swift; path = iCycle/Utilities/ErrorHandler.swift; sourceTree = SOURCE_ROOT; };
 		11683AE021B5135200246F41 /* customMarkerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = customMarkerView.swift; sourceTree = "<group>"; };
+		119A841021BB882F000479E2 /* CustomMarkerView2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomMarkerView2.swift; sourceTree = "<group>"; };
 		11C0F4A721B4A5490049B487 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		11EAF8A521B1FA8D004B9AF0 /* UrlBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UrlBuilder.swift; sourceTree = "<group>"; };
 		11F8E42321B2830400505E0E /* Http.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Http.swift; path = iCycle/Utilities/Http.swift; sourceTree = SOURCE_ROOT; };
@@ -191,6 +193,7 @@
 				2188329321958EFC00F7E9C5 /* SideMenuItemTableViewCell.swift */,
 				2182BD61219A5BCB0024119C /* RouteTableViewCell.swift */,
 				11683AE021B5135200246F41 /* customMarkerView.swift */,
+				119A841021BB882F000479E2 /* CustomMarkerView2.swift */,
 				217E997121B64BEE0085DF15 /* routePhotoCollectionViewCell.swift */,
 			);
 			name = Views;
@@ -402,7 +405,9 @@
 				"${BUILT_PRODUCTS_DIR}/ChameleonFramework/ChameleonFramework.framework",
 				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
+				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
+				"${BUILT_PRODUCTS_DIR}/libwebp/libwebp.framework",
 				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
@@ -413,7 +418,9 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ChameleonFramework.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/libwebp.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -459,6 +466,7 @@
 				2188323A21955D4600F7E9C5 /* ChameleonShorthand.swift in Sources */,
 				2182BD68219A71080024119C /* Route.swift in Sources */,
 				B9912FF221ACEEA8001AEAD5 /* SignUpViewController.swift in Sources */,
+				119A841121BB882F000479E2 /* CustomMarkerView2.swift in Sources */,
 				21A6987321B0BB4400E07322 /* SWRevealViewController.m in Sources */,
 				F68BC86621950F930073125F /* MapViewController.swift in Sources */,
 				21F416DA2197C6F100232FAD /* NavMenuTableViewController.swift in Sources */,

@@ -283,8 +283,8 @@ class RouteDetailViewController: UIViewController {
                     let marker = GMSMarker(position: position)
                     marker.appearAnimation = GMSMarkerAnimation.pop
                     marker.title = photo.title
-                    print(photo.photoImage)
-                    let customMarker = CustomMarkerView(frame: CGRect(x: 0, y: 0, width: 50, height: 50), image: photo.photoImage, borderColor: UIColor.darkGray)
+                    print(photo.photoUrl)
+                    let customMarker = CustomMarkerView2(frame: CGRect(x: 0, y: 0, width: 50, height: 50), image: photo.photoUrl, borderColor: UIColor.darkGray)
                     marker.iconView = customMarker
                     marker.map = self.mapView
                     
