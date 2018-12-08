@@ -5,7 +5,6 @@
 //  Created by Mario Rendon on 2018-12-03.
 //  Copyright © 2018 Valentyna Akulova. All rights reserved.
 //
-
 import UIKit
 import GoogleMaps
 import GooglePlaces

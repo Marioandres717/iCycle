@@ -14,14 +14,15 @@ import SwiftyJSON
 import os.log
 
 class SelectWaypointViewController: UIViewController {
-    var pin: Node?
+    // MARK: Attributes
+    var pin: Node? // The new pin
     
     var routeMarkers: [GMSMarker]? // Marker to signify the route
     var pointMarkers: [GMSMarker]? // Marker to signify special points on the route
     
     var marker: GMSMarker? // The currently selected marker
-    var newestRoute: GMSPolyline?
-    var routePoints: [String]?
+    var newestRoute: GMSPolyline? // The newest path between two markers
+    var routePoints: [String]? // The entire path
     var routeDistance: [Double] = []
     
     let path = GMSMutablePath()
@@ -41,25 +42,25 @@ class SelectWaypointViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // Customize Buttons
-        cancelButton.backgroundColor = FlatRed()
-        saveButton.backgroundColor = FlatGreen()
-        
-        // Set Delegates
+        // Set the Delegates
         mapView.delegate = self
         pinTypePicker.delegate = self
         pinTitle.delegate = self
         locationManager.delegate = self
         
+        // Location Management
         locationManager.requestWhenInUseAuthorization()
+        
+        // Customize the Screen
+        initChameleonColors()
         
         // Fill the Picker
         pinTypePicker.dataSource = self
         
-        // Input the data into the array
+        // The different types of pins
         pickerData = ["Route", "Bike Shop", "Store", "Point of Interest", "Hazard"]
         
-        // Update The Map
+        // Update The Map with the previously placed pins
         if let routeMarkers = routeMarkers {
             if routeMarkers.count > 0 {
                 updateRoutePins()
@@ -72,10 +73,19 @@ class SelectWaypointViewController: UIViewController {
             }
         }
         
+        // Update the ability to save (default off)
         updateSaveButtonState()
     }
     
-    // MARK: Map Functionality
+    // MARK: Customize the Screen
+    private func initChameleonColors() {
+        cancelButton.backgroundColor = FlatRed()
+        saveButton.backgroundColor = FlatGreen()
+    }
+    
+    // MARK: Custom Methods
+    
+    // Get the address of the pins
     private func reverseGeocodeCoordinate(_ coordinate: CLLocationCoordinate2D){
         
         // object for turning latitude and logitude into a street address
@@ -98,6 +108,7 @@ class SelectWaypointViewController: UIViewController {
         }
     }
     
+    // Get the actual path between the last pin that was placed and the new one to be added
     private func drawRouteBetweenTwoLastPins (sourceCoordinate: CLLocationCoordinate2D, destinationCoordinate: CLLocationCoordinate2D, completion : @escaping ()->()) {
     
         let source: String = "\(sourceCoordinate.latitude),\(sourceCoordinate.longitude)"
@@ -142,43 +153,6 @@ class SelectWaypointViewController: UIViewController {
         }
     }
     
-    // MARK: - Navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        super.prepare(for: segue, sender: sender)
-        
-        switch(segue.identifier) {
-            case "cancelWaypoint":
-            break
-            case "saveWaypoint":
-                guard let routeCreateViewController = segue.destination as? RouteCreateViewController else {
-                    fatalError("Unexpected destination: \(segue.destination)")
-                }
-                
-                pin = Node(long: marker!.position.longitude, lat: marker!.position.latitude, type: pickerData[pinTypePicker.selectedRow(inComponent: 0)], title: pinTitle.text ?? "")!
-                
-                if let pin = pin {
-                    switch (pickerData[pinTypePicker.selectedRow(inComponent: 0)]) {
-                    case "Route":
-                        routeCreateViewController.routePins.append(pin)
-                        break
-                    default:
-                        routeCreateViewController.pointPins.append(pin)
-                        break;
-                    }
-                }
-                
-                if let routePoints = routePoints {
-                    routeCreateViewController.routePoints = routePoints
-                }
-                routeCreateViewController.routeDistance = routeDistance
-
-            break
-            default:
-                fatalError("Unexpected segue: \(segue.identifier)")
-            break
-        }
-    }
-    
     // Enable the save button when all conditions are met.
     func updateSaveButtonState() {
         if marker != nil {
@@ -215,10 +189,45 @@ class SelectWaypointViewController: UIViewController {
         }
     }
     
+    // MARK: Navigation
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        super.prepare(for: segue, sender: sender)
+        
+        switch(segue.identifier) {
+            case "cancelWaypoint":
+            break
+            case "saveWaypoint":
+                guard let routeCreateViewController = segue.destination as? RouteCreateViewController else {
+                    fatalError("Unexpected destination: \(segue.destination)")
+                }
+                
+                pin = Node(long: marker!.position.longitude, lat: marker!.position.latitude, type: pickerData[pinTypePicker.selectedRow(inComponent: 0)], title: pinTitle.text ?? "")!
+                
+                if let pin = pin {
+                    switch (pickerData[pinTypePicker.selectedRow(inComponent: 0)]) {
+                    case "Route":
+                        routeCreateViewController.routePins.append(pin)
+                        break
+                    default:
+                        routeCreateViewController.pointPins.append(pin)
+                        break;
+                    }
+                }
+                
+                if let routePoints = routePoints {
+                    routeCreateViewController.routePoints = routePoints
+                }
+                routeCreateViewController.routeDistance = routeDistance
+
+            break
+            default:
+                fatalError("Unexpected segue: \(segue.identifier)")
+            break
+        }
+    }
 }
 
 // MARK: GMSMapViewDelegate
-
 extension SelectWaypointViewController: GMSMapViewDelegate {
     
     // User Placed a Marker
@@ -241,9 +250,9 @@ extension SelectWaypointViewController: GMSMapViewDelegate {
             marker!.title = pinTitle.text ?? ""
             marker!.icon = UIImage(named: "routePin")
 
-            // If there are more than
+            // If there are more than one route pin, draw the route between them
             if let routeMarkers = routeMarkers {
-                if(routeMarkers.count > 0) {
+                if(routeMarkers.count > 1) {
                     drawRouteBetweenTwoLastPins(sourceCoordinate: CLLocationCoordinate2D(latitude: routeMarkers[routeMarkers.count-1].position.latitude, longitude: routeMarkers[routeMarkers.count-1].position.longitude), destinationCoordinate: coordinate, completion: {
                         
                         let path = GMSPath.init(fromEncodedPath: self.routePoints![self.routePoints!.count - 1])

@@ -206,7 +206,6 @@ class RouteCreateViewController: UIViewController, URLSessionDelegate, URLSessio
         }
     }
     
-    
     // Update the save button when all conditions are met.
     func updateSaveState() {
         if routePins.count < 2 {
@@ -216,7 +215,7 @@ class RouteCreateViewController: UIViewController, URLSessionDelegate, URLSessio
         }
     }
     
-    //  adding a pin, update the map to display the new path and pin
+    // After adding a pin, update the map to display the new path and pin
     func updateMapPins() {
         if routePins != nil && routePins.count > 0 {
             for pin in routePins {
