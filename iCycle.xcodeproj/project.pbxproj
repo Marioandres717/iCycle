@@ -11,8 +11,6 @@
 		110FDA0221B5E66B002D52FE /* SelectPictureCoordinatesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 110FDA0121B5E66B002D52FE /* SelectPictureCoordinatesViewController.swift */; };
 		1160DB6621B21FA0003AB7A3 /* ErrorHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1160DB6521B21FA0003AB7A3 /* ErrorHandler.swift */; };
 		11683AE121B5135200246F41 /* customMarkerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11683AE021B5135200246F41 /* customMarkerView.swift */; };
-		11683AE321B513EF00246F41 /* RouteImagePreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11683AE221B513EF00246F41 /* RouteImagePreviewView.swift */; };
-		11683AE521B514AA00246F41 /* RouteImageDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11683AE421B514AA00246F41 /* RouteImageDetailsViewController.swift */; };
 		11C0F4A821B4A5490049B487 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 11C0F4A721B4A5490049B487 /* GoogleService-Info.plist */; };
 		11EAF8A621B1FA8D004B9AF0 /* UrlBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11EAF8A521B1FA8D004B9AF0 /* UrlBuilder.swift */; };
 		11F8E42421B2830400505E0E /* Http.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11F8E42321B2830400505E0E /* Http.swift */; };
@@ -30,9 +28,6 @@
 		21A6987321B0BB4400E07322 /* SWRevealViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 21A6987221B0BB4400E07322 /* SWRevealViewController.m */; };
 		21F416C221977D6700232FAD /* RouteDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21F416C121977D6700232FAD /* RouteDetailViewController.swift */; };
 		21F416C821977DA000232FAD /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21F416C721977DA000232FAD /* ProfileViewController.swift */; };
-		21F416CC21977E1E00232FAD /* BilletTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21F416CB21977E1E00232FAD /* BilletTableViewController.swift */; };
-		21F416CE21977E4200232FAD /* BilletDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21F416CD21977E4200232FAD /* BilletDetailViewController.swift */; };
-		21F416D021977E5E00232FAD /* BilletCreateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21F416CF21977E5E00232FAD /* BilletCreateViewController.swift */; };
 		21F416D221977F9700232FAD /* ProfilePhotoCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21F416D121977F9700232FAD /* ProfilePhotoCollectionViewController.swift */; };
 		21F416DA2197C6F100232FAD /* NavMenuTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21F416D92197C6F100232FAD /* NavMenuTableViewController.swift */; };
 		728706FFEB80DC3E9AE86595 /* Pods_iCycle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5187A9AE605887F2B732F01E /* Pods_iCycle.framework */; };
@@ -80,8 +75,6 @@
 		110FDA0121B5E66B002D52FE /* SelectPictureCoordinatesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectPictureCoordinatesViewController.swift; sourceTree = "<group>"; };
 		1160DB6521B21FA0003AB7A3 /* ErrorHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ErrorHandler.swift; path = iCycle/Utilities/ErrorHandler.swift; sourceTree = SOURCE_ROOT; };
 		11683AE021B5135200246F41 /* customMarkerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = customMarkerView.swift; sourceTree = "<group>"; };
-		11683AE221B513EF00246F41 /* RouteImagePreviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteImagePreviewView.swift; sourceTree = "<group>"; };
-		11683AE421B514AA00246F41 /* RouteImageDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteImageDetailsViewController.swift; sourceTree = "<group>"; };
 		11C0F4A721B4A5490049B487 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		11EAF8A521B1FA8D004B9AF0 /* UrlBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UrlBuilder.swift; sourceTree = "<group>"; };
 		11F8E42321B2830400505E0E /* Http.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Http.swift; path = iCycle/Utilities/Http.swift; sourceTree = SOURCE_ROOT; };
@@ -100,9 +93,6 @@
 		21A6987221B0BB4400E07322 /* SWRevealViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWRevealViewController.m; sourceTree = "<group>"; };
 		21F416C121977D6700232FAD /* RouteDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = RouteDetailViewController.swift; path = iCycle/Controllers/RouteDetailViewController.swift; sourceTree = SOURCE_ROOT; };
 		21F416C721977DA000232FAD /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ProfileViewController.swift; path = iCycle/Controllers/ProfileViewController.swift; sourceTree = SOURCE_ROOT; };
-		21F416CB21977E1E00232FAD /* BilletTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = BilletTableViewController.swift; path = iCycle/Controllers/BilletTableViewController.swift; sourceTree = SOURCE_ROOT; };
-		21F416CD21977E4200232FAD /* BilletDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = BilletDetailViewController.swift; path = iCycle/Controllers/BilletDetailViewController.swift; sourceTree = SOURCE_ROOT; };
-		21F416CF21977E5E00232FAD /* BilletCreateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = BilletCreateViewController.swift; path = iCycle/Controllers/BilletCreateViewController.swift; sourceTree = SOURCE_ROOT; };
 		21F416D121977F9700232FAD /* ProfilePhotoCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ProfilePhotoCollectionViewController.swift; path = iCycle/Controllers/ProfilePhotoCollectionViewController.swift; sourceTree = SOURCE_ROOT; };
 		21F416D321979AD400232FAD /* iCycle-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "iCycle-Bridging-Header.h"; sourceTree = "<group>"; };
 		21F416D92197C6F100232FAD /* NavMenuTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = NavMenuTableViewController.swift; path = iCycle/Controllers/NavMenuTableViewController.swift; sourceTree = SOURCE_ROOT; };
@@ -203,11 +193,9 @@
 		2188321F219557BE00F7E9C5 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				11683AE421B514AA00246F41 /* RouteImageDetailsViewController.swift */,
 				2188329321958EFC00F7E9C5 /* SideMenuItemTableViewCell.swift */,
 				2182BD61219A5BCB0024119C /* RouteTableViewCell.swift */,
 				11683AE021B5135200246F41 /* customMarkerView.swift */,
-				11683AE221B513EF00246F41 /* RouteImagePreviewView.swift */,
 				217E997121B64BEE0085DF15 /* routePhotoCollectionViewCell.swift */,
 			);
 			name = Views;
@@ -227,9 +215,6 @@
 				110FDA0121B5E66B002D52FE /* SelectPictureCoordinatesViewController.swift */,
 				21F416C121977D6700232FAD /* RouteDetailViewController.swift */,
 				21F416C721977DA000232FAD /* ProfileViewController.swift */,
-				21F416CB21977E1E00232FAD /* BilletTableViewController.swift */,
-				21F416CD21977E4200232FAD /* BilletDetailViewController.swift */,
-				21F416CF21977E5E00232FAD /* BilletCreateViewController.swift */,
 				21F416D121977F9700232FAD /* ProfilePhotoCollectionViewController.swift */,
 				21F416D92197C6F100232FAD /* NavMenuTableViewController.swift */,
 				B9912FEB21ACEE85001AEAD5 /* LoginViewController.swift */,
@@ -477,7 +462,6 @@
 				110FDA0021B5D3E3002D52FE /* RouteImageViewController.swift in Sources */,
 				11F8E42421B2830400505E0E /* Http.swift in Sources */,
 				21610C9621AE410200275419 /* SelectWaypointViewController.swift in Sources */,
-				21F416CC21977E1E00232FAD /* BilletTableViewController.swift in Sources */,
 				2188323A21955D4600F7E9C5 /* ChameleonShorthand.swift in Sources */,
 				21F416D221977F9700232FAD /* ProfilePhotoCollectionViewController.swift in Sources */,
 				2182BD68219A71080024119C /* Route.swift in Sources */,
@@ -490,16 +474,12 @@
 				217E997221B64BEE0085DF15 /* routePhotoCollectionViewCell.swift in Sources */,
 				217E997021B624460085DF15 /* RoutePhoto.swift in Sources */,
 				21610C9C21AE4B6C00275419 /* Node.swift in Sources */,
-				11683AE321B513EF00246F41 /* RouteImagePreviewView.swift in Sources */,
 				11EAF8A621B1FA8D004B9AF0 /* UrlBuilder.swift in Sources */,
 				F68BC86421950F930073125F /* AppDelegate.swift in Sources */,
 				B9675F2321B621DD00D7B502 /* RoutePictureCollectionViewController.swift in Sources */,
-				21F416CE21977E4200232FAD /* BilletDetailViewController.swift in Sources */,
 				1160DB6621B21FA0003AB7A3 /* ErrorHandler.swift in Sources */,
 				2182BD62219A5BCB0024119C /* RouteTableViewCell.swift in Sources */,
 				110FDA0221B5E66B002D52FE /* SelectPictureCoordinatesViewController.swift in Sources */,
-				21F416D021977E5E00232FAD /* BilletCreateViewController.swift in Sources */,
-				11683AE521B514AA00246F41 /* RouteImageDetailsViewController.swift in Sources */,
 				B9912FEC21ACEE85001AEAD5 /* LoginViewController.swift in Sources */,
 				2188323C21955E8C00F7E9C5 /* RouteTableViewController.swift in Sources */,
 				21F416C821977DA000232FAD /* ProfileViewController.swift in Sources */,
