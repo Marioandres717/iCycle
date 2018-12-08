@@ -101,7 +101,8 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     func initChameleonColors() {
         view.backgroundColor = FlatBlack()
         
-        myPhotosButton.backgroundColor = FlatForestGreen()
+        // myPhotosButton.backgroundColor = FlatForestGreen()
+        myPhotosButton.backgroundColor = FlatGray()
         myPhotosButton.layer.cornerRadius = 5
         myPhotosButton.layer.borderWidth = 1
         myPhotosButton.layer.borderColor = FlatGreen().cgColor

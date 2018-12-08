@@ -68,7 +68,8 @@ class RouteDetailViewController: UIViewController {
     func initChameleonColors() {
         view.backgroundColor = FlatBlack()
         
-        addPinButton.backgroundColor = FlatForestGreen()
+        // addPinButton.backgroundColor = FlatForestGreen()
+        addPinButton.backgroundColor = FlatGray()
         addPinButton.layer.cornerRadius = 3
         addPinButton.layer.borderWidth = 1
         addPinButton.layer.borderColor = FlatGreen().cgColor
