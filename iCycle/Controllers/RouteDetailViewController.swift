@@ -46,20 +46,25 @@ class RouteDetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // Customize the Screen
         initChameleonColors()
         
+        // Set default values of indicator variables
         hasUpvoted = false
         hasDownvoted = false
         
+        // Load the currently logged in user
         self.user = User.loadUser()
         
+        // If a rout has been passed through (which it should have been), set up the screen to display it
         if let route = route {
             setUpRoute(route: route)
         }
     }
     
     
-    // MARK: Methods
+    // MARK: Customize the Screen
     func initChameleonColors() {
         view.backgroundColor = FlatBlack()
         
@@ -84,6 +89,8 @@ class RouteDetailViewController: UIViewController {
         downVoteButton.layer.borderColor = FlatGray().cgColor
     }
     
+    // MARK: Custom Methods
+    // Display the route details in the view
     func setUpRoute (route: Route) {
         switch (route.difficulty) {
         case 1:
@@ -143,7 +150,7 @@ class RouteDetailViewController: UIViewController {
                 fatalError("Unexpected response: \(res)")
             }
             
-            self.getHasSaved(completion: {res in
+            self.getHasSaved(completion: {res in // Check to see if the user has the route saved
                 if res == true {
                     self.hasSaved = true
                     self.saveButton.title = "Un-save"
@@ -152,13 +159,13 @@ class RouteDetailViewController: UIViewController {
                     self.saveButton.title = "Save"
                 }
                 
-                self.getRoutePhotos(routeId: route.id, completion: {
+                self.getRoutePhotos(routeId: route.id, completion: { // Retrieve the photos that are associated with the route
                     self.populateMap(routePins: route.routePins, pointPins: route.pointPins, routePhotos: self.routePhotos)
                 })
             })
         })
     }
-    
+    // Retrieve the associated photos
     func getRoutePhotos(routeId: Int, completion: @escaping ()->()) {
         let urlString = UrlBuilder.getAllRoutePhotos(routeId: routeId)
         
@@ -180,6 +187,7 @@ class RouteDetailViewController: UIViewController {
         }
     }
     
+    // Check if the user has voted
     func getVote(completion: @escaping (_ res: String)->()) {
         if self.user == nil {
             self.user = User.loadUser()
@@ -199,7 +207,7 @@ class RouteDetailViewController: UIViewController {
             }
         }
     }
-    
+    // Save the route to the user's saved routes list
     func save(completion: @escaping (_ res: Bool)->()) {
         let urlString = UrlBuilder.saveRoute(id: self.route!.id, userId: self.user!.id)
         
@@ -213,6 +221,7 @@ class RouteDetailViewController: UIViewController {
         }
     }
     
+    // check if the user has the route saved already
     func getHasSaved(completion: @escaping (_ res: Bool)->()) {
         let urlString = UrlBuilder.hasSaved(id: self.route!.id, userId: self.user!.id)
         
@@ -227,7 +236,7 @@ class RouteDetailViewController: UIViewController {
             }
         }
     }
-    
+    // Display the pins on the map
     func populateMap(routePins: [Node], pointPins: [Node], routePhotos: [RoutePhoto]) {
         if routePins.count > 0 {
             for pin in routePins {
@@ -300,6 +309,7 @@ class RouteDetailViewController: UIViewController {
         }
     }
     
+    // Draw the path between the pins
     private func drawRouteBetweenTwoLastPins (sourceCoordinate: CLLocationCoordinate2D, destinationCoordinate: CLLocationCoordinate2D, completion : @escaping ()->()) {
         
         let source: String = "\(sourceCoordinate.latitude),\(sourceCoordinate.longitude)"

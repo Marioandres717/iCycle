@@ -12,7 +12,7 @@ import Alamofire
 import SwiftyJSON
 
 class SelectPictureCoordinatesViewController: UIViewController {
-    
+    //MARK: Attributes
     @IBOutlet weak var mapView: GMSMapView!
     @IBOutlet weak var selectImageBtn: UIButton!
     @IBOutlet weak var saveBtn: UIButton!
@@ -33,23 +33,32 @@ class SelectPictureCoordinatesViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.user = User.loadUser()
+        
+        // Set the Delegates
+        mapView.delegate = self
+        locationManager.delegate = self
+        
+        // Location Management
+        locationManager.requestWhenInUseAuthorization()
         
         if let route = route {
             setUpRoute(route: route)
         }
+        
+        // Disable the save button by default
         saveBtn.isEnabled = false
-        mapView.delegate = self
-        locationManager.delegate = self
-        locationManager.requestWhenInUseAuthorization()
+        
+        // Load the user
+        self.user = User.loadUser()
     }
     
-    // MARK: Methods
+    // MARK: Custom Methods
     
     func setUpRoute(route: Route) {
         self.populateMap(routePins: route.routePins, pointPins: route.pointPins)
     }
     
+    // Display pins on the map
     func populateMap(routePins: [Node], pointPins: [Node]) {
         if routePins.count > 0 {
             for pin in routePins {
@@ -104,6 +113,7 @@ class SelectPictureCoordinatesViewController: UIViewController {
         }
     }
     
+    // Draw the path between pins
     private func drawRouteBetweenTwoLastPins (sourceCoordinate: CLLocationCoordinate2D, destinationCoordinate: CLLocationCoordinate2D, completion : @escaping ()->()) {
         
         let source: String = "\(sourceCoordinate.latitude),\(sourceCoordinate.longitude)"
@@ -132,6 +142,25 @@ class SelectPictureCoordinatesViewController: UIViewController {
         }
     }
     
+    func addImageToRoute(optionSelected: String) {
+        let imgPickerController = UIImagePickerController()
+        imgPickerController.delegate = self
+        imgPickerController.allowsEditing = true
+        
+        if optionSelected == "camera" {
+            imgPickerController.sourceType = .camera
+            
+        } else if optionSelected == "library" {
+            imgPickerController.sourceType = .photoLibrary
+            
+        } else {
+            fatalError("Invalid action")
+        }
+        imgPickerController.mediaTypes = UIImagePickerController.availableMediaTypes(for: imgPickerController.sourceType)!
+        
+        present(imgPickerController, animated: true, completion: nil)
+    }
+    
     
     // MARK: Map Functionality
     private func reverseGeocodeCoordinate(_ coordinate: CLLocationCoordinate2D){
@@ -153,6 +182,7 @@ class SelectPictureCoordinatesViewController: UIViewController {
         }
     }
     
+    // MARK: Actions
     @IBAction func addNewImage(_ sender: UIButton) {
         let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
@@ -176,31 +206,9 @@ class SelectPictureCoordinatesViewController: UIViewController {
     @IBAction func cancelButtonClick(_ sender: UIButton) {
         dismiss(animated: true, completion: nil)
     }
-    
-    
-    func addImageToRoute(optionSelected: String) {
-        let imgPickerController = UIImagePickerController()
-        imgPickerController.delegate = self
-        imgPickerController.allowsEditing = true
-        
-        if optionSelected == "camera" {
-            imgPickerController.sourceType = .camera
-            
-        } else if optionSelected == "library" {
-            imgPickerController.sourceType = .photoLibrary
-            
-        } else {
-            fatalError("Invalid action")
-        }
-        imgPickerController.mediaTypes = UIImagePickerController.availableMediaTypes(for: imgPickerController.sourceType)!
-        
-        present(imgPickerController, animated: true, completion: nil)
-    }
 
     
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    // MARK: Navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         super.prepare(for: segue, sender: sender)
         
@@ -225,7 +233,6 @@ class SelectPictureCoordinatesViewController: UIViewController {
 }
 
 extension SelectPictureCoordinatesViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-    
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         dismiss(animated: true, completion: nil)
     }
