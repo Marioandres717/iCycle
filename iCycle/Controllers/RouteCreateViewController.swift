@@ -13,6 +13,7 @@ import SwiftyJSON
 import os.log
 
 class RouteCreateViewController: UIViewController, URLSessionDelegate, URLSessionDataDelegate {
+    // MARK: Attributes
     // For saving in the Route
     var routePins: [Node] = []
     var pointPins: [Node] = []
@@ -47,6 +48,7 @@ class RouteCreateViewController: UIViewController, URLSessionDelegate, URLSessio
         routeNotes.delegate = self
         locationManager.delegate = self
         
+        // Location Management
         locationManager.requestWhenInUseAuthorization()
         
         // Listen for Keyboard Events
@@ -65,8 +67,8 @@ class RouteCreateViewController: UIViewController, URLSessionDelegate, URLSessio
         )
     }
     
+    // Stop Listening for Keyboard Events
     deinit {
-        // Stop Listening for Keyboard Events
         NotificationCenter.default.removeObserver(
             self,
             name: UIResponder.keyboardWillShowNotification,
@@ -80,7 +82,7 @@ class RouteCreateViewController: UIViewController, URLSessionDelegate, URLSessio
         )
     }
     
-    // MARK: - Navigation
+    // MARK: Navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         super.prepare(for: segue, sender: sender)
         
@@ -112,7 +114,7 @@ class RouteCreateViewController: UIViewController, URLSessionDelegate, URLSessio
             fatalError("Unexpected Segue Identifier; \(String(describing: segue.identifier))")
         }
     }
- 
+    
     // Execute when returning from adding a pin.
     @IBAction func unwindToCreateRoute(segue:UIStoryboardSegue) {
         if let selectWaypointViewController = segue.source as? SelectWaypointViewController {
@@ -122,13 +124,14 @@ class RouteCreateViewController: UIViewController, URLSessionDelegate, URLSessio
         }
     }
     
-    //MARK: Methods
+    // MARK: Custom Methods
     func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, didReceive data: Data) {
         DispatchQueue.main.async {
             self.navigationController?.popViewController(animated: true)
         }
     }
     
+    // Send the route to the server
     func saveRoute (completion : @escaping ()->()) {
         let urlString = UrlBuilder.createRoute()
         
@@ -213,6 +216,7 @@ class RouteCreateViewController: UIViewController, URLSessionDelegate, URLSessio
         }
     }
     
+    //  adding a pin, update the map to display the new path and pin
     func updateMapPins() {
         if routePins != nil && routePins.count > 0 {
             for pin in routePins {
@@ -265,6 +269,7 @@ class RouteCreateViewController: UIViewController, URLSessionDelegate, URLSessio
         }
     }
     
+    // Change the distance after adding a new pin
     func updateDistance(){
         var totalDistance = routeDistance.reduce(0, +)
         if totalDistance > 1000 {
@@ -276,6 +281,7 @@ class RouteCreateViewController: UIViewController, URLSessionDelegate, URLSessio
         print("total distance: \(totalDistance)")
     }
     
+    // MARK: Actions
     @objc func keyboardWillShow(notification: Notification) {
         if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
             let keyboardRectangle = keyboardFrame.cgRectValue

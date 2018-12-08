@@ -50,6 +50,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 }
 
+// We wanted a done button on top of the keyboard, this adds an attibute to allow that
 extension UITextView {
     @IBInspectable var doneAccessory: Bool{
         get{

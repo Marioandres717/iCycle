@@ -5,7 +5,6 @@
 //  Created by Valentyna Akulova on 2018-11-08.
 //  Copyright © 2018 Valentyna Akulova. All rights reserved.
 //
-
 import UIKit
 import GoogleMaps
 import GooglePlaces
@@ -13,42 +12,46 @@ import ChameleonFramework
 import Alamofire
 import SwiftyJSON
 
-class MapViewController: UIViewController, GMSMapViewDelegate {
+class MapViewController: UIViewController {
     
     //MARK: Attributes
     @IBOutlet weak var mapView: GMSMapView!
     @IBOutlet weak var menuButton: UIBarButtonItem!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
-    
+
     var locationManager = CLLocationManager()
     var zoomLevel: Float = 12.0
     
-    var routeMarkers: [GMSMarker] = []
-    var allPoints: [Node] = []
+    var routeMarkers: [GMSMarker] = [] // Stores the first marker of every route.
+    var allPoints: [Node] = [] // Stores all of the non-route pins
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        locationManager.requestWhenInUseAuthorization()
+        // Set the Delegates
         locationManager.delegate = self
         mapView.delegate = self
         
+        // Location Management
+        locationManager.requestWhenInUseAuthorization()
+        
+        // Customize the Screen and Navigation
         sideMenu()
         customizeNavBar()
         initChameleonColors()
         
+        // Retrieve all of the pins from the routes and display them
         getAllRoutePins(completion: {
             self.displayPins(pointPins: self.allPoints)
         })
         
     }
     
-    // MARK: Chameleon related
+    // MARK: Customize the Screen and Navigation
     func initChameleonColors() {
         view.backgroundColor = FlatBlack()
     }
     
-    // MARK: Navigation
     func sideMenu() {
         if revealViewController() != nil {
             menuButton.target = revealViewController()
@@ -66,15 +69,13 @@ class MapViewController: UIViewController, GMSMapViewDelegate {
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: FlatWhite()]
     }
     
-    //MARK: Display Pins
+    //MARK: Retrieve all of the pins from the routes and display them
     func getAllRoutePins (completion : @escaping ()->()) {
         let urlString = UrlBuilder.getAllRoutes()
         
-        Alamofire.request(urlString, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: nil).responseJSON {
-            response in
-            
+        // Send a request to the server to get the routes
+        Alamofire.request(urlString, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: nil).responseJSON { response in
             switch response.result {
-                
             case .success(let result):
                 let res = JSON(result)
                 if res.count > 0 {
@@ -84,7 +85,6 @@ class MapViewController: UIViewController, GMSMapViewDelegate {
                             fatalError("Could not read object from server correctly when creating a node")
                         }
                         let id = res[i]["id"].intValue
-                        
                         let position = CLLocationCoordinate2D(latitude: CLLocationDegrees(node.lat), longitude: CLLocationDegrees(node.long))
                         let marker = GMSMarker(position: position)
                         marker.appearAnimation = GMSMarkerAnimation.pop
@@ -94,7 +94,6 @@ class MapViewController: UIViewController, GMSMapViewDelegate {
                         marker.userData =  ["routeId" : id] as [String : Any]
                         
                         self.routeMarkers.append(marker)
-                        
                         
                         let pointPinsTemp = res[i]["pointPins"]
                         if (pointPinsTemp.count > 0) {
@@ -116,8 +115,35 @@ class MapViewController: UIViewController, GMSMapViewDelegate {
         }
     }
     
+    // Display the pins on the map
+    func displayPins(pointPins: [Node]){
+        if pointPins != nil && pointPins.count > 0 {
+            for pin in pointPins {
+                let position = CLLocationCoordinate2D(latitude: CLLocationDegrees(pin.lat), longitude: CLLocationDegrees(pin.long))
+                let marker = GMSMarker(position: position)
+                marker.appearAnimation = GMSMarkerAnimation.pop
+                marker.title = pin.title
+                
+                switch pin.type {
+                case "Bike Shop":
+                    marker.icon = UIImage(named: "bikeShop")
+                case "Store":
+                    marker.icon = UIImage(named: "store")
+                case "Point of Interest":
+                    marker.icon = UIImage(named: "pointOfInterest")
+                case "Hazard":
+                    marker.icon = UIImage(named: "hazard")
+                default:
+                    marker.icon = GMSMarker.markerImage(with: .black)
+                }
+                
+                marker.map = self.mapView
+            }
+        }
+    }
+    
+    // Before the segue to the detail screen, retrieve the route entirely and send it with the segue
     private func getRouteInfoById (id: Int, completion : @escaping (_: Route)->()) {
-        
         let urlString = UrlBuilder.getRouteById(routeId: id)
         Alamofire.request(urlString, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: nil).responseJSON {
             response in
@@ -167,45 +193,7 @@ class MapViewController: UIViewController, GMSMapViewDelegate {
         }
     }
     
-    func displayPins(pointPins: [Node]){
-        if pointPins != nil && pointPins.count > 0 {
-            for pin in pointPins {
-                let position = CLLocationCoordinate2D(latitude: CLLocationDegrees(pin.lat), longitude: CLLocationDegrees(pin.long))
-                let marker = GMSMarker(position: position)
-                marker.appearAnimation = GMSMarkerAnimation.pop
-                marker.title = pin.title
-                
-                switch pin.type {
-                case "Bike Shop":
-                    marker.icon = UIImage(named: "bikeShop")
-                case "Store":
-                    marker.icon = UIImage(named: "store")
-                case "Point of Interest":
-                    marker.icon = UIImage(named: "pointOfInterest")
-                case "Hazard":
-                    marker.icon = UIImage(named: "hazard")
-                default:
-                    marker.icon = GMSMarker.markerImage(with: .black)
-                }
-                
-                marker.map = self.mapView
-            }
-        }
-    }
-    
-    // MARK: GMSMapViewDelegate
-    func mapView(_ mapView: GMSMapView, didTapInfoWindowOf marker: GMSMarker) {
-        self.activityIndicator.startAnimating()
-        
-        let data = marker.userData! as! [String : Any] // get the id of the pin that was tapped
-        let id = data["routeId"] as! Int
-        print("ROUTE ID: \(id)")
-        getRouteInfoById(id: id, completion: { route in
-            self.activityIndicator.stopAnimating()
-            self.performSegue(withIdentifier: "GoToTheRouteDetails", sender: route)
-        })
-    }
-    
+    // MARK: Navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         super.prepare(for: segue, sender: sender)
         
@@ -220,6 +208,21 @@ class MapViewController: UIViewController, GMSMapViewDelegate {
         }
     }
     
+}
+
+// MARK: GMSMapViewDelegate
+extension MapViewController: GMSMapViewDelegate {
+    func mapView(_ mapView: GMSMapView, didTapInfoWindowOf marker: GMSMarker) {
+        self.activityIndicator.startAnimating()
+        
+        let data = marker.userData! as! [String : Any] // get the id of the pin that was tapped
+        let id = data["routeId"] as! Int
+        print("ROUTE ID: \(id)")
+        getRouteInfoById(id: id, completion: { route in
+            self.activityIndicator.stopAnimating()
+            self.performSegue(withIdentifier: "GoToTheRouteDetails", sender: route)
+        })
+    }
 }
 
 // MARK: CLLocationManagerDelegate
@@ -256,4 +259,5 @@ extension MapViewController: CLLocationManagerDelegate {
         locationManager.stopUpdatingLocation()
     }
 }
+
 

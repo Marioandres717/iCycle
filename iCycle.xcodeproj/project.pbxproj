@@ -15,7 +15,6 @@
 		11683AE521B514AA00246F41 /* RouteImageDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11683AE421B514AA00246F41 /* RouteImageDetailsViewController.swift */; };
 		11C0F4A821B4A5490049B487 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 11C0F4A721B4A5490049B487 /* GoogleService-Info.plist */; };
 		11EAF8A621B1FA8D004B9AF0 /* UrlBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11EAF8A521B1FA8D004B9AF0 /* UrlBuilder.swift */; };
-		11F8E41E21B273C900505E0E /* LogoutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11F8E41D21B273C900505E0E /* LogoutViewController.swift */; };
 		11F8E42421B2830400505E0E /* Http.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11F8E42321B2830400505E0E /* Http.swift */; };
 		211A4F2321B21DF500BCB856 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 211A4F2221B21DF500BCB856 /* User.swift */; };
 		21610C9621AE410200275419 /* SelectWaypointViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21610C9521AE410200275419 /* SelectWaypointViewController.swift */; };
@@ -85,7 +84,6 @@
 		11683AE421B514AA00246F41 /* RouteImageDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteImageDetailsViewController.swift; sourceTree = "<group>"; };
 		11C0F4A721B4A5490049B487 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		11EAF8A521B1FA8D004B9AF0 /* UrlBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UrlBuilder.swift; sourceTree = "<group>"; };
-		11F8E41D21B273C900505E0E /* LogoutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoutViewController.swift; sourceTree = "<group>"; };
 		11F8E42321B2830400505E0E /* Http.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Http.swift; path = iCycle/Utilities/Http.swift; sourceTree = SOURCE_ROOT; };
 		211A4F2221B21DF500BCB856 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		21610C9521AE410200275419 /* SelectWaypointViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectWaypointViewController.swift; sourceTree = "<group>"; };
@@ -220,7 +218,6 @@
 			isa = PBXGroup;
 			children = (
 				21A6987121B0BB4400E07322 /* SWRevealViewController.h */,
-				11F8E41D21B273C900505E0E /* LogoutViewController.swift */,
 				21A6987221B0BB4400E07322 /* SWRevealViewController.m */,
 				21F416D321979AD400232FAD /* iCycle-Bridging-Header.h */,
 				F68BC86521950F930073125F /* MapViewController.swift */,
@@ -506,7 +503,6 @@
 				B9912FEC21ACEE85001AEAD5 /* LoginViewController.swift in Sources */,
 				2188323C21955E8C00F7E9C5 /* RouteTableViewController.swift in Sources */,
 				21F416C821977DA000232FAD /* ProfileViewController.swift in Sources */,
-				11F8E41E21B273C900505E0E /* LogoutViewController.swift in Sources */,
 				2188323E21955FEA00F7E9C5 /* RouteCreateViewController.swift in Sources */,
 				11683AE121B5135200246F41 /* customMarkerView.swift in Sources */,
 				F682B89221BA1F6C00FD08F2 /* MainMapRoutePin.swift in Sources */,

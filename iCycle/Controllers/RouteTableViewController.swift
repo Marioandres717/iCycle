@@ -5,7 +5,6 @@
 //  Created by Austin McPhail on 2018-11-09.
 //  Copyright © 2018 Valentyna Akulova. All rights reserved.
 //
-
 import UIKit
 import ChameleonFramework
 import Alamofire
@@ -17,7 +16,7 @@ class RouteTableViewController: UITableViewController {
     @IBOutlet weak var menuButton: UIBarButtonItem!
     @IBOutlet weak var navigationBar: UINavigationItem!
     
-    var routes: [Route] = []
+    var routes: [Route] = [] // Store the routes to be passed to the detail page when their correspnding cell is clicked
     var session: URLSession?
     
     var showAllRoutes: Bool = true
@@ -32,19 +31,45 @@ class RouteTableViewController: UITableViewController {
         self.tableView.delegate = self
         self.tableView.dataSource = self
         
+        // Set up the Refresh function of the table
         self.tableView.refreshControl = UIRefreshControl()
         self.tableView.refreshControl!.tintColor = FlatGreenDark()
         self.tableView.refreshControl!.attributedTitle = NSAttributedString(string: "Fetching Routes ...", attributes: nil)
         self.tableView.refreshControl!.addTarget(self, action: #selector(refreshRouteData(_:)), for: .valueChanged)
         
-        // Customize
+        // Customize the Screen and Navigation
         sideMenu()
         customizeNavBar()
         initChameleonColors()
         
+        // Load the user
         self.user = User.loadUser()
     }
     
+    // MARK: Customize the Screen and Navigation
+    func sideMenu() {
+        if revealViewController() != nil {
+            menuButton.target = revealViewController()
+            menuButton.action = #selector(SWRevealViewController.revealToggle(_:))
+            revealViewController()?.rearViewRevealWidth = 275
+            
+            view.addGestureRecognizer((self.revealViewController()?.panGestureRecognizer())!)
+        }
+    }
+    
+    func customizeNavBar() {
+        navigationController?.navigationBar.tintColor = FlatGreen()
+        navigationController?.navigationBar.barTintColor = FlatBlack()
+        
+        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: FlatWhite()]
+    }
+    
+    func initChameleonColors() {
+        view.backgroundColor = FlatBlack()
+    }
+    
+    // MARK: View Functions
+    // Set certain variables based on where you previous came
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         
@@ -57,6 +82,7 @@ class RouteTableViewController: UITableViewController {
         }
     }
     
+    // Reload the data on load of the page, to get new routes
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
         print("View appeared")
@@ -67,7 +93,6 @@ class RouteTableViewController: UITableViewController {
         })
     }
 
-    // MARK: - Table view data source
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return 1
@@ -116,6 +141,8 @@ class RouteTableViewController: UITableViewController {
             cell.distance.text = String(format: "%.0f", totalDistance) + " m"
         }
         
+        // Check to see if the current user has the route saved
+        // If so, add a green star to the cel
         self.getHasSaved(routeId: route.id, userId: self.user!.id, completion: {res in
             if res == true {
                 cell.savedImage.image = UIImage(named: "savedRoute")
@@ -136,17 +163,8 @@ class RouteTableViewController: UITableViewController {
         return cell
     }
     
-    @objc private func refreshRouteData(_ sender: Any) {
-        print("Refreshing Routes...")
-        self.routes = []
-        self.tableView.reloadData()
-        self.loadRoutes {
-            print("Refreshed Routes.")
-            self.tableView.reloadData()
-            self.tableView.refreshControl!.endRefreshing()
-        }
-    }
     
+    // MARK: Custom Methods
     func getHasSaved(routeId: Int, userId: Int, completion: @escaping (_ res: Bool)->()) {
         let urlString = UrlBuilder.hasSaved(id: routeId, userId: userId)
         
@@ -162,6 +180,7 @@ class RouteTableViewController: UITableViewController {
         }
     }
     
+    // Request the routes from the server
     func loadRoutes(completion : @escaping ()->()) {
         var urlString: String = ""
         self.user = User.loadUser()
@@ -224,7 +243,7 @@ class RouteTableViewController: UITableViewController {
         }
     }
 
-    // MARK: - Navigation
+    // MARK: Navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         super.prepare(for: segue, sender: sender)
         
@@ -252,6 +271,7 @@ class RouteTableViewController: UITableViewController {
         }
     }
     
+    // MARK: Actions
     // Execute when returning from adding a route.
     @IBAction func unwindToRouteTable(segue:UIStoryboardSegue) {
         if let routeCreateController = segue.source as? RouteCreateViewController {
@@ -264,26 +284,14 @@ class RouteTableViewController: UITableViewController {
         }
     }
     
-    
-    func sideMenu() {
-        if revealViewController() != nil {
-            menuButton.target = revealViewController()
-            menuButton.action = #selector(SWRevealViewController.revealToggle(_:))
-            revealViewController()?.rearViewRevealWidth = 275
-            
-            view.addGestureRecognizer((self.revealViewController()?.panGestureRecognizer())!)
+    @objc private func refreshRouteData(_ sender: Any) {
+        print("Refreshing Routes...")
+        self.routes = []
+        self.tableView.reloadData()
+        self.loadRoutes {
+            print("Refreshed Routes.")
+            self.tableView.reloadData()
+            self.tableView.refreshControl!.endRefreshing()
         }
-    }
-    
-    func customizeNavBar() {
-        navigationController?.navigationBar.tintColor = FlatGreen()
-        navigationController?.navigationBar.barTintColor = FlatBlack()
-        
-        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: FlatWhite()]
-    }
-    
-    // MARK: Chameleon related
-    func initChameleonColors() {
-        view.backgroundColor = FlatBlack()
     }
 }
