@@ -14,7 +14,7 @@ import SwiftyJSON
 import Firebase
 
 class RouteImageViewController: UIViewController {
-
+    // MARK: Attribtues
     @IBOutlet weak var navBar: UINavigationItem!
     @IBOutlet weak var mapView: GMSMapView!
     @IBOutlet weak var titleTextField: UITextField!
@@ -35,7 +35,8 @@ class RouteImageViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        // Load the user
         self.user = User.loadUser()
         
         if let route = route {
@@ -73,8 +74,8 @@ class RouteImageViewController: UIViewController {
         )
     }
     
-    // MARK: Methods
-    
+    // MARK: Custom Methods
+    // Populate the screen with route info, including the map
     func setUpRoute(route: Route) {
         navBar.title = route.title
         self.populateMap(routePins: route.routePins, pointPins: route.pointPins)
@@ -93,12 +94,7 @@ class RouteImageViewController: UIViewController {
                 
                 routePictureMarkers += [marker]
         }
-    
             mapView.camera = GMSCameraPosition(target: routeMarkers[routeMarkers.count-1].position , zoom: zoomLevel, bearing: 0, viewingAngle: 0)
-    }
-    
-    func updateSaveState() {
-        
     }
     
     func populateMap(routePins: [Node], pointPins: [Node]) {
@@ -141,7 +137,7 @@ class RouteImageViewController: UIViewController {
             }
         }
         
-        for i in 1...(routePins.count - 1) {
+        for i in 1..<(routePins.count) {
             let p1 = CLLocationCoordinate2D(latitude: CLLocationDegrees(routePins[i-1].lat), longitude: CLLocationDegrees(routePins[i-1].long))
             let p2 = CLLocationCoordinate2D(latitude: CLLocationDegrees(routePins[i].lat), longitude: CLLocationDegrees(routePins[i].long))
             
@@ -182,11 +178,64 @@ class RouteImageViewController: UIViewController {
             completion()
         }
     }
+    
+    func saveRoutePhoto(completion: @escaping (_ res: RoutePhoto)->()) {
+        let title = titleTextField.text ?? ""
+        let caption = captionTextField.text ?? ""
+        self.user = User.loadUser()
+        let urlString = UrlBuilder.addPhotoToRoute(routeId: route!.id, userId: self.user!.id)
+        let temp = routePictureMarkers[routePictureMarkers.endIndex - 1]
+        let coordinates = ["long": temp.position.longitude, "lat": temp.position.latitude]
+        
+        self.uploadImageToFirebaseStorage(completion: { (url) in
+            let parameters : [String: Any] = [
+                "title": title,
+                "caption": caption,
+                "coordinates": coordinates,
+                "photo": url!.absoluteString,
+                ]
+            print("URL \(url!.absoluteString)")
+            Alamofire.request(urlString, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: nil).responseJSON {(response) in
+                switch response.result {
+                case .success(let result):
+                    let res = JSON(result)
+                    let id = res["id"].intValue
+                    let title = res["title"].stringValue
+                    let caption = res["caption"].stringValue
+                    let photo = res["photo"].stringValue
+                    let lat = res["coordinates"]["lat"].doubleValue
+                    let long = res["coordinates"]["long"].doubleValue
+                    
+                    completion(RoutePhoto(photoUrl: url!.absoluteString, long: long, lat: lat, user: self.user!, routeId: self.route!.id, title: title, caption: caption))
+                default:
+                    print("ERRORRRR")
+                }
+            }
+        })
+    }
+    
+    func uploadImageToFirebaseStorage(completion: @escaping ((_ url: URL?) ->())) {
+        let imageName = NSUUID().uuidString
+        let storageRef = Storage.storage().reference(withPath: "routes/\(imageName).jpg")
+        let uploadMetaData = StorageMetadata()
+        uploadMetaData.contentType = "image/jpeg"
+        
+        let data = pictureSelected!.jpegData(compressionQuality: 0.8)
+        storageRef.putData(data!, metadata: uploadMetaData) { (metadata, error) in
+            if (error != nil){
+                print("ERROR: \(String(describing: error?.localizedDescription))")
+            } else {
+                print("upload complete! metadata: \(String(describing: metadata))")
+                storageRef.downloadURL { (url, error) in
+                    print("calling Completion \(url!.absoluteString)")
+                    completion(url)
+                }
+            }
+        }
+    }
 
     
-    // MARK: - Navigation
-
-    //In a storyboard-based application, you will often want to do a little preparation before navigation
+    // MARK: Navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         super.prepare(for: segue, sender: sender)
         
@@ -210,7 +259,8 @@ class RouteImageViewController: UIViewController {
             fatalError("Unexpected Segue Identifier; \(segue.identifier)")
         }
     }
-
+    
+    // MARK: Actions
     @IBAction func saveRoutePhoto(_ sender: Any) {
         print("SAVING PHOTO")
         saveRoutePhoto(completion: { res in
@@ -225,74 +275,6 @@ class RouteImageViewController: UIViewController {
            // updateSaveState()
         }
     }
-    
-    func saveRoutePhoto(completion: @escaping (_ res: RoutePhoto)->()) {
-        let title = titleTextField.text ?? ""
-        let caption = captionTextField.text ?? ""
-        self.user = User.loadUser()
-        let urlString = UrlBuilder.addPhotoToRoute(routeId: route!.id, userId: self.user!.id)
-        let temp = routePictureMarkers[routePictureMarkers.endIndex - 1]
-        let coordinates = ["long": temp.position.longitude, "lat": temp.position.latitude]
-        
-        self.uploadImageToFirebaseStorage(completion: { (url) in
-            let parameters : [String: Any] = [
-                "title": title,
-                "caption": caption,
-                "coordinates": coordinates,
-                "photo": url!.absoluteString,
-                ]
-            print("URL \(url!.absoluteString)")
-            Alamofire.request(urlString, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: nil).responseJSON {(response) in
-                switch response.result {
-                    case .success(let result):
-                        let res = JSON(result)
-                        let id = res["id"].intValue
-                        let title = res["title"].stringValue
-                        let caption = res["caption"].stringValue
-                        let photo = res["photo"].stringValue
-                        let lat = res["coordinates"]["lat"].doubleValue
-                        let long = res["coordinates"]["long"].doubleValue
-                    
-                        completion(RoutePhoto(photoUrl: url!.absoluteString, long: long, lat: lat, user: self.user!, routeId: self.route!.id, title: title, caption: caption))
-                default:
-                    print("ERRORRRR")
-                }
-            }
-        })
-    }
-
-    func uploadImageToFirebaseStorage(completion: @escaping ((_ url: URL?) ->())) {
-        let imageName = NSUUID().uuidString
-        let storageRef = Storage.storage().reference(withPath: "routes/\(imageName).jpg")
-        let uploadMetaData = StorageMetadata()
-        uploadMetaData.contentType = "image/jpeg"
-        
-        let data = pictureSelected!.jpegData(compressionQuality: 0.8)
-        storageRef.putData(data!, metadata: uploadMetaData) { (metadata, error) in
-            if (error != nil){
-                print("ERROR: \(String(describing: error?.localizedDescription))")
-            } else {
-                print("upload complete! metadata: \(String(describing: metadata))")
-                storageRef.downloadURL { (url, error) in
-                    print("calling Completion \(url!.absoluteString)")
-                    completion(url)
-                }
-            }
-        }
-    }
-    
-//    func deleteImageFromFirebaseStorage() {
-//        let storage = Storage.storage()
-//        let url = self.firebasePicURL
-//        let storageRef = storage.reference(forURL: url!)
-//        storageRef.delete { error in
-//            if let error = error {
-//                print("\(error)")
-//            } else {
-//                print("image sucessfully deleted")
-//            }
-//        }
-//    }
     
     @objc func keyboardWillShow(notification: Notification) {
         if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {

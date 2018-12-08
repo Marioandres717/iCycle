@@ -9,9 +9,10 @@
 import UIKit
 
 class RoutePictureCollectionViewController: UICollectionViewController {
-    
+    // MARK: Attributes
     var photos: [RoutePhoto] = []
     var route: Route?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
     }
@@ -20,6 +21,7 @@ class RoutePictureCollectionViewController: UICollectionViewController {
         self.collectionView.reloadData()
     }
     
+    // MARK: UICollectionView Methods
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return photos.count
     }
@@ -36,9 +38,7 @@ class RoutePictureCollectionViewController: UICollectionViewController {
         print(indexPath.item)
     }
     
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    // MARK: Navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         super.prepare(for: segue, sender: sender)
         
@@ -60,9 +60,8 @@ class RoutePictureCollectionViewController: UICollectionViewController {
     
     @IBAction func unwindToAddPictureToCollection(segue: UIStoryboardSegue) {
         if let routeImageviewController = segue.source as? RouteImageViewController {
-            print("UNWIND SUCES")
            // updatePicturePins()
-            // updateSaveState()
+           // updateSaveState()
         }
     }
 

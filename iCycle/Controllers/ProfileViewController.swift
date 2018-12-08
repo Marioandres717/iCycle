@@ -12,6 +12,7 @@ import Firebase
 
 class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, URLSessionDelegate, URLSessionDataDelegate {
     
+    // MARK: Attributes
     var notesKeyboard: Bool = false
     var bikeChanges: Bool = false
     
@@ -34,16 +35,18 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // Load the user
         user = User.loadUser()!
         addUserInfoToView()
         
         saveChangesButton.backgroundColor = FlatGray()
         
-        // Delegates
+        // Set the Delegates
         myBikeSerialNumber.delegate = self
         myBikeBrand.delegate = self
         myBikeNotes.delegate = self
-        // Customization
+        
+        // Customize the Screen and Navigation
         sideMenu()
         customizeNavBar()
         initChameleonColors()
@@ -78,7 +81,52 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
             object: nil
         )
     }
+    // MARK: Customize the Screen and Navigation
+    func sideMenu() {
+        if revealViewController() != nil {
+            menuButton.target = revealViewController()
+            menuButton.action = #selector(SWRevealViewController.revealToggle(_:))
+            revealViewController()?.rearViewRevealWidth = 275
+            
+            view.addGestureRecognizer((self.revealViewController()?.panGestureRecognizer())!)
+        }
+    }
     
+    func customizeNavBar() {
+        navigationController?.navigationBar.tintColor = FlatGreen()
+        navigationController?.navigationBar.barTintColor = FlatBlack()
+        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: FlatWhite()]
+    }
+    
+    func initChameleonColors() {
+        view.backgroundColor = FlatBlack()
+        
+        myPhotosButton.backgroundColor = FlatForestGreen()
+        myPhotosButton.layer.cornerRadius = 5
+        myPhotosButton.layer.borderWidth = 1
+        myPhotosButton.layer.borderColor = FlatGreen().cgColor
+        
+        savedRoutes.backgroundColor = FlatForestGreen()
+        savedRoutes.layer.cornerRadius = 5
+        savedRoutes.layer.borderWidth = 1
+        savedRoutes.layer.borderColor = FlatGreen().cgColor
+        
+        saveChangesButton.backgroundColor = FlatSkyBlue()
+        saveChangesButton.layer.cornerRadius = 5
+        saveChangesButton.layer.borderWidth = 1
+        saveChangesButton.layer.borderColor = FlatWhite().cgColor
+        
+        myRoutesButton.backgroundColor = FlatForestGreen()
+        myRoutesButton.layer.cornerRadius = 5
+        myRoutesButton.layer.borderWidth = 1
+        myRoutesButton.layer.borderColor = FlatGreen().cgColor
+        
+        bikeView.layer.cornerRadius = 5
+        bikeView.layer.borderWidth = 1
+        bikeView.layer.borderColor = FlatGreen().cgColor
+    }
+    
+    // MARK: Custom Methods
     func addUserInfoToView() {
         myUsername.text = user?.userName ?? ""
         myBikeSerialNumber.text = user?.bikeSerialNumber ?? ""
@@ -104,38 +152,14 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         
     }
     
-    @IBAction func addNewImage(_ sender: UITapGestureRecognizer) {
-        myBikeBrand.resignFirstResponder()
-        myBikeSerialNumber.resignFirstResponder()
-        myBikePhoto.resignFirstResponder()
-        
-        let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        
-        let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-        
-        let displayCamera = UIAlertAction(title: "Camera", style: .default) { action in
-            self.addImageToProfile(optionSelected: "camera")
-        }
-        
-        let displayPhotoLib = UIAlertAction(title: "Photo Library", style: .default) { action in
-            self.addImageToProfile(optionSelected: "library")
-        }
-        
-        actionSheet.addAction(displayCamera)
-        actionSheet.addAction(displayPhotoLib)
-        actionSheet.addAction(cancel)
-        
-        present(actionSheet, animated: true, completion: nil)
-    }
-    
     func addImageToProfile(optionSelected: String) {
         let imgPickerController = UIImagePickerController()
         imgPickerController.delegate = self
         imgPickerController.allowsEditing = true
-    
+        
         if optionSelected == "camera" {
             imgPickerController.sourceType = .camera
-
+            
         } else if optionSelected == "library" {
             imgPickerController.sourceType = .photoLibrary
             
@@ -145,21 +169,6 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         imgPickerController.mediaTypes = UIImagePickerController.availableMediaTypes(for: imgPickerController.sourceType)!
         
         present(imgPickerController, animated: true, completion: nil)
-    }
-    
-    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-        dismiss(animated: true, completion: nil)
-    }
-    
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-    
-        if let editImage = info[UIImagePickerController.InfoKey.editedImage] as? UIImage  {
-            myBikePhoto.image = editImage
-        } else if let originalImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
-            myBikePhoto.image = originalImage
-        }
-    
-        dismiss(animated: true, completion: nil)
     }
     
     func uploadImageToFirebaseStorage(completion: @escaping ((_ url: URL?) ->())) {
@@ -175,7 +184,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
             } else {
                 print("upload complete! metadata: \(String(describing: metadata))")
                 storageRef.downloadURL { (url, error) in
-                  completion(url)
+                    completion(url)
                 }
             }
         }
@@ -193,9 +202,64 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
             }
         }
     }
-
     
-    // MARK: - Navigation
+    func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, didReceive data: Data) {
+        guard let json = try? JSONSerialization.jsonObject(with: data, options: []) else {return}
+        print(json)
+        
+        if let res = json as? [String: Any] {
+            if let err = res["statusCode"] as? Int, let message = res["message"] as? String {
+                DispatchQueue.main.async {
+                    let alert = ErrorHandler.handleError(title: "Update profile Error",message: message + " \(err)")
+                    self.present(alert, animated: true, completion: nil)
+                }
+            } else {
+                DispatchQueue.main.async {
+                    print("successfully update user!")
+                    let updatedUser = User(json: res)
+                    let sucessfullySaved = User.saveUser(user: updatedUser!)
+                    if sucessfullySaved {
+                        let oldImageURL = self.user?.bikeImage
+                        self.user = User.loadUser()!
+                        // if the user change their bike picture then delete the old picture
+                        if oldImageURL != self.user?.bikeImage && oldImageURL != "" {
+                            self.firebasePicURL = oldImageURL
+                            self.deleteImageFromFirebaseStorage()
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
+        // request to api fail, deleting the image on fireStorage
+        if error != nil {
+            deleteImageFromFirebaseStorage()
+            DispatchQueue.main.async {
+                let alert = ErrorHandler.handleError(title: "Update profile Error",message: "It wasn't possible to edit user")
+                self.present(alert, animated: true, completion: nil)
+            }
+        }
+    }
+    
+    // MARK: Delegate Functions
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        dismiss(animated: true, completion: nil)
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+    
+        if let editImage = info[UIImagePickerController.InfoKey.editedImage] as? UIImage  {
+            myBikePhoto.image = editImage
+        } else if let originalImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
+            myBikePhoto.image = originalImage
+        }
+    
+        dismiss(animated: true, completion: nil)
+    }
+
+    // MARK: Navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         super.prepare(for: segue, sender: sender)
         
@@ -222,54 +286,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         }
     }
     
-    // MARK: Customization
-    
-    func sideMenu() {
-        if revealViewController() != nil {
-            menuButton.target = revealViewController()
-            menuButton.action = #selector(SWRevealViewController.revealToggle(_:))
-            revealViewController()?.rearViewRevealWidth = 275
-            
-            view.addGestureRecognizer((self.revealViewController()?.panGestureRecognizer())!)
-        }
-    }
-    
-    func customizeNavBar() {
-        navigationController?.navigationBar.tintColor = FlatGreen()
-        navigationController?.navigationBar.barTintColor = FlatBlack()
-        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: FlatWhite()]
-    }
-    
-    func initChameleonColors() {
-        view.backgroundColor = FlatBlack()
-        
-        myPhotosButton.backgroundColor = FlatForestGreen()
-        myPhotosButton.layer.cornerRadius = 5
-        myPhotosButton.layer.borderWidth = 1
-        myPhotosButton.layer.borderColor = FlatGreen().cgColor
-
-        savedRoutes.backgroundColor = FlatForestGreen()
-        savedRoutes.layer.cornerRadius = 5
-        savedRoutes.layer.borderWidth = 1
-        savedRoutes.layer.borderColor = FlatGreen().cgColor
-        
-        saveChangesButton.backgroundColor = FlatSkyBlue()
-        saveChangesButton.layer.cornerRadius = 5
-        saveChangesButton.layer.borderWidth = 1
-        saveChangesButton.layer.borderColor = FlatWhite().cgColor
-        
-        myRoutesButton.backgroundColor = FlatForestGreen()
-        myRoutesButton.layer.cornerRadius = 5
-        myRoutesButton.layer.borderWidth = 1
-        myRoutesButton.layer.borderColor = FlatGreen().cgColor
-        
-        bikeView.layer.cornerRadius = 5
-        bikeView.layer.borderWidth = 1
-        bikeView.layer.borderColor = FlatGreen().cgColor
-    }
-    
     // MARK: Keyboard
-    
     @objc func keyboardWillShow(notification: Notification) {
         if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
             let keyboardRectangle = keyboardFrame.cgRectValue
@@ -297,6 +314,30 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     
     // MARK: Actions
     
+    @IBAction func addNewImage(_ sender: UITapGestureRecognizer) {
+        myBikeBrand.resignFirstResponder()
+        myBikeSerialNumber.resignFirstResponder()
+        myBikePhoto.resignFirstResponder()
+        
+        let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        
+        let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        
+        let displayCamera = UIAlertAction(title: "Camera", style: .default) { action in
+            self.addImageToProfile(optionSelected: "camera")
+        }
+        
+        let displayPhotoLib = UIAlertAction(title: "Photo Library", style: .default) { action in
+            self.addImageToProfile(optionSelected: "library")
+        }
+        
+        actionSheet.addAction(displayCamera)
+        actionSheet.addAction(displayPhotoLib)
+        actionSheet.addAction(cancel)
+        
+        present(actionSheet, animated: true, completion: nil)
+    }
+    
     @IBAction func userTappedBackground(sender: AnyObject) {
         view.endEditing(true)
     }
@@ -318,46 +359,6 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
             
             if let task = self.session?.dataTask(with: HttpConfig.request) {
                 task.resume()
-            }
-        }
-    }
-    
-    func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, didReceive data: Data) {
-        guard let json = try? JSONSerialization.jsonObject(with: data, options: []) else {return}
-        print(json)
-        
-        if let res = json as? [String: Any] {
-            if let err = res["statusCode"] as? Int, let message = res["message"] as? String {
-                DispatchQueue.main.async {
-                    let alert = ErrorHandler.handleError(title: "Update profile Error",message: message + " \(err)")
-                    self.present(alert, animated: true, completion: nil)
-                }
-            } else {
-                DispatchQueue.main.async {
-                        print("successfully update user!")
-                        let updatedUser = User(json: res)
-                        let sucessfullySaved = User.saveUser(user: updatedUser!)
-                        if sucessfullySaved {
-                            let oldImageURL = self.user?.bikeImage
-                            self.user = User.loadUser()!
-                            // if the user change their bike picture then delete the old picture
-                            if oldImageURL != self.user?.bikeImage && oldImageURL != "" {
-                                self.firebasePicURL = oldImageURL
-                                self.deleteImageFromFirebaseStorage()
-                            }
-                        }
-                    }
-                }
-            }
-    }
-    
-    func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
-        // request to api fail, deleting the image on fireStorage
-        if error != nil {
-            deleteImageFromFirebaseStorage()
-            DispatchQueue.main.async {
-                let alert = ErrorHandler.handleError(title: "Update profile Error",message: "It wasn't possible to edit user")
-                self.present(alert, animated: true, completion: nil)
             }
         }
     }

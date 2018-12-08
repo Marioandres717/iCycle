@@ -28,13 +28,11 @@
 		21A6987321B0BB4400E07322 /* SWRevealViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 21A6987221B0BB4400E07322 /* SWRevealViewController.m */; };
 		21F416C221977D6700232FAD /* RouteDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21F416C121977D6700232FAD /* RouteDetailViewController.swift */; };
 		21F416C821977DA000232FAD /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21F416C721977DA000232FAD /* ProfileViewController.swift */; };
-		21F416D221977F9700232FAD /* ProfilePhotoCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21F416D121977F9700232FAD /* ProfilePhotoCollectionViewController.swift */; };
 		21F416DA2197C6F100232FAD /* NavMenuTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21F416D92197C6F100232FAD /* NavMenuTableViewController.swift */; };
 		728706FFEB80DC3E9AE86595 /* Pods_iCycle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5187A9AE605887F2B732F01E /* Pods_iCycle.framework */; };
 		B9675F2321B621DD00D7B502 /* RoutePictureCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9675F2221B621DD00D7B502 /* RoutePictureCollectionViewController.swift */; };
 		B9912FEC21ACEE85001AEAD5 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9912FEB21ACEE85001AEAD5 /* LoginViewController.swift */; };
 		B9912FF221ACEEA8001AEAD5 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9912FF121ACEEA8001AEAD5 /* SignUpViewController.swift */; };
-		F682B89221BA1F6C00FD08F2 /* MainMapRoutePin.swift in Sources */ = {isa = PBXBuildFile; fileRef = F682B89121BA1F6C00FD08F2 /* MainMapRoutePin.swift */; };
 		F68BC86421950F930073125F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F68BC86321950F930073125F /* AppDelegate.swift */; };
 		F68BC86621950F930073125F /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F68BC86521950F930073125F /* MapViewController.swift */; };
 		F68BC86921950F940073125F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F68BC86721950F940073125F /* Main.storyboard */; };
@@ -93,7 +91,6 @@
 		21A6987221B0BB4400E07322 /* SWRevealViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWRevealViewController.m; sourceTree = "<group>"; };
 		21F416C121977D6700232FAD /* RouteDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = RouteDetailViewController.swift; path = iCycle/Controllers/RouteDetailViewController.swift; sourceTree = SOURCE_ROOT; };
 		21F416C721977DA000232FAD /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ProfileViewController.swift; path = iCycle/Controllers/ProfileViewController.swift; sourceTree = SOURCE_ROOT; };
-		21F416D121977F9700232FAD /* ProfilePhotoCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ProfilePhotoCollectionViewController.swift; path = iCycle/Controllers/ProfilePhotoCollectionViewController.swift; sourceTree = SOURCE_ROOT; };
 		21F416D321979AD400232FAD /* iCycle-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "iCycle-Bridging-Header.h"; sourceTree = "<group>"; };
 		21F416D92197C6F100232FAD /* NavMenuTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = NavMenuTableViewController.swift; path = iCycle/Controllers/NavMenuTableViewController.swift; sourceTree = SOURCE_ROOT; };
 		5187A9AE605887F2B732F01E /* Pods_iCycle.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_iCycle.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -102,7 +99,6 @@
 		B9675F2221B621DD00D7B502 /* RoutePictureCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoutePictureCollectionViewController.swift; sourceTree = "<group>"; };
 		B9912FEB21ACEE85001AEAD5 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		B9912FF121ACEEA8001AEAD5 /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
-		F682B89121BA1F6C00FD08F2 /* MainMapRoutePin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainMapRoutePin.swift; sourceTree = "<group>"; };
 		F68BC86021950F930073125F /* iCycle.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iCycle.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F68BC86321950F930073125F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F68BC86521950F930073125F /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MapViewController.swift; path = iCycle/Controllers/MapViewController.swift; sourceTree = SOURCE_ROOT; };
@@ -184,7 +180,6 @@
 				21610C9B21AE4B6C00275419 /* Node.swift */,
 				211A4F2221B21DF500BCB856 /* User.swift */,
 				217E996F21B624460085DF15 /* RoutePhoto.swift */,
-				F682B89121BA1F6C00FD08F2 /* MainMapRoutePin.swift */,
 			);
 			name = Models;
 			path = iCycle/Models;
@@ -215,7 +210,6 @@
 				110FDA0121B5E66B002D52FE /* SelectPictureCoordinatesViewController.swift */,
 				21F416C121977D6700232FAD /* RouteDetailViewController.swift */,
 				21F416C721977DA000232FAD /* ProfileViewController.swift */,
-				21F416D121977F9700232FAD /* ProfilePhotoCollectionViewController.swift */,
 				21F416D92197C6F100232FAD /* NavMenuTableViewController.swift */,
 				B9912FEB21ACEE85001AEAD5 /* LoginViewController.swift */,
 				B9912FF121ACEEA8001AEAD5 /* SignUpViewController.swift */,
@@ -463,7 +457,6 @@
 				11F8E42421B2830400505E0E /* Http.swift in Sources */,
 				21610C9621AE410200275419 /* SelectWaypointViewController.swift in Sources */,
 				2188323A21955D4600F7E9C5 /* ChameleonShorthand.swift in Sources */,
-				21F416D221977F9700232FAD /* ProfilePhotoCollectionViewController.swift in Sources */,
 				2182BD68219A71080024119C /* Route.swift in Sources */,
 				B9912FF221ACEEA8001AEAD5 /* SignUpViewController.swift in Sources */,
 				21A6987321B0BB4400E07322 /* SWRevealViewController.m in Sources */,
@@ -485,7 +478,6 @@
 				21F416C821977DA000232FAD /* ProfileViewController.swift in Sources */,
 				2188323E21955FEA00F7E9C5 /* RouteCreateViewController.swift in Sources */,
 				11683AE121B5135200246F41 /* customMarkerView.swift in Sources */,
-				F682B89221BA1F6C00FD08F2 /* MainMapRoutePin.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
