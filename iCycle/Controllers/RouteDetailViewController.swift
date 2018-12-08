@@ -32,6 +32,7 @@ class RouteDetailViewController: UIViewController {
     var routePhotos: [RoutePhoto] = []
     var routeMarkers: [GMSMarker] = []
     var pointMarkers: [GMSMarker] = []
+    var photoMarkers: [GMSMarker] = []
     var routeLines: [String] = []
     var locationManager = CLLocationManager()
     var zoomLevel: Float = 13.0
@@ -152,7 +153,7 @@ class RouteDetailViewController: UIViewController {
                 }
                 
                 self.getRoutePhotos(routeId: route.id, completion: {
-                    self.populateMap(routePins: route.routePins, pointPins: route.pointPins)
+                    self.populateMap(routePins: route.routePins, pointPins: route.pointPins, routePhotos: self.routePhotos)
                 })
             })
         })
@@ -169,7 +170,7 @@ class RouteDetailViewController: UIViewController {
                 if res.count > 0 {
                     for i in 0...(res.count - 1) {
                         let user = User(id: res[i]["user"]["id"].intValue, userName: res[i]["user"]["username"].stringValue, bikeSerialNumber: res[i]["user"]["bikeSerialNumber"].stringValue, bikeBrand: res[i]["user"]["bikeBrand"].stringValue, bikeNotes: res[i]["user"]["bikeNotes"].stringValue, bikeImage: nil)
-                        self.routePhotos += [RoutePhoto(photoUrl: res[i]["photo"].stringValue, long: res[i]["coordinates"]["long"].doubleValue, lat: res[i]["coordinates"]["lat"].doubleValue, user: user, routeId: res[i]["rout"]["id"].intValue, title: "", caption: res[i]["caption"].stringValue)]
+                        self.routePhotos += [RoutePhoto(photoUrl: res[i]["photo"].stringValue, long: res[i]["coordinates"]["long"].doubleValue, lat: res[i]["coordinates"]["lat"].doubleValue, user: user, routeId: res[i]["rout"]["id"].intValue, title: res[i]["title"].stringValue, caption: res[i]["caption"].stringValue)]
                     }
                 }
                 completion()
@@ -227,7 +228,7 @@ class RouteDetailViewController: UIViewController {
         }
     }
     
-    func populateMap(routePins: [Node], pointPins: [Node]) {
+    func populateMap(routePins: [Node], pointPins: [Node], routePhotos: [RoutePhoto]) {
         if routePins.count > 0 {
             for pin in routePins {
                 let position = CLLocationCoordinate2D(latitude: CLLocationDegrees(pin.lat), longitude: CLLocationDegrees(pin.long))
@@ -265,6 +266,22 @@ class RouteDetailViewController: UIViewController {
                 
                 pointMarkers += [marker]
             }
+            
+            if routePhotos.count > 0 {
+                for photo in routePhotos {
+                    let position = CLLocationCoordinate2D(latitude: CLLocationDegrees(photo.lat), longitude: CLLocationDegrees(photo.long))
+                    let marker = GMSMarker(position: position)
+                    marker.appearAnimation = GMSMarkerAnimation.pop
+                    marker.title = photo.title
+                    print(photo.photoImage)
+                    let customMarker = CustomMarkerView(frame: CGRect(x: 0, y: 0, width: 50, height: 50), image: photo.photoImage, borderColor: UIColor.darkGray)
+                    marker.iconView = customMarker
+                    marker.map = self.mapView
+                    
+                    photoMarkers += [marker]
+                }
+            }
+            
         }
         
         for i in 1..<(routePins.count) {
